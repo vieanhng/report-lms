@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo cáo học tập - Ant Design Style</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5;
+            color: rgba(0, 0, 0, 0.88);
+        }
+
+        .ant-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d9d9d9;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #bfbfbf;
+        }
+
+        .tree-node-content:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 100;
+            animation: fadeIn 0.15s ease-out;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-6">
+    <!-- Header -->
+    <div class="mb-6 flex justify-between items-end">
+        <div>
+            <h1 class="text-xl font-semibold mb-1">Báo cáo học tập</h1>
+            <p class="text-sm text-gray-500">
+                Hệ thống phân tích hiệu quả học tập thông minh dựa trên dữ liệu thời
+                gian thực.
+            </p>
+        </div>
+        <div class="text-right text-xs text-gray-400">
+            Cập nhật: 14:24, 11/05/2026
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="ant-card p-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl">
+            <!-- Đơn vị Tree Select -->
+            <div class="flex flex-col gap-2 relative">
+                <span class="text-sm font-medium text-gray-600">Đơn vị (Chọn nhiều):</span>
+                <div id="unit-select-trigger"
+                    class="min-h-[32px] w-full bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] flex flex-wrap gap-1 items-center px-2 py-1 text-sm cursor-pointer transition-all">
+                    <span id="unit-placeholder" class="text-gray-400 ml-1">Chọn đơn vị...</span>
+                    <div id="selected-units-tags" class="flex flex-wrap gap-1"></div>
+                    <i data-lucide="chevron-down" class="ml-auto w-4 h-4 text-gray-300 transition-transform"></i>
+                </div>
+
+                <div id="unit-dropdown"
+                    class="dropdown-content top-[calc(100%+4px)] left-0 w-full min-w-[320px] bg-white border border-[#f0f0f0] rounded shadow-lg py-2">
+                    <div class="px-3 pb-2 mb-2 border-b border-[#f0f0f0]">
+                        <div class="relative">
+                            <i data-lucide="search" class="absolute left-2.5 top-2.5 w-3 h-3 text-gray-400"></i>
+                            <input type="text" placeholder="Tìm kiếm lớp học..."
+                                class="w-full pl-8 pr-3 py-1.5 text-xs bg-[#fafafa] border border-[#d9d9d9] rounded outline-none focus:border-[#1677ff]" />
+                        </div>
+                    </div>
+                    <div id="tree-container" class="max-h-[300px] overflow-y-auto px-1 custom-scrollbar text-sm"></div>
+                </div>
+            </div>
+
+            <!-- Thời gian Select -->
+            <div class="flex flex-col gap-2">
+                <span class="text-sm font-medium text-gray-600">Thời gian:</span>
+                <div class="relative">
+                    <select id="time-range-select"
+                        class="w-full bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] focus:border-[#1677ff] px-3 py-1.5 text-sm outline-none transition-all cursor-pointer appearance-none">
+                        <option value="week">Tuần này</option>
+                        <option value="prev-week">Tuần trước</option>
+                        <option value="month">Tháng này</option>
+                        <option value="custom">Tùy chọn khoảng thời gian</option>
+                    </select>
+                    <i data-lucide="chevron-down"
+                        class="absolute right-3 top-2.5 w-4 h-4 text-gray-300 pointer-events-none"></i>
+                </div>
+            </div>
+        </div>
+
+        <div id="custom-date-container"
+            class="hidden flex flex-wrap items-center gap-4 pt-4 mt-4 border-t border-[#f0f0f0]">
+            <div
+                class="flex items-center gap-2 border border-[#d9d9d9] rounded px-3 py-1 bg-white hover:border-[#1677ff] transition-all">
+                <input type="date" class="outline-none text-sm cursor-pointer" />
+                <span class="text-gray-300">~</span>
+                <input type="date" class="outline-none text-sm cursor-pointer" />
+                <i data-lucide="calendar" class="w-4 h-4 text-gray-300"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="mb-3">
+        <h3 class="text-sm font-semibold text-gray-700">Các chỉ số trung bình trên toàn bộ học sinh được thống kê</h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div
+            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Thời gian làm/câu hỏi</span>
+                <div
+                    class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
+                    <i data-lucide="timer"
+                        class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+                </div>
+            </div>
+            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">42s</span>
+        </div>
+        <div
+            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiên học với AI/ học sinh</span>
+                <div
+                    class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
+                    <i data-lucide="sparkles"
+                        class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+                </div>
+            </div>
+            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">12.5</span>
+        </div>
+        <div
+            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu</span>
+                <div
+                    class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
+                    <i data-lucide="file-text"
+                        class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                </div>
+            </div>
+            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">8.4</span>
+        </div>
+        <div
+            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ đúng lần đầu</span>
+                <div
+                    class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
+                    <i data-lucide="check-circle"
+                        class="w-4 h-4 text-[#52c41a] group-hover:scale-110 transition-transform"></i>
+                </div>
+            </div>
+            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="ant-card overflow-hidden h-[400px] flex flex-col">
+            <div class="px-6 py-4 border-b border-[#f0f0f0]">
+                <h4 class="font-semibold text-sm">Thống kê thời gian học</h4>
+            </div>
+            <div class="p-6 flex-grow grid grid-cols-1 md:grid-cols-2 gap-6 items-center overflow-hidden">
+                <!-- Cột trái: Chỉ số và Chú thích -->
+                <div class="flex flex-col justify-center h-full py-2">
+                    <span class="text-gray-400 text-xs font-medium mb-1">Tổng thời gian theo bộ lọc</span>
+                    <div class="text-3xl font-bold text-[#1677ff] mb-6 flex items-baseline gap-1">
+                        <span>0.8</span>
+                        <span class="text-sm font-medium text-gray-500">giờ</span>
+                    </div>
+                    <!-- Custom Legend -->
+                    <div id="behavior-legend-gv" class="flex flex-col gap-2.5 overflow-y-auto custom-scrollbar pr-2">
+                        <!-- Rendered dynamically via JS -->
+                    </div>
+                </div>
+                <!-- Cột phải: Donut Chart -->
+                <div class="flex items-center justify-center relative h-full w-full">
+                    <canvas id="behavior-donut-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="ant-card overflow-hidden h-[400px] flex flex-col">
+            <div class="px-6 py-4 border-b border-[#f0f0f0]">
+                <h4 class="font-semibold text-sm">Phân bổ thời gian theo học sinh</h4>
+            </div>
+            <div class="p-6 flex-grow relative">
+                <canvas id="distribution-bar-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student List -->
+    <div class="ant-card overflow-hidden">
+        <div class="px-6 py-4 border-b border-[#f0f0f0] flex flex-col gap-4 bg-[#fafafa]/50">
+            <div class="flex justify-between items-center">
+                <h4 class="font-semibold text-sm">Danh sách học sinh chi tiết</h4>
+                <div class="flex gap-2">
+                    <div class="relative">
+                        <i data-lucide="search" class="absolute left-2.5 top-2.5 w-4 h-4 text-gray-300"></i>
+                        <input type="text" id="search-name" placeholder="Tìm tên..."
+                            class="pl-8 pr-3 py-1.5 border border-[#d9d9d9] rounded text-sm hover:border-[#1677ff] outline-none" />
+                    </div>
+                    <button
+                        class="bg-[#1677ff] hover:bg-[#4096ff] text-white px-4 py-1.5 rounded text-sm font-medium flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i> Xuất dữ liệu
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-6 p-3 bg-white border border-[#f0f0f0] rounded-md text-xs">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="timer" class="w-4 h-4 text-gray-400"></i>
+                    <span class="font-semibold text-gray-600">Thời gian học (phút):</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="number" id="min-time" placeholder="≥ Phút"
+                        class="w-24 px-2 py-1 border border-[#d9d9d9] rounded outline-none" />
+                    <span class="text-gray-300">~</span>
+                    <input type="number" id="max-time" placeholder="≤ Phút"
+                        class="w-24 px-2 py-1 border border-[#d9d9d9] rounded outline-none" />
+                    <button id="clear-filters" class="hidden text-red-500 hover:underline">
+                        Xóa lọc
+                    </button>
+                </div>
+                <div class="ml-auto text-gray-400 italic" id="row-count"></div>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse" id="student-table">
+                <thead class="bg-[#fafafa] text-gray-800 border-b border-[#f0f0f0]">
+                    <tr>
+                        <th class="px-6 py-4 font-semibold w-16 text-[10px] text-gray-400 uppercase">
+                            STT
+                        </th>
+                        <th class="px-6 py-4 font-semibold">Học sinh</th>
+                        <th class="px-6 py-4 font-semibold">Lớp học</th>
+                        <th class="px-6 py-4 font-semibold">Thời gian học</th>
+                        <th class="px-6 py-4 font-semibold text-center w-24">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#f0f0f0]"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Data & State
+        const treeData = [
+            {
+                key: 'root',
+                title: 'THPT Chuyên Bắc Ninh',
+                children: [
+                    {
+                        key: 'k12',
+                        title: 'Khối 12',
+                        children: [
+                            { key: '12a1', title: 'Lớp 12A1' },
+                            { key: '12a2', title: 'Lớp 12A2' },
+                            { key: '12a3', title: 'Lớp 12A3' },
+                        ],
+                    },
+                    {
+                        key: 'k11',
+                        title: 'Khối 11',
+                        children: [
+                            { key: '11a1', title: 'Lớp 11A1' },
+                            { key: '11a2', title: 'Lớp 11A2' },
+                        ],
+                    },
+                ],
+            },
+        ];
+
+        const behaviorData = [
+            { name: 'Tự học với AI', value: 35, color: '#1677ff' },
+            { name: 'Bài tập AI', value: 25, color: '#52c41a' },
+            { name: 'Bài tập truyền thống', value: 20, color: '#faad14' },
+            { name: 'Xem bài giảng', value: 10, color: '#722ed1' },
+            { name: 'Làm đề thi', value: 10, color: '#ff4d4f' },
+        ];
+
+        const students = Array.from({ length: 9 }, (_, i) => ({
+            id: i + 1,
+            name: 'Nguyễn Văn A',
+            username: `user_${i + 100}`,
+            className: '12A2',
+            schoolName: 'THPT Chuyên Bắc Ninh',
+            time: `${Math.floor(Math.random() * 3)}h ${Math.floor(
+                Math.random() * 60
+            )}m`,
+        }));
+
+        let selectedUnitKeys = ['12a2'];
+        let expandedKeys = ['root', 'k12'];
+
+        // Init Lucide
+        lucide.createIcons();
+
+        // 1. Chart.js Implementation
+        function initCharts() {
+            new Chart(document.getElementById('behavior-donut-chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: behaviorData.map((d) => d.name),
+                    datasets: [
+                        {
+                            data: behaviorData.map((d) => d.value),
+                            backgroundColor: behaviorData.map((d) => d.color),
+                            borderWidth: 0,
+                            hoverOffset: 10,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                    },
+                    cutout: '70%',
+                }
+            });
+
+            // Render custom legend in left column
+            const legendContainer = document.getElementById('behavior-legend-gv');
+            if (legendContainer) {
+                legendContainer.innerHTML = behaviorData.map(item => `
+                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${item.color}"></span>
+                        <span class="truncate">${item.name}</span>
+                    </div>
+                `).join('');
+            }
+
+            const distPoints = Array.from({ length: 29 }, (_, i) => {
+                const x = -2 + i * 0.5;
+                const y = Math.exp(-0.5 * Math.pow((x - 5) / 2.2, 2)) * 25;
+                return { x, y: parseFloat(y.toFixed(1)) };
+            });
+
+            new Chart(document.getElementById('distribution-bar-chart'), {
+                type: 'bar',
+                data: {
+                    labels: distPoints.map((p) => p.x),
+                    datasets: [
+                        {
+                            label: 'Số lượng học sinh',
+                            data: distPoints.map((p) => p.y),
+                            backgroundColor: '#4096ff',
+                            borderRadius: 2,
+                            barPercentage: 0.7,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 10 }, color: '#94a3b8' },
+                        },
+                        y: {
+                            border: { display: false },
+                            grid: { color: '#f0f0f0' },
+                            ticks: { font: { size: 10 }, color: '#94a3b8' },
+                        },
+                    },
+                    plugins: { legend: { display: false } },
+                },
+            });
+        }
+
+        // 2. Tree Select & UI logic
+        function renderTree(nodes, container, level = 0) {
+            nodes.forEach((node) => {
+                const isExpanded = expandedKeys.includes(node.key);
+                const hasChildren = node.children && node.children.length > 0;
+                const keys = getAllKeys(node);
+                const isChecked = keys.every((k) => selectedUnitKeys.includes(k));
+                const isIndeterminate =
+                    !isChecked && keys.some((k) => selectedUnitKeys.includes(k));
+
+                const div = document.createElement('div');
+                div.className = 'flex flex-col';
+                div.innerHTML = `
+                    <div class="tree-node-content flex items-center gap-2 px-2 py-1.5 rounded cursor-pointer" style="padding-left: ${level * 16 + 8
+                    }px">
+                        ${hasChildren
+                        ? `<i data-lucide="${isExpanded ? 'chevron-down' : 'chevron-right'
+                        }" class="w-4 h-4 toggle-btn"></i>`
+                        : '<div class="w-4"></div>'
+                    }
+                        <i data-lucide="${isChecked
+                        ? 'check-square'
+                        : isIndeterminate
+                            ? 'minus-square'
+                            : 'square'
+                    }" class="w-4 h-4 ${isChecked || isIndeterminate ? 'text-[#1677ff]' : 'text-gray-200'
+                    } checkbox-btn"></i>
+                        <span class="truncate ${isChecked ? 'font-medium' : ''
+                    }">${node.title}</span>
+                    </div>
+                    <div class="child-box ${isExpanded ? '' : 'hidden'}"></div>
+                `;
+
+                div.querySelector('.toggle-btn')?.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    expandedKeys = isExpanded
+                        ? expandedKeys.filter((k) => k !== node.key)
+                        : [...expandedKeys, node.key];
+                    refreshTree();
+                });
+
+                div
+                    .querySelector('.tree-node-content')
+                    .addEventListener('click', (e) => {
+                        if (isChecked)
+                            selectedUnitKeys = selectedUnitKeys.filter(
+                                (k) => !keys.includes(k)
+                            );
+                        else
+                            selectedUnitKeys = [...new Set([...selectedUnitKeys, ...keys])];
+                        refreshTree();
+                        updateUnitTags();
+                    });
+
+                container.appendChild(div);
+                if (hasChildren)
+                    renderTree(
+                        node.children,
+                        div.querySelector('.child-box'),
+                        level + 1
+                    );
+            });
+            lucide.createIcons();
+        }
+
+        function getAllKeys(node) {
+            let res = [node.key];
+            if (node.children)
+                node.children.forEach((c) => (res = [...res, ...getAllKeys(c)]));
+            return res;
+        }
+
+        function refreshTree() {
+            const container = document.getElementById('tree-container');
+            container.innerHTML = '';
+            renderTree(treeData, container);
+        }
+
+        function updateUnitTags() {
+            const container = document.getElementById('selected-units-tags');
+            container.innerHTML = '';
+            const leafNodes = [];
+            const findLeaf = (nodes) =>
+                nodes.forEach((n) => {
+                    if (!n.children && selectedUnitKeys.includes(n.key))
+                        leafNodes.push(n.title);
+                    if (n.children) findLeaf(n.children);
+                });
+            findLeaf(treeData);
+            document.getElementById('unit-placeholder').style.display =
+                leafNodes.length ? 'none' : 'block';
+            leafNodes.forEach((t) => {
+                container.innerHTML += `<span class="bg-[#f5f5f5] border border-[#f0f0f0] text-xs px-2 py-0.5 rounded flex items-center gap-1">${t}</span>`;
+            });
+        }
+
+        function renderStudentTable() {
+            const tbody = document.querySelector('#student-table tbody');
+            const min = document.getElementById('min-time').value;
+            const max = document.getElementById('max-time').value;
+            const search = document
+                .getElementById('search-name')
+                .value.toLowerCase();
+
+            const filtered = students.filter((s) => {
+                const mins =
+                    s.time.match(/(\d+)h/)[1] * 60 +
+                    parseInt(s.time.match(/(\d+)m/)[1]);
+                if (min && mins < min) return false;
+                if (max && mins > max) return false;
+                if (search && !s.name.toLowerCase().includes(search)) return false;
+                return true;
+            });
+
+            document.getElementById(
+                'row-count'
+            ).innerText = `Tìm thấy ${filtered.length} học sinh.`;
+            document
+                .getElementById('clear-filters')
+                .classList.toggle('hidden', !min && !max);
+
+            tbody.innerHTML = filtered.length
+                ? ''
+                : '<tr><td colspan="5" class="p-8 text-center text-gray-300">Không có dữ liệu</td></tr>';
+            filtered.forEach((s) => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-[#fafafa]">
+                        <td class="px-6 py-4 text-gray-400">${s.id}</td>
+                        <td class="px-6 py-4"><div class="font-semibold text-[#1677ff] cursor-pointer">${s.name}</div><div class="text-[11px] text-gray-400">@${s.username}</div></td>
+                        <td class="px-6 py-4"><div class="font-medium text-gray-700">12A2</div><div class="text-[11px] text-gray-400">THPT Chuyên Bắc Ninh</div></td>
+                        <td class="px-6 py-4 font-bold text-gray-600 italic"><div class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3 h-3"></i> ${s.time}</div></td>
+                        <td class="px-6 py-4 text-center"><button class="p-1.5 hover:bg-[#e6f4ff] rounded text-[#1677ff]"><i data-lucide="eye" class="w-4 h-4"></i></button></td>
+                    </tr>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        // Event Listeners
+        document.getElementById('unit-select-trigger').onclick = (e) => {
+            e.stopPropagation();
+            document.getElementById('unit-dropdown').classList.toggle('show');
+        };
+        window.onclick = () => {
+            document.getElementById('unit-dropdown').classList.remove('show');
+        };
+        document.getElementById('time-range-select').onchange = (e) =>
+            document
+                .getElementById('custom-date-container')
+                .classList.toggle('hidden', e.target.value !== 'custom');
+        document.getElementById('min-time').oninput = renderStudentTable;
+        document.getElementById('max-time').oninput = renderStudentTable;
+        document.getElementById('search-name').oninput = renderStudentTable;
+
+        // Init
+        window.onload = () => {
+            initCharts();
+            refreshTree();
+            updateUnitTags();
+            renderStudentTable();
+        };
+    </script>
+</body>
+
+</html>

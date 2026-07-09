@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo cáo tỉ lệ hoàn thành YCCĐ - Ant Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5;
+            color: rgba(0, 0, 0, 0.88);
+        }
+
+        .ant-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d9d9d9;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #bfbfbf;
+        }
+
+        .tree-node-content:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 100;
+            animation: fadeIn 0.15s ease-out;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .chart-wrapper {
+            position: relative;
+            margin: auto;
+            height: 440px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23bfbfbf'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+        }
+
+        .ant-tabs-nav {
+            display: flex;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 24px;
+        }
+
+        .ant-tabs-tab {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+            color: rgba(0, 0, 0, 0.45);
+        }
+
+        .ant-tabs-tab:hover {
+            color: #1677ff;
+        }
+
+        .ant-tabs-tab-active {
+            color: #1677ff;
+            font-weight: 600;
+            border-bottom-color: #1677ff;
+        }
+
+        /* Expander Styles */
+        .ant-collapse {
+            background-color: #fafafa;
+            border: 1px solid #d9d9d9;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .ant-collapse-header {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .ant-collapse-header:hover {
+            background: #fafafa;
+        }
+
+        .ant-collapse-content {
+            padding: 24px;
+            border-top: 1px solid #d9d9d9;
+            background: white;
+        }
+
+        .student-item {
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .student-item.active {
+            background-color: #e6f4ff;
+            border-left-color: #1677ff;
+        }
+
+        .student-item.active .student-name {
+            color: #1677ff;
+            font-weight: 600;
+        }
+
+        .topic-row-clickable {
+            cursor: pointer;
+        }
+
+        .topic-row-clickable:hover {
+            background-color: #f0f7ff !important;
+        }
+
+        .topic-row-selected {
+            background-color: #e6f4ff !important;
+        }
+
+        .ant-table-header th {
+            background: #fafafa;
+            color: rgba(0, 0, 0, 0.88);
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8">
+    <!-- Header Section -->
+    <div class="mb-6 text-center md:text-left">
+        <!-- Đổi tiêu đề thành Báo cáo tỉ lệ hoàn thành YCCĐ -->
+        <h1 class="text-2xl font-bold tracking-tight text-[rgba(0,0,0,0.88)]">
+            Báo cáo tỉ lệ hoàn thành YCCĐ
+        </h1>
+        <p class="text-[rgba(0,0,0,0.45)] text-sm mt-1">
+            Phân tích mức độ đạt được các mục tiêu kiến thức dựa trên khung chương
+            trình.
+        </p>
+    </div>
+
+    <!-- Giải thích thông số Expander -->
+    <div class="mb-8">
+        <details class="ant-collapse group">
+            <summary class="ant-collapse-header list-none font-bold text-sm text-[rgba(0,0,0,0.88)]">
+                <i data-lucide="chevron-right" class="w-4 h-4 transition-transform group-open:rotate-90"></i>
+                Giải thích thông số
+            </summary>
+            <div class="ant-collapse-content">
+                <div class="text-sm text-[rgba(0,0,0,0.65)] leading-relaxed space-y-4">
+                    <p>
+                        Với mỗi chủ đề, hệ thống sẽ ghi nhận năng lực của HS theo hai cấp
+                        độ.
+                    </p>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li>
+                            <strong class="text-[rgba(0,0,0,0.88)]">Cấp độ 1: Đạt yêu cầu.</strong>
+                            HS đáp ứng tất cả yêu cầu cần đạt của chủ đề theo chương trình
+                            GDPT 2018. Chỉ số hoàn thành có giá trị từ 0% đến 100%.
+                        </li>
+                        <li>
+                            <strong class="text-[rgba(0,0,0,0.88)]">Cấp độ 2: Thành thạo.</strong>
+                            HS làm chủ kiến thức trong chủ đề và vận dụng được kiến thức của
+                            chủ đề vào giải quyết các vấn đề thực tiễn.
+                            <br />
+                            <span class="text-[rgba(0,0,0,0.45)] italic">(Hiện hệ sẽ tiếp tục cập nhật đánh giá mức độ
+                                thành thạo
+                                trong thời gian sớm nhất)</span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-8 space-y-8">
+                        <div class="flex flex-col items-center md:items-start gap-3">
+                            <img src="https://lms-vdi-data.streamlit.app:443/~/+/media/50e69336b615a5201ffd7e406e8c7e12cf845875c489f4f2a544c8cf.png"
+                                alt="Minh hoạ chỉ số"
+                                class="max-w-full md:max-w-[550px] rounded border border-[#f0f0f0]" />
+                            <p class="text-[11px] text-gray-400 font-medium italic">
+                                Minh hoạ chỉ số mức độ hoàn thành chủ đề
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col items-center md:items-start gap-3">
+                            <p class="text-sm text-[rgba(0,0,0,0.65)]">
+                                Bên dưới là hình ảnh minh hoạ mức độ hoàn thành các chủ đề từ
+                                giao diện HS.
+                            </p>
+                            <img src="https://lms-vdi-data.streamlit.app:443/~/+/media/2191b4f980f057ab0db3620930dc841e291c711bef1cf44cd4e26bd6.jpg"
+                                alt="Giao diện HS"
+                                class="max-w-full md:max-w-[1000px] rounded border border-[#f0f0f0]" />
+                            <p class="text-[11px] text-gray-400 font-medium italic">
+                                Minh hoạ mức độ hoàn thành các chủ đề từ giao diện HS
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="ant-card p-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Đơn vị -->
+            <div class="flex flex-col gap-2 relative">
+                <label class="text-sm font-medium text-[rgba(0,0,0,0.65)]">Đơn vị áp dụng:</label>
+                <div id="unit-select-trigger"
+                    class="min-h-[32px] w-full bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] flex flex-wrap gap-1 items-center px-3 py-1 text-sm cursor-pointer transition-all">
+                    <div id="selected-units-tags" class="flex flex-wrap gap-1">
+                        <span class="bg-[#f5f5f5] border border-[#f0f0f0] text-xs px-2 py-0.5 rounded">Lớp 12A2</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="ml-auto w-4 h-4 text-gray-300"></i>
+                </div>
+                <div id="unit-dropdown"
+                    class="dropdown-content top-[calc(100%+4px)] left-0 w-full min-w-[320px] bg-white border border-[#f0f0f0] rounded shadow-xl py-2">
+                    <div id="tree-container" class="max-h-[300px] overflow-y-auto px-1 custom-scrollbar text-sm"></div>
+                </div>
+            </div>
+
+            <!-- Khung chương trình -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-[rgba(0,0,0,0.65)]">Khung chương trình:</label>
+                <select
+                    class="w-full h-[32px] bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] focus:border-[#1677ff] px-3 py-1 text-sm outline-none transition-all cursor-pointer">
+                    <option value="math_all">Chương trình Toán 10, 11, 12</option>
+                    <option value="math_10">Chương trình Toán 10</option>
+                    <option value="math_11">Chương trình Toán 11</option>
+                    <option value="math_12" selected>Chương trình Toán 12</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="ant-tabs-nav">
+        <div class="ant-tabs-tab ant-tabs-tab-active" data-tab="overview">
+            Theo yêu cầu cần đạt
+        </div>
+        <div class="ant-tabs-tab" data-tab="students">Theo từng học sinh</div>
+    </div>
+
+    <!-- Tab View: Overview -->
+    <div id="view-overview" class="tab-content">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 text-[rgba(0,0,0,0.88)] items-start">
+            <!-- Left: Polar Chart -->
+            <div class="lg:col-span-7 ant-card p-6 flex flex-col h-[600px]">
+                <div class="flex items-center justify-between mb-4 border-b border-[#f0f0f0] pb-3">
+                    <h4 class="font-semibold text-sm text-[rgba(0,0,0,0.45)]">
+                        Tỉ lệ hoàn thành theo chủ đề
+                    </h4>
+                </div>
+                <div class="flex-grow grid grid-cols-1 md:grid-cols-12 gap-6 items-center overflow-hidden">
+                    <!-- Cột trái: Chú thích xếp dọc -->
+                    <div class="md:col-span-3 flex flex-col justify-center h-full py-4 border-r border-[#f5f5f5] pr-4">
+                        <span class="text-gray-400 text-xs font-semibold mb-4 uppercase tracking-wider">Mạch kiến
+                            thức</span>
+                        <div class="flex flex-col gap-3">
+                            <div class="flex items-center gap-2 text-xs text-gray-600 font-semibold">
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#722ed1]"></span>
+                                <span class="text-wrap">SỐ, ĐẠI SỐ VÀ MỘT SỐ YẾU TỐ GIẢI TÍCH</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-gray-600 font-semibold">
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#ff4d4f]"></span>
+                                <span class="text-wrap">HÌNH HỌC VÀ ĐO LƯỜNG</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-gray-600 font-semibold">
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#fa8c16]"></span>
+                                <span class="text-wrap">THỐNG KÊ VÀ XÁC SUẤT</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cột phải: Polar Chart -->
+                    <div class="md:col-span-9 flex items-center justify-center relative h-full w-full">
+                        <div class="chart-wrapper">
+                            <canvas id="topic-polar-chart-overview"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Average & Simplified Topics Table -->
+            <div class="lg:col-span-5 flex flex-col gap-6 h-[600px]">
+                <div class="ant-card flex-grow flex flex-col overflow-hidden">
+                    <div class="px-5 py-3 border-b border-[#f0f0f0] bg-[#fafafa]/50 flex justify-between items-center">
+                        <h4 class="font-semibold text-sm">Danh sách chủ đề</h4>
+                        <span class="text-[10px] text-gray-400 font-medium italic">Chọn để xem chi tiết HS</span>
+                    </div>
+                    <div class="flex-grow overflow-y-auto custom-scrollbar">
+                        <table class="w-full text-left text-sm border-collapse" id="yccd-table">
+                            <thead
+                                class="bg-[#fafafa] text-[rgba(0,0,0,0.88)] border-b border-[#f0f0f0] sticky top-0 z-10">
+                                <tr>
+                                    <th
+                                        class="px-4 py-3 font-semibold w-12 text-[10px] text-gray-400 uppercase tracking-widest text-center border-r border-[#f0f0f0]">
+                                        STT
+                                    </th>
+                                    <th
+                                        class="px-4 py-3 font-semibold text-[10px] text-gray-400 uppercase tracking-widest">
+                                        Tên chủ đề
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#f0f0f0]"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integrated Section: Detailed student table for selected topic -->
+        <div class="ant-card p-0 overflow-hidden" id="integrated-topic-detail">
+            <div class="p-8 border-b border-[#f0f0f0]">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div class="flex-grow">
+                        <label class="text-sm text-gray-500 mb-2 block font-medium">Chi tiết mức độ hoàn thành từng
+                            HS:</label>
+                        <div class="relative max-w-xl">
+                            <select id="topic-selector-dropdown"
+                                class="w-full h-[40px] bg-[#f0f2f5] border-none rounded px-4 py-1.5 text-sm outline-none transition-all cursor-pointer font-semibold text-[rgba(0,0,0,0.88)] appearance-none"></select>
+                            <i data-lucide="chevron-down"
+                                class="absolute right-4 top-3 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                        </div>
+                    </div>
+                    <div class="shrink-0 text-right">
+                        <h2 class="text-lg font-bold text-[rgba(0,0,0,0.88)]" id="detail-topic-title">
+                            Chủ đề: Mệnh đề toán học
+                        </h2>
+                        <p class="text-xs text-gray-400">
+                            Dữ liệu phân tích học sinh theo thời gian thực
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead class="bg-[#fafafa] border-b border-[#f0f0f0]">
+                        <tr>
+                            <th
+                                class="px-8 py-4 font-semibold text-[10px] text-gray-400 uppercase tracking-widest w-1/3">
+                                Học sinh
+                            </th>
+                            <th class="px-8 py-4 font-semibold text-[10px] text-gray-400 uppercase tracking-widest">
+                                Mức độ hoàn thành
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[#f0f0f0]" id="student-topic-progress-list-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab View: Students -->
+    <div id="view-students" class="tab-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 text-[rgba(0,0,0,0.88)]">
+            <div class="lg:col-span-4 ant-card flex flex-col h-[600px]">
+                <div class="p-4 border-b border-[#f0f0f0]">
+                    <div class="relative">
+                        <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-gray-300"></i>
+                        <input type="text" id="student-search-input" placeholder="Tìm tên hoặc mã học sinh..."
+                            class="w-full pl-9 pr-3 py-1.5 border border-[#d9d9d9] rounded text-sm hover:border-[#1677ff] outline-none" />
+                    </div>
+                </div>
+                <div class="flex-grow overflow-y-auto custom-scrollbar" id="student-list-container"></div>
+            </div>
+            <div class="lg:col-span-8 ant-card p-6 flex flex-col h-[600px]">
+                <div class="flex items-center justify-between mb-4 border-b border-[#f0f0f0] pb-4">
+                    <div>
+                        <h4 class="font-bold text-lg text-[rgba(0,0,0,0.88)]" id="selected-student-name-full">
+                            Họ và tên học sinh
+                        </h4>
+                        <p class="text-xs text-[#1677ff] font-medium" id="selected-student-id-display">
+                            Mã: k25a04_...
+                        </p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-3xl font-black text-[#1677ff]" id="selected-student-avg">0%</span>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter leading-none mt-1">
+                            Hoàn thành TB
+                        </p>
+                    </div>
+                </div>
+                <div class="flex-grow grid grid-cols-1 md:grid-cols-12 gap-6 items-center overflow-hidden">
+                    <!-- Cột trái: Chú thích xếp dọc -->
+                    <div class="md:col-span-4 flex flex-col justify-center h-full py-4 border-r border-[#f5f5f5] pr-4">
+                        <span class="text-gray-400 text-xs font-semibold mb-4 uppercase tracking-wider">Mạch kiến thức</span>
+                        <div class="flex flex-col gap-3">
+                            <div class="flex items-center gap-2 text-xs text-gray-600 font-semibold">
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#722ed1]"></span>
+                                <span class="text-wrap">SỐ, ĐẠI SỐ VÀ MỘT SỐ YẾU TỐ GIẢI TÍCH</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-gray-600 font-semibold">
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#ff4d4f]"></span>
+                                <span class="text-wrap">HÌNH HỌC VÀ ĐO LƯỜNG</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-gray-600 font-semibold">
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#fa8c16]"></span>
+                                <span class="text-wrap">THỐNG KÊ VÀ XÁC SUẤT</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cột phải: Polar Chart -->
+                    <div class="md:col-span-8 flex items-center justify-center relative h-full w-full">
+                        <div class="chart-wrapper">
+                            <canvas id="student-polar-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ant-card overflow-hidden">
+            <div class="px-6 py-4 border-b border-[#f0f0f0] bg-[#fafafa]/50 flex items-center justify-between">
+                <h4 class="font-semibold text-sm">
+                    Danh sách chi tiết chủ đề học tập
+                </h4>
+                <p class="text-[11px] text-gray-400">
+                    Xem kết quả từng chủ đề của học sinh đang chọn
+                </p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm border-collapse" id="student-detail-topics-table">
+                    <thead class="bg-[#fafafa] text-[rgba(0,0,0,0.88)] border-b border-[#f0f0f0]">
+                        <tr>
+                            <th
+                                class="px-6 py-4 font-semibold w-16 text-[10px] text-gray-400 uppercase tracking-widest text-center border-r border-[#f0f0f0]">
+                                STT
+                            </th>
+                            <th class="px-6 py-4 font-semibold">Tên chủ đề</th>
+                            <th class="px-6 py-4 font-semibold">Mạch kiến thức</th>
+                            <th class="px-6 py-4 font-semibold">Kết quả (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[#f0f0f0]"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CIRCUITS = {
+            ALGEBRA: 'SỐ, ĐẠI SỐ VÀ MỘT SỐ YẾU TỐ GIẢI TÍCH',
+            GEOMETRY: 'HÌNH HỌC VÀ ĐO LƯỜNG',
+            STATS: 'THỐNG KÊ VÀ XÁC SUẤT',
+        };
+
+        const CIRCUIT_COLORS = {
+            ALGEBRA: '#722ed1',
+            GEOMETRY: '#ff4d4f',
+            STATS: '#fa8c16',
+        };
+
+        const yccdData = [
+            {
+                id: 1,
+                name: 'Tính đơn điệu của hàm số',
+                circuit: CIRCUITS.ALGEBRA,
+                fill: CIRCUIT_COLORS.ALGEBRA,
+                value: 85,
+            },
+            {
+                id: 2,
+                name: 'Giá trị lớn nhất, giá trị nhỏ nhất của hàm số',
+                circuit: CIRCUITS.ALGEBRA,
+                fill: CIRCUIT_COLORS.ALGEBRA,
+                value: 78,
+            },
+            {
+                id: 3,
+                name: 'Khảo sát và vẽ đồ thị của hàm số',
+                circuit: CIRCUITS.ALGEBRA,
+                fill: CIRCUIT_COLORS.ALGEBRA,
+                value: 92,
+            },
+            {
+                id: 4,
+                name: 'Ứng dụng đạo hàm giải thực tiễn',
+                circuit: CIRCUITS.ALGEBRA,
+                fill: CIRCUIT_COLORS.ALGEBRA,
+                value: 70,
+            },
+            {
+                id: 5,
+                name: 'Nguyên hàm. Bảng nguyên hàm hàm sơ cấp',
+                circuit: CIRCUITS.ALGEBRA,
+                fill: CIRCUIT_COLORS.ALGEBRA,
+                value: 65,
+            },
+            {
+                id: 6,
+                name: 'Tích phân',
+                circuit: CIRCUITS.ALGEBRA,
+                fill: CIRCUIT_COLORS.ALGEBRA,
+                value: 88,
+            },
+            {
+                id: 7,
+                name: 'Cực trị của hàm số',
+                circuit: CIRCUITS.ALGEBRA,
+                fill: CIRCUIT_COLORS.ALGEBRA,
+                value: 82,
+            },
+            {
+                id: 8,
+                name: 'Đường tiệm cận của đồ thị hàm số',
+                circuit: CIRCUITS.ALGEBRA,
+                fill: CIRCUIT_COLORS.ALGEBRA,
+                value: 75,
+            },
+            {
+                id: 9,
+                name: 'Ứng dụng hình học của tích phân',
+                circuit: CIRCUITS.ALGEBRA,
+                fill: CIRCUIT_COLORS.ALGEBRA,
+                value: 80,
+            },
+            {
+                id: 10,
+                name: 'Vectơ và các phép toán vectơ trong không gian',
+                circuit: CIRCUITS.GEOMETRY,
+                fill: CIRCUIT_COLORS.GEOMETRY,
+                value: 95,
+            },
+            {
+                id: 11,
+                name: 'Phương trình mặt phẳng',
+                circuit: CIRCUITS.GEOMETRY,
+                fill: CIRCUIT_COLORS.GEOMETRY,
+                value: 84,
+            },
+            {
+                id: 12,
+                name: 'Phương trình đường thẳng trong không gian',
+                circuit: CIRCUITS.GEOMETRY,
+                fill: CIRCUIT_COLORS.GEOMETRY,
+                value: 72,
+            },
+            {
+                id: 13,
+                name: 'Phương trình mặt cầu',
+                circuit: CIRCUITS.GEOMETRY,
+                fill: CIRCUIT_COLORS.GEOMETRY,
+                value: 68,
+            },
+            {
+                id: 14,
+                name: 'Toạ độ của vectơ trong không gian',
+                circuit: CIRCUITS.GEOMETRY,
+                fill: CIRCUIT_COLORS.GEOMETRY,
+                value: 89,
+            },
+            {
+                id: 15,
+                name: 'Biểu thức toạ độ của phép toán vectơ',
+                circuit: CIRCUITS.GEOMETRY,
+                fill: CIRCUIT_COLORS.GEOMETRY,
+                value: 76,
+            },
+            {
+                id: 16,
+                name: 'Số đặc trưng mẫu số liệu ghép nhóm: biến thiên, tứ phân vị',
+                circuit: CIRCUITS.STATS,
+                fill: CIRCUIT_COLORS.STATS,
+                value: 62,
+            },
+            {
+                id: 17,
+                name: 'Số đặc trưng mẫu số liệu ghép nhóm: phương sai, độ lệch chuẩn',
+                circuit: CIRCUITS.STATS,
+                fill: CIRCUIT_COLORS.STATS,
+                value: 58,
+            },
+            {
+                id: 18,
+                name: 'Xác suất có điều kiện',
+                circuit: CIRCUITS.STATS,
+                fill: CIRCUIT_COLORS.STATS,
+                value: 74,
+            },
+            {
+                id: 19,
+                name: 'Công thức xác suất toàn phần. Công thức Bayes',
+                circuit: CIRCUITS.STATS,
+                fill: CIRCUIT_COLORS.STATS,
+                value: 67,
+            },
+        ];
+
+        const RAW_STUDENTS = [
+            { id: 'k25a04_nguyenphuongthuy', name: 'Nguyễn Phương Thúy' },
+            { id: 'k25a04_nguyenhaiphong', name: 'Nguyễn Hải Phong' },
+            { id: 'k25a04_nguyenducluong', name: 'Nguyễn Đức Lương' },
+            { id: 'k25a04_phamxuancuong', name: 'Phạm Xuân Cường' },
+            { id: 'k25a04_duongvietcuong', name: 'Dương Viết Cường' },
+            { id: 'k25a04_trantrungdung', name: 'Trần Trung Dũng' },
+            { id: 'k25a04_nguyenthanhbinh', name: 'Nguyễn Thanh Bình' },
+            { id: 'k25a04_buihachi', name: 'Bùi Hà Chi' },
+            { id: 'k25a04_nguyendinhhung', name: 'Nguyễn Đình Hùng' },
+            { id: 'k25a04_nguyenhoangphong', name: 'Nguyễn Hoàng Phong' },
+            { id: 'k25a04_nguyentruonghai', name: 'Nguyễn Trường Hải' },
+            { id: 'k25a04_nguyenthingocmai', name: 'Nguyễn Thị Ngọc Mai' },
+            { id: 'k25a04_nguyenquanghoangminh', name: 'Nguyễn Quang Hoàng Minh' },
+            { id: 'k25a04_nguyenminhphuong', name: 'Nguyễn Minh Phương' },
+            { id: 'k25a04_nguyenquangvinh', name: 'Nguyễn Quang Vinh' },
+            { id: 'k25a04_nguyenthanhdat', name: 'Nguyễn Thành Đạt' },
+            { id: 'k25a04_nguyendanghuyhoang', name: 'Nguyễn Đăng Huy Hoàng' },
+            { id: 'k25a04_nguyenhuonggiang', name: 'Nguyễn Hương Giang' },
+            { id: 'k25a04_doanvanquan', name: 'Đoàn Văn Quân' },
+            { id: 'k25a04_nguyenminhdat', name: 'Nguyễn Minh Đạt' },
+            { id: 'k25a04_nguyenngocchau', name: 'Nguyễn Ngọc Châu' },
+            { id: 'k25a04_nguyenkhactri', name: 'Nguyễn Khắc Trí' },
+            { id: 'k25a04_nguyenminhduc', name: 'Nguyễn Minh Đức' },
+            { id: 'k25a04_nguyenhoanganh', name: 'Nguyễn Hoàng Anh' },
+            { id: 'k25a04_nguyenvanchuong', name: 'Nguyễn Văn Chương' },
+        ];
+
+        const studentData = RAW_STUDENTS.map((item) => {
+            const topicScores = yccdData.map((t) => ({
+                id: t.id,
+                value: Math.floor(Math.random() * 40) + 60,
+            }));
+            return {
+                id: item.id,
+                fullName: item.name,
+                avg: Math.round(
+                    topicScores.reduce((a, b) => a + b.value, 0) / topicScores.length
+                ),
+                scores: topicScores,
+            };
+        });
+
+        let overviewChart,
+            studentChart,
+            currentTopicId = 1,
+            selectedStudent = studentData[0];
+
+        function initOverviewTab() {
+            const ctx = document
+                .getElementById('topic-polar-chart-overview')
+                .getContext('2d');
+            if (overviewChart) overviewChart.destroy();
+            overviewChart = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: yccdData.map((d) => `Chủ đề ${d.id}`),
+                    datasets: [
+                        {
+                            data: yccdData.map((d) => d.value),
+                            backgroundColor: yccdData.map((d) => d.fill + 'CC'),
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: 40 },
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                display: true,
+                                stepSize: 20,
+                                font: { size: 9 },
+                                backdropColor: 'transparent',
+                                color: 'rgba(0,0,0,0.25)',
+                                z: 10,
+                            },
+                            pointLabels: {
+                                display: true,
+                                centerPointLabels: true,
+                                font: { size: 10, weight: '600' },
+                                color: 'rgba(0,0,0,0.5)',
+                            },
+                        },
+                    },
+                    plugins: { legend: { display: false } },
+                },
+            });
+            renderSimplifiedTopicTable();
+            initTopicSelector();
+        }
+
+        function renderSimplifiedTopicTable() {
+            const tbody = document.querySelector('#yccd-table tbody');
+            tbody.innerHTML = yccdData
+                .map(
+                    (item) => `
+                <tr class="hover:bg-[#fafafa] transition-colors topic-row-clickable ${currentTopicId === item.id ? 'topic-row-selected' : ''
+                        }" onclick="onSelectTopicFromTable(${item.id})">
+                    <td class="px-4 py-3 text-[rgba(0,0,0,0.45)] font-medium text-xs text-center border-r border-[#f0f0f0]">${item.id
+                        }</td>
+                    <td class="px-4 py-3">
+                        <div class="font-bold text-[rgba(0,0,0,0.88)] text-xs">Chủ đề ${item.id
+                        }</div>
+                        <div class="text-[10px] text-[rgba(0,0,0,0.45)] leading-tight mt-0.5">${item.name
+                        }</div>
+                    </td>
+                </tr>
+            `
+                )
+                .join('');
+        }
+
+        function onSelectTopicFromTable(id) {
+            currentTopicId = id;
+            renderSimplifiedTopicTable();
+            document.getElementById('topic-selector-dropdown').value = id;
+            renderByTopicDetail();
+            document
+                .getElementById('integrated-topic-detail')
+                .scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function initTopicSelector() {
+            const dropdown = document.getElementById('topic-selector-dropdown');
+            dropdown.innerHTML = yccdData
+                .map(
+                    (t) => `<option value="${t.id}">Chủ đề ${t.id}: ${t.name}</option>`
+                )
+                .join('');
+            dropdown.onchange = (e) => {
+                currentTopicId = parseInt(e.target.value);
+                renderSimplifiedTopicTable();
+                renderByTopicDetail();
+            };
+            renderByTopicDetail();
+        }
+
+        function renderByTopicDetail() {
+            const topic = yccdData.find((t) => t.id === currentTopicId);
+            document.getElementById(
+                'detail-topic-title'
+            ).innerText = `Chủ đề: ${topic.name}`;
+            const tbody = document.getElementById(
+                'student-topic-progress-list-body'
+            );
+            tbody.innerHTML = studentData
+                .map((s) => {
+                    const score = s.scores.find((sc) => sc.id === currentTopicId).value;
+                    return `
+                    <tr class="hover:bg-[#fafafa] transition-colors">
+                        <td class="px-8 py-4">
+                            <div class="flex flex-col">
+                                <span class="text-[12px] text-gray-800 font-bold">${s.fullName}</span>
+                                <span class="text-[10px] text-gray-400 font-mono leading-none mt-1">Mã: ${s.id}</span>
+                            </div>
+                        </td>
+                        <td class="px-8 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="flex-grow bg-[#f5f5f5] h-2 rounded-full overflow-hidden">
+                                    <div class="h-full bg-[#1677ff] rounded-full transition-all duration-500" style="width: ${score}%"></div>
+                                </div>
+                                <span class="text-xs text-[rgba(0,0,0,0.88)] font-medium w-10 text-right">${score}%</span>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                })
+                .join('');
+        }
+
+        function renderStudentList(filter = '') {
+            const container = document.getElementById('student-list-container');
+            const filtered = studentData.filter(
+                (s) =>
+                    s.fullName.toLowerCase().includes(filter.toLowerCase()) ||
+                    s.id.toLowerCase().includes(filter.toLowerCase())
+            );
+            container.innerHTML = filtered
+                .map(
+                    (s) => `
+                <div class="student-item px-4 py-4 cursor-pointer hover:bg-gray-50 border-b border-[#f0f0f0] ${s.id === selectedStudent.id ? 'active' : ''
+                        }" onclick="onSelectStudent('${s.id}')">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 uppercase border border-gray-200">
+                            ${s.fullName.split(' ').pop().charAt(0)}
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <div class="student-name text-xs text-[rgba(0,0,0,0.88)] truncate font-semibold">${s.fullName
+                        }</div>
+                            <div class="text-[10px] text-gray-400 font-mono">Mã: ${s.id
+                        }</div>
+                        </div>
+                        <div class="text-right"><div class="text-[11px] font-black ${s.avg >= 80 ? 'text-[#52c41a]' : 'text-[#fa8c16]'
+                        }">${s.avg}%</div></div>
+                    </div>
+                </div>
+            `
+                )
+                .join('');
+        }
+
+        function onSelectStudent(id) {
+            selectedStudent = studentData.find((s) => s.id === id);
+            renderStudentList(
+                document.getElementById('student-search-input').value
+            );
+            updateStudentVisuals();
+        }
+
+        function updateStudentVisuals() {
+            document.getElementById('selected-student-name-full').innerText =
+                selectedStudent.fullName;
+            document.getElementById(
+                'selected-student-id-display'
+            ).innerText = `Mã học sinh: ${selectedStudent.id}`;
+            document.getElementById(
+                'selected-student-avg'
+            ).innerText = `${selectedStudent.avg}%`;
+
+            if (studentChart) studentChart.destroy();
+            const ctx = document
+                .getElementById('student-polar-chart')
+                .getContext('2d');
+            studentChart = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: yccdData.map((d) => `Chủ đề ${d.id}`),
+                    datasets: [
+                        {
+                            data: selectedStudent.scores.map((s) => s.value),
+                            backgroundColor: yccdData.map((d) => d.fill + 'CC'),
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: 40 },
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                display: true,
+                                stepSize: 20,
+                                font: { size: 9 },
+                                backdropColor: 'transparent',
+                                color: 'rgba(0,0,0,0.25)',
+                                z: 10,
+                            },
+                            pointLabels: {
+                                display: true,
+                                centerPointLabels: true,
+                                font: { size: 10, weight: '600' },
+                                color: 'rgba(0,0,0,0.5)',
+                            },
+                        },
+                    },
+                    plugins: { legend: { display: false } },
+                },
+            });
+
+            const tbody = document.querySelector(
+                '#student-detail-topics-table tbody'
+            );
+            tbody.innerHTML = yccdData
+                .map((item, idx) => {
+                    const studentScore = selectedStudent.scores.find(
+                        (s) => s.id === item.id
+                    ).value;
+                    return `
+                    <tr class="hover:bg-[#fafafa]">
+                        <td class="px-6 py-4 text-[rgba(0,0,0,0.45)] font-medium text-xs text-center border-r border-[#f0f0f0]">${idx + 1
+                        }</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-[rgba(0,0,0,0.88)] text-xs">Chủ đề ${item.id
+                        }</div>
+                            <div class="text-[11px] text-[rgba(0,0,0,0.45)] leading-tight mt-0.5">${item.name
+                        }</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-[9px] font-bold px-2 py-0.5 rounded border whitespace-nowrap uppercase" style="color: ${item.fill
+                        }; border-color: ${item.fill}40; background: ${item.fill
+                        }10">${item.circuit}</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="flex-grow bg-[#f5f5f5] h-2 rounded-full overflow-hidden">
+                                    <div class="h-full bg-[#1677ff] rounded-full transition-all duration-500" style="width: ${studentScore}%"></div>
+                                </div>
+                                <span class="text-xs text-[rgba(0,0,0,0.88)] font-medium w-10 text-right">${studentScore}%</span>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                })
+                .join('');
+        }
+
+        window.onload = () => {
+            initOverviewTab();
+            renderStudentList();
+            lucide.createIcons();
+            document.querySelectorAll('.ant-tabs-tab').forEach((tab) => {
+                tab.onclick = () => {
+                    document
+                        .querySelectorAll('.ant-tabs-tab')
+                        .forEach((t) => t.classList.remove('ant-tabs-tab-active'));
+                    tab.classList.add('ant-tabs-tab-active');
+                    document
+                        .querySelectorAll('.tab-content')
+                        .forEach((c) => c.classList.add('hidden'));
+                    document
+                        .getElementById(`view-${tab.dataset.tab}`)
+                        .classList.remove('hidden');
+                    if (tab.dataset.tab === 'students') updateStudentVisuals();
+                };
+            });
+        };
+
+        document.getElementById('unit-select-trigger').onclick = (e) => {
+            e.stopPropagation();
+            document.getElementById('unit-dropdown').classList.toggle('show');
+        };
+        window.onclick = () =>
+            document.getElementById('unit-dropdown').classList.remove('show');
+        document.getElementById('student-search-input').oninput = (e) =>
+            renderStudentList(e.target.value);
+    </script>
+</body>
+
+</html>
