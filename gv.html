@@ -175,7 +175,8 @@
             <div
                 class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
                 <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập</span>
+                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập hoàn
+                        thành</span>
                     <div
                         class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
                         <i data-lucide="file-text"
@@ -187,7 +188,8 @@
             <div
                 class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
                 <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ đúng lần đầu</span>
+                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ trả lời đúng lần
+                        đầu</span>
                     <div
                         class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
                         <i data-lucide="check-circle"
@@ -480,10 +482,10 @@
                         legend: { display: false },
                         tooltip: {
                             callbacks: {
-                                title: function(context) {
+                                title: function (context) {
                                     return `Thời gian học: ${context[0].label}`;
                                 },
-                                label: function(context) {
+                                label: function (context) {
                                     return `Số lượng: ${context.parsed.y} học sinh`;
                                 }
                             }
@@ -664,8 +666,8 @@
                 const isActive = i === currentPage;
                 const btn = document.createElement('button');
                 btn.className = `w-8 h-8 rounded border flex items-center justify-center transition-all ${isActive
-                        ? 'border-[#1677ff] text-[#1677ff] font-medium bg-[#e6f4ff]/20'
-                        : 'border-[#d9d9d9] text-gray-600 hover:border-[#1677ff] hover:text-[#1677ff]'
+                    ? 'border-[#1677ff] text-[#1677ff] font-medium bg-[#e6f4ff]/20'
+                    : 'border-[#d9d9d9] text-gray-600 hover:border-[#1677ff] hover:text-[#1677ff]'
                     }`;
                 btn.innerText = i;
                 btn.addEventListener('click', () => {

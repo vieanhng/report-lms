@@ -381,6 +381,12 @@
                 </div>
             </div>
 
+            <!-- Class Average YCCĐ Summary -->
+            <div class="px-8 py-5 bg-[#fafafa] border-b border-[#f0f0f0]" id="topic-yccd-summary-container">
+                <h5 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Mức độ đạt được theo từng yêu cầu cần đạt (Trung bình cả lớp)</h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="topic-yccd-summary-list"></div>
+            </div>
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm border-collapse">
                     <thead class="bg-[#fafafa] border-b border-[#f0f0f0]">
@@ -547,6 +553,10 @@
                 circuit: CIRCUITS.ALGEBRA,
                 fill: CIRCUIT_COLORS.ALGEBRA,
                 value: 85,
+                targets: [
+                    'Nhận biết tính đơn điệu bằng bảng biến thiên, đồ thị',
+                    'Xét tính đơn điệu của hàm số bằng đạo hàm'
+                ]
             },
             {
                 id: 2,
@@ -554,6 +564,10 @@
                 circuit: CIRCUITS.ALGEBRA,
                 fill: CIRCUIT_COLORS.ALGEBRA,
                 value: 78,
+                targets: [
+                    'Tìm GTLN, GTNN của hàm số trên một đoạn',
+                    'Sử dụng bảng biến thiên để tìm GTLN, GTNN'
+                ]
             },
             {
                 id: 3,
@@ -561,6 +575,10 @@
                 circuit: CIRCUITS.ALGEBRA,
                 fill: CIRCUIT_COLORS.ALGEBRA,
                 value: 92,
+                targets: [
+                    'Xác định các tiệm cận, cực trị từ đồ thị',
+                    'Khảo sát sự biến thiên và vẽ đồ thị hàm số'
+                ]
             },
             {
                 id: 4,
@@ -568,6 +586,10 @@
                 circuit: CIRCUITS.ALGEBRA,
                 fill: CIRCUIT_COLORS.ALGEBRA,
                 value: 70,
+                targets: [
+                    'Giải quyết các bài toán tối ưu hoá thực tế',
+                    'Giải quyết bài toán chuyển động vật lý'
+                ]
             },
             {
                 id: 5,
@@ -575,6 +597,10 @@
                 circuit: CIRCUITS.ALGEBRA,
                 fill: CIRCUIT_COLORS.ALGEBRA,
                 value: 65,
+                targets: [
+                    'Tìm nguyên hàm bằng định nghĩa và tính chất',
+                    'Sử dụng bảng nguyên hàm các hàm sơ cấp'
+                ]
             },
             {
                 id: 6,
@@ -582,6 +608,10 @@
                 circuit: CIRCUITS.ALGEBRA,
                 fill: CIRCUIT_COLORS.ALGEBRA,
                 value: 88,
+                targets: [
+                    'Tính tích phân bằng định nghĩa và tính chất',
+                    'Tính tích phân bằng phương pháp đổi biến, từng phần'
+                ]
             },
             {
                 id: 7,
@@ -589,6 +619,10 @@
                 circuit: CIRCUITS.ALGEBRA,
                 fill: CIRCUIT_COLORS.ALGEBRA,
                 value: 82,
+                targets: [
+                    'Tìm điểm cực trị bằng đạo hàm cấp 1',
+                    'Tìm điểm cực trị bằng đạo hàm cấp 2'
+                ]
             },
             {
                 id: 8,
@@ -596,6 +630,10 @@
                 circuit: CIRCUITS.ALGEBRA,
                 fill: CIRCUIT_COLORS.ALGEBRA,
                 value: 75,
+                targets: [
+                    'Xác định tiệm cận đứng của đồ thị',
+                    'Xác định tiệm cận ngang của đồ thị'
+                ]
             },
             {
                 id: 9,
@@ -603,6 +641,10 @@
                 circuit: CIRCUITS.ALGEBRA,
                 fill: CIRCUIT_COLORS.ALGEBRA,
                 value: 80,
+                targets: [
+                    'Tính diện tích hình phẳng giới hạn bởi các đường',
+                    'Tính thể tích vật thể tròn xoay'
+                ]
             },
             {
                 id: 10,
@@ -610,6 +652,10 @@
                 circuit: CIRCUITS.GEOMETRY,
                 fill: CIRCUIT_COLORS.GEOMETRY,
                 value: 95,
+                targets: [
+                    'Thực hiện phép toán cộng, trừ, nhân vectơ với một số',
+                    'Tính tích vô hướng của hai vectơ trong không gian'
+                ]
             },
             {
                 id: 11,
@@ -617,6 +663,10 @@
                 circuit: CIRCUITS.GEOMETRY,
                 fill: CIRCUIT_COLORS.GEOMETRY,
                 value: 84,
+                targets: [
+                    'Lập phương trình mặt phẳng đi qua 1 điểm và biết VTPT',
+                    'Tính khoảng cách từ một điểm đến một mặt phẳng'
+                ]
             },
             {
                 id: 12,
@@ -624,6 +674,10 @@
                 circuit: CIRCUITS.GEOMETRY,
                 fill: CIRCUIT_COLORS.GEOMETRY,
                 value: 72,
+                targets: [
+                    'Lập phương trình tham số và chính tắc của đường thẳng',
+                    'Xét vị trí tương đối giữa hai đường thẳng'
+                ]
             },
             {
                 id: 13,
@@ -631,6 +685,10 @@
                 circuit: CIRCUITS.GEOMETRY,
                 fill: CIRCUIT_COLORS.GEOMETRY,
                 value: 68,
+                targets: [
+                    'Lập phương trình mặt cầu biết tâm và bán kính',
+                    'Xác định tâm và bán kính từ phương trình tổng quát'
+                ]
             },
             {
                 id: 14,
@@ -638,6 +696,10 @@
                 circuit: CIRCUITS.GEOMETRY,
                 fill: CIRCUIT_COLORS.GEOMETRY,
                 value: 89,
+                targets: [
+                    'Tìm toạ độ vectơ tổng, hiệu và tích với một số',
+                    'Tính độ dài của vectơ khi biết toạ độ'
+                ]
             },
             {
                 id: 15,
@@ -645,6 +707,10 @@
                 circuit: CIRCUITS.GEOMETRY,
                 fill: CIRCUIT_COLORS.GEOMETRY,
                 value: 76,
+                targets: [
+                    'Tính tích vô hướng qua biểu thức toạ độ',
+                    'Tính góc giữa hai vectơ qua biểu thức toạ độ'
+                ]
             },
             {
                 id: 16,
@@ -652,6 +718,10 @@
                 circuit: CIRCUITS.STATS,
                 fill: CIRCUIT_COLORS.STATS,
                 value: 62,
+                targets: [
+                    'Tính khoảng biến thiên của mẫu số liệu ghép nhóm',
+                    'Xác định các tứ phân vị của mẫu số liệu ghép nhóm'
+                ]
             },
             {
                 id: 17,
@@ -659,6 +729,10 @@
                 circuit: CIRCUITS.STATS,
                 fill: CIRCUIT_COLORS.STATS,
                 value: 58,
+                targets: [
+                    'Tính phương sai của mẫu số liệu ghép nhóm',
+                    'Tính độ lệch chuẩn của mẫu số liệu ghép nhóm'
+                ]
             },
             {
                 id: 18,
@@ -666,6 +740,10 @@
                 circuit: CIRCUITS.STATS,
                 fill: CIRCUIT_COLORS.STATS,
                 value: 74,
+                targets: [
+                    'Tính xác suất có điều kiện bằng công thức',
+                    'Áp dụng công thức nhân xác suất trong bài toán'
+                ]
             },
             {
                 id: 19,
@@ -673,6 +751,10 @@
                 circuit: CIRCUITS.STATS,
                 fill: CIRCUIT_COLORS.STATS,
                 value: 67,
+                targets: [
+                    'Áp dụng công thức xác suất toàn phần',
+                    'Áp dụng công thức Bayes giải bài toán thực tế'
+                ]
             },
         ];
 
@@ -705,10 +787,18 @@
         ];
 
         const studentData = RAW_STUDENTS.map((item) => {
-            const topicScores = yccdData.map((t) => ({
-                id: t.id,
-                value: Math.floor(Math.random() * 40) + 60,
-            }));
+            const topicScores = yccdData.map((t) => {
+                const targetScores = t.targets.map((tgt) => ({
+                    name: tgt,
+                    value: Math.floor(Math.random() * 40) + 60,
+                }));
+                const avgVal = Math.round(targetScores.reduce((sum, ts) => sum + ts.value, 0) / targetScores.length);
+                return {
+                    id: t.id,
+                    value: avgVal,
+                    targets: targetScores
+                };
+            });
             return {
                 id: item.id,
                 fullName: item.name,
@@ -717,6 +807,23 @@
                 ),
                 scores: topicScores,
             };
+        });
+
+        // Calculate class average dynamically for each topic and target
+        yccdData.forEach((t) => {
+            let totalTopicScore = 0;
+            let totalTargetScores = t.targets.map(() => 0);
+            
+            studentData.forEach((s) => {
+                const sTopic = s.scores.find((sc) => sc.id === t.id);
+                totalTopicScore += sTopic.value;
+                sTopic.targets.forEach((st, idx) => {
+                    totalTargetScores[idx] += st.value;
+                });
+            });
+            
+            t.value = Math.round(totalTopicScore / studentData.length);
+            t.targetAverages = totalTargetScores.map((sum) => Math.round(sum / studentData.length));
         });
 
         let overviewChart,
@@ -754,6 +861,15 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     layout: { padding: 40 },
+                    onClick: (event, activeElements) => {
+                        if (activeElements && activeElements.length > 0) {
+                            const index = activeElements[0].index;
+                            const topic = yccdData[index];
+                            if (topic) {
+                                onSelectTopicFromTable(topic.id);
+                            }
+                        }
+                    },
                     scales: {
                         r: {
                             min: 0,
@@ -774,7 +890,22 @@
                             },
                         },
                     },
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    const index = context[0].dataIndex;
+                                    const item = yccdData[index];
+                                    return `Chủ đề ${item.id}: ${item.name}`;
+                                },
+                                label: function(context) {
+                                    const val = context.raw !== undefined ? context.raw : context.formattedValue;
+                                    return `Tỉ lệ hoàn thành trung bình: ${val}%`;
+                                }
+                            }
+                        }
+                    },
                 },
             });
             renderSimplifiedTopicTable();
@@ -836,6 +967,25 @@
                 'student-topic-progress-list-body'
             );
 
+            // Render class average YCCĐ summary
+            const summaryList = document.getElementById('topic-yccd-summary-list');
+            if (summaryList) {
+                summaryList.innerHTML = topic.targets.map((tgt, idx) => {
+                    const avg = topic.targetAverages[idx];
+                    return `
+                        <div class="bg-white p-3 rounded border border-[#f0f0f0] flex flex-col gap-2">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="font-medium text-gray-700 truncate max-w-[85%]">${tgt}</span>
+                                <span class="font-bold text-[#1677ff]">${avg}%</span>
+                            </div>
+                            <div class="bg-[#f5f5f5] h-1.5 rounded-full overflow-hidden">
+                                <div class="h-full bg-[#1677ff] rounded-full transition-all duration-500" style="width: ${avg}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
             topicFilteredStudentsCount = studentData.length;
             const totalPages = Math.ceil(topicFilteredStudentsCount / topicPageSize) || 1;
             if (topicCurrentPage > totalPages) topicCurrentPage = totalPages;
@@ -847,13 +997,17 @@
 
             tbody.innerHTML = paginatedData
                 .map((s) => {
-                    const score = s.scores.find((sc) => sc.id === currentTopicId).value;
+                    const sTopic = s.scores.find((sc) => sc.id === currentTopicId);
+                    const score = sTopic.value;
                     return `
-                    <tr class="hover:bg-[#fafafa] transition-colors">
+                    <tr class="hover:bg-[#fafafa] transition-colors cursor-pointer" onclick="toggleStudentRowExpand('${s.id}')">
                         <td class="px-8 py-4">
-                            <div class="flex flex-col">
-                                <span class="text-[12px] text-gray-800 font-bold">${s.fullName}</span>
-                                <span class="text-[10px] text-gray-400 font-mono leading-none mt-1">Mã: ${s.id}</span>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="chevron-right" id="expand-icon-${s.id}" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                                <div class="flex flex-col">
+                                    <span class="text-[12px] text-gray-800 font-bold">${s.fullName}</span>
+                                    <span class="text-[10px] text-gray-400 font-mono leading-none mt-1">Mã: ${s.id}</span>
+                                </div>
                             </div>
                         </td>
                         <td class="px-8 py-4">
@@ -865,11 +1019,46 @@
                             </div>
                         </td>
                     </tr>
+                    <tr id="student-expanded-row-${s.id}" class="hidden bg-gray-50/50">
+                        <td colspan="2" class="px-12 py-3 border-t border-[#f0f0f0]">
+                            <div class="flex flex-col gap-3 py-2">
+                                ${sTopic.targets.map(tg => `
+                                    <div class="flex items-center justify-between text-xs text-gray-600">
+                                        <span class="font-medium max-w-[70%]">${tg.name}</span>
+                                        <div class="flex items-center gap-2 w-48">
+                                            <div class="flex-grow bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                                                <div class="h-full bg-[#52c41a] rounded-full" style="width: ${tg.value}%"></div>
+                                            </div>
+                                            <span class="font-bold w-8 text-right text-gray-700">${tg.value}%</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </td>
+                    </tr>
                 `;
                 })
                 .join('');
 
             renderTopicPagination(topicFilteredStudentsCount);
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        }
+
+        function toggleStudentRowExpand(studentId) {
+            const row = document.getElementById(`student-expanded-row-${studentId}`);
+            const icon = document.getElementById(`expand-icon-${studentId}`);
+            if (row) {
+                const isHidden = row.classList.contains('hidden');
+                if (isHidden) {
+                    row.classList.remove('hidden');
+                    if (icon) icon.style.transform = 'rotate(90deg)';
+                } else {
+                    row.classList.add('hidden');
+                    if (icon) icon.style.transform = 'rotate(0deg)';
+                }
+            }
         }
 
         function renderTopicPagination(totalItems) {
@@ -1001,6 +1190,24 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     layout: { padding: 40 },
+                    onClick: (event, activeElements) => {
+                        if (activeElements && activeElements.length > 0) {
+                            const index = activeElements[0].index;
+                            const topic = yccdData[index];
+                            if (topic) {
+                                const rowId = `student-topic-row-${topic.id}`;
+                                const rowEl = document.getElementById(rowId);
+                                if (rowEl) {
+                                    rowEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                    rowEl.style.transition = 'background-color 0.5s ease';
+                                    rowEl.style.backgroundColor = '#fffb8f';
+                                    setTimeout(() => {
+                                        rowEl.style.backgroundColor = '';
+                                    }, 2000);
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         r: {
                             min: 0,
@@ -1021,7 +1228,22 @@
                             },
                         },
                     },
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    const index = context[0].dataIndex;
+                                    const item = yccdData[index];
+                                    return `Chủ đề ${item.id}: ${item.name}`;
+                                },
+                                label: function(context) {
+                                    const val = context.raw !== undefined ? context.raw : context.formattedValue;
+                                    return `Mức độ hoàn thành: ${val}%`;
+                                }
+                            }
+                        }
+                    },
                 },
             });
 
@@ -1030,21 +1252,24 @@
             );
             tbody.innerHTML = yccdData
                 .map((item, idx) => {
-                    const studentScore = selectedStudent.scores.find(
+                    const studentScoreObj = selectedStudent.scores.find(
                         (s) => s.id === item.id
-                    ).value;
+                    );
+                    const studentScore = studentScoreObj.value;
                     return `
-                    <tr class="hover:bg-[#fafafa]">
-                        <td class="px-6 py-4 text-[rgba(0,0,0,0.45)] font-medium text-xs text-center border-r border-[#f0f0f0]">${idx + 1
-                        }</td>
+                    <tr id="student-topic-row-${item.id}" class="hover:bg-[#fafafa] transition-colors cursor-pointer" onclick="toggleStudentTopicRowExpand(${item.id})">
+                        <td class="px-6 py-4 text-[rgba(0,0,0,0.45)] font-medium text-xs text-center border-r border-[#f0f0f0]">${idx + 1}</td>
                         <td class="px-6 py-4">
-                            <div class="font-bold text-[rgba(0,0,0,0.88)] text-xs">${item.name}</div>
-                            <div class="text-[11px] text-[rgba(0,0,0,0.45)] leading-tight mt-0.5">Chủ đề ${item.id}</div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="chevron-right" id="student-topic-expand-icon-${item.id}" class="w-4 h-4 text-gray-400 transition-transform shrink-0"></i>
+                                <div>
+                                    <div class="font-bold text-[rgba(0,0,0,0.88)] text-xs">${item.name}</div>
+                                    <div class="text-[11px] text-[rgba(0,0,0,0.45)] leading-tight mt-0.5">Chủ đề ${item.id}</div>
+                                </div>
+                            </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-[9px] font-bold px-2 py-0.5 rounded border whitespace-nowrap uppercase" style="color: ${item.fill
-                        }; border-color: ${item.fill}40; background: ${item.fill
-                        }10">${item.circuit}</span>
+                            <span class="text-[9px] font-bold px-2 py-0.5 rounded border whitespace-nowrap uppercase" style="color: ${item.fill}; border-color: ${item.fill}40; background: ${item.fill}10">${item.circuit}</span>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
@@ -1055,9 +1280,45 @@
                             </div>
                         </td>
                     </tr>
+                    <tr id="student-topic-expanded-row-${item.id}" class="hidden bg-gray-50/50">
+                        <td colspan="4" class="px-12 py-3 border-t border-[#f0f0f0]">
+                            <div class="flex flex-col gap-3 py-2">
+                                ${studentScoreObj.targets.map(tg => `
+                                    <div class="flex items-center justify-between text-xs text-gray-600">
+                                        <span class="font-medium max-w-[70%]">${tg.name}</span>
+                                        <div class="flex items-center gap-2 w-48">
+                                            <div class="flex-grow bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                                                <div class="h-full bg-[#52c41a] rounded-full" style="width: ${tg.value}%"></div>
+                                            </div>
+                                            <span class="font-bold w-8 text-right text-gray-700">${tg.value}%</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </td>
+                    </tr>
                 `;
                 })
                 .join('');
+
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        }
+
+        function toggleStudentTopicRowExpand(topicId) {
+            const row = document.getElementById(`student-topic-expanded-row-${topicId}`);
+            const icon = document.getElementById(`student-topic-expand-icon-${topicId}`);
+            if (row) {
+                const isHidden = row.classList.contains('hidden');
+                if (isHidden) {
+                    row.classList.remove('hidden');
+                    if (icon) icon.style.transform = 'rotate(90deg)';
+                } else {
+                    row.classList.add('hidden');
+                    if (icon) icon.style.transform = 'rotate(0deg)';
+                }
+            }
         }
 
         window.onload = () => {
