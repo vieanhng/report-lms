@@ -422,16 +422,16 @@
                 `).join('');
             }
 
-            const distPoints = Array.from({ length: 29 }, (_, i) => {
-                const x = -2 + i * 0.5;
-                const y = Math.exp(-0.5 * Math.pow((x - 5) / 2.2, 2)) * 25;
-                return { x, y: parseFloat(y.toFixed(1)) };
+            const distPoints = Array.from({ length: 25 }, (_, i) => {
+                const x = i * 0.5;
+                const y = Math.round(Math.exp(-0.5 * Math.pow((x - 5) / 2.2, 2)) * 25);
+                return { x, y };
             });
 
             new Chart(document.getElementById('distribution-bar-chart'), {
                 type: 'bar',
                 data: {
-                    labels: distPoints.map((p) => p.x),
+                    labels: distPoints.map((p) => p.x + 'h'),
                     datasets: [
                         {
                             label: 'Số lượng học sinh',
@@ -449,14 +449,46 @@
                         x: {
                             grid: { display: false },
                             ticks: { font: { size: 10 }, color: '#94a3b8' },
+                            title: {
+                                display: true,
+                                text: 'Thời gian học (giờ)',
+                                color: '#8c8c8c',
+                                font: {
+                                    size: 11,
+                                    family: 'Inter',
+                                    weight: '500'
+                                }
+                            }
                         },
                         y: {
                             border: { display: false },
                             grid: { color: '#f0f0f0' },
                             ticks: { font: { size: 10 }, color: '#94a3b8' },
+                            title: {
+                                display: true,
+                                text: 'Số lượng học sinh (em)',
+                                color: '#8c8c8c',
+                                font: {
+                                    size: 11,
+                                    family: 'Inter',
+                                    weight: '500'
+                                }
+                            }
                         },
                     },
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return `Thời gian học: ${context[0].label}`;
+                                },
+                                label: function(context) {
+                                    return `Số lượng: ${context.parsed.y} học sinh`;
+                                }
+                            }
+                        }
+                    },
                 },
             });
         }
