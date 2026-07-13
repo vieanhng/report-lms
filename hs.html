@@ -114,45 +114,78 @@
         </div>
     </div>
 
-    <!-- Filter Card -->
-    <div class="bg-white rounded-lg shadow-sm border border-[#f0f0f0] p-6 mb-6">
-        <div class="max-w-md">
-            <!-- Time Filter Only -->
-            <div class="flex flex-col gap-2">
-                <span class="text-sm font-medium text-[rgba(0,0,0,0.65)]">Thời gian:</span>
-                <div class="relative">
-                    <select id="timeFilter"
-                        class="w-full bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] focus:border-[#1677ff] focus:ring-[2px] focus:ring-[rgba(22,119,255,0.1)] px-3 py-1.5 text-sm outline-none transition-all cursor-pointer">
-                        <option value="Tuần này (11/05 - 17/05)">
-                            Tuần này (11/05 - 17/05)
-                        </option>
-                        <option value="Tuần trước (04/05 - 10/05)">
-                            Tuần trước (04/05 - 10/05)
-                        </option>
-                        <option value="Tháng này (Tháng 05)">Tháng này (Tháng 05)</option>
-                        <option value="custom">Tùy chọn khoảng thời gian</option>
-                    </select>
-                    <i data-lucide="chevron-down"
-                        class="absolute right-3 top-2.5 w-3.5 h-3.5 text-[rgba(0,0,0,0.25)] pointer-events-none"></i>
+    <!-- Filter & Streak Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <!-- Filter Card -->
+        <div class="lg:col-span-2 bg-white rounded-lg shadow-sm border border-[#f0f0f0] p-6">
+            <div class="max-w-md">
+                <!-- Time Filter Only -->
+                <div class="flex flex-col gap-2">
+                    <span class="text-sm font-medium text-[rgba(0,0,0,0.65)]">Thời gian:</span>
+                    <div class="relative">
+                        <select id="timeFilter"
+                            class="w-full bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] focus:border-[#1677ff] focus:ring-[2px] focus:ring-[rgba(22,119,255,0.1)] px-3 py-1.5 text-sm outline-none transition-all cursor-pointer">
+                            <option value="Tuần này (11/05 - 17/05)">
+                                Tuần này (11/05 - 17/05)
+                            </option>
+                            <option value="Tuần trước (04/05 - 10/05)">
+                                Tuần trước (04/05 - 10/05)
+                            </option>
+                            <option value="Tháng này (Tháng 05)">Tháng này (Tháng 05)</option>
+                            <option value="custom">Tùy chọn khoảng thời gian</option>
+                        </select>
+                        <i data-lucide="chevron-down"
+                            class="absolute right-3 top-2.5 w-3.5 h-3.5 text-[rgba(0,0,0,0.25)] pointer-events-none"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Date Picker -->
+            <div id="customDateSection"
+                class="hidden flex flex-wrap items-center gap-4 pt-4 border-t border-[#f0f0f0] mt-4">
+                <div
+                    class="flex items-center gap-2 border border-[#d9d9d9] rounded px-3 py-1 bg-white hover:border-[#1677ff] transition-all text-sm">
+                    <input type="date" class="outline-none cursor-pointer" />
+                    <span class="text-[rgba(0,0,0,0.25)]">~</span>
+                    <input type="date" class="outline-none cursor-pointer" />
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[rgba(0,0,0,0.25)]"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Custom Date Picker -->
-        <div id="customDateSection"
-            class="hidden flex flex-wrap items-center gap-4 pt-4 border-t border-[#f0f0f0] mt-4">
+        <!-- Streak Card (Outside Time Filter) -->
+        <div
+            class="bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg shadow-sm border border-orange-400 p-6 flex items-center justify-between text-white relative overflow-hidden group">
+            <!-- Decorative background flame icon -->
             <div
-                class="flex items-center gap-2 border border-[#d9d9d9] rounded px-3 py-1 bg-white hover:border-[#1677ff] transition-all text-sm">
-                <input type="date" class="outline-none cursor-pointer" />
-                <span class="text-[rgba(0,0,0,0.25)]">~</span>
-                <input type="date" class="outline-none cursor-pointer" />
-                <i data-lucide="calendar" class="w-3.5 h-3.5 text-[rgba(0,0,0,0.25)]"></i>
+                class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-300 pointer-events-none">
+                <i data-lucide="flame" class="w-32 h-32 fill-white"></i>
+            </div>
+            <div class="z-10">
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <span class="text-[10px] text-orange-100 font-bold uppercase tracking-wider">Streak học tập của
+                        bạn</span>
+                    <span
+                        class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium bg-white/20 text-white border border-white/30 leading-none shrink-0">Tính
+                        trên toàn bộ thời gian</span>
+                </div>
+                <div class="text-3xl font-extrabold leading-none flex items-baseline gap-1">
+                    <span>15</span>
+                    <span class="text-sm font-normal text-orange-100">ngày liên tiếp</span>
+                </div>
+                <p class="text-[11px] text-orange-100 mt-3 font-light leading-relaxed">
+                    Duy trì việc tự học hàng ngày để đạt kết quả tốt nhất!
+                </p>
+            </div>
+            <div
+                class="z-10 w-14 h-14 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-inner shrink-0 ml-4">
+                <i data-lucide="flame" class="w-8 h-8 fill-white animate-pulse"></i>
             </div>
         </div>
     </div>
 
     <!-- Statistics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div
             class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
             <div class="flex items-center justify-between mb-3">
@@ -176,18 +209,6 @@
                 </div>
             </div>
             <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">15</span>
-        </div>
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Thời gian TB / Câu hỏi</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
-                    <i data-lucide="timer"
-                        class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
-                </div>
-            </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">45s</span>
         </div>
         <div
             class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
@@ -254,7 +275,13 @@
             <div class="bg-white rounded-lg shadow-sm border border-[#f0f0f0] overflow-hidden h-[400px] flex flex-col">
                 <div class="px-6 py-4 border-b border-[#f0f0f0] flex items-center justify-between">
                     <div>
-                        <h4 class="font-semibold text-sm">Tỉ lệ hoàn thành YCCĐ (Toàn thời gian)</h4>
+                        <div class="flex items-center gap-2 mb-0.5">
+                            <h4 class="font-semibold text-sm">Tỉ lệ hoàn thành YCCĐ</h4>
+                            <span
+                                class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-[#e6f4ff] text-[#1677ff] border border-[#91caee] leading-none shrink-0">Tính
+                                trên toàn bộ thời gian
+                            </span>
+                        </div>
                         <span class="text-[10px] text-[rgba(0,0,0,0.45)] uppercase font-medium">Mức độ đạt được mục tiêu
                             kiến thức</span>
                     </div>
@@ -715,8 +742,8 @@
                     <tr class="hover:bg-[#fafafa] transition-colors">
                         <td class="px-6 py-4 text-[rgba(0,0,0,0.45)] font-medium text-xs text-center border-r border-[#f0f0f0]">${idx + 1}</td>
                         <td class="px-6 py-4">
-                            <div class="font-bold text-[rgba(0,0,0,0.88)] text-xs">Chủ đề ${item.id}</div>
-                            <div class="text-[11px] text-[rgba(0,0,0,0.45)] leading-tight mt-0.5">${item.name}</div>
+                            <div class="font-bold text-[rgba(0,0,0,0.88)] text-xs">${item.name}</div>
+                            <div class="text-[11px] text-[rgba(0,0,0,0.45)] leading-tight mt-0.5">Chủ đề ${item.id}</div>
                         </td>
                         <td class="px-6 py-4">
                             <span class="text-[9px] font-bold px-2 py-0.5 rounded border whitespace-nowrap uppercase" style="color: ${item.fill}; border-color: ${item.fill}40; background: ${item.fill}10">${item.circuit}</span>

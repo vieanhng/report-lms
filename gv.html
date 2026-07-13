@@ -117,9 +117,9 @@
                 <div class="relative">
                     <select id="time-range-select"
                         class="w-full bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] focus:border-[#1677ff] px-3 py-1.5 text-sm outline-none transition-all cursor-pointer appearance-none">
-                        <option value="week">Tuần này</option>
-                        <option value="prev-week">Tuần trước</option>
-                        <option value="month">Tháng này</option>
+                        <option value="week">Tuần này (11/05 - 17/05)</option>
+                        <option value="prev-week">Tuần trước (04/05 - 10/05)</option>
+                        <option value="month">Tháng này (Tháng 05)</option>
                         <option value="custom">Tùy chọn khoảng thời gian</option>
                     </select>
                     <i data-lucide="chevron-down"
@@ -140,58 +140,60 @@
         </div>
     </div>
 
-    <!-- Statistics -->
-    <div class="mb-3">
-        <h3 class="text-sm font-semibold text-gray-700">Các chỉ số trung bình trên toàn bộ học sinh được thống kê</h3>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Thời gian làm/câu hỏi</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
-                    <i data-lucide="timer"
-                        class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
-                </div>
-            </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">42s</span>
+    <!-- Statistics Section -->
+    <div class="border border-[#d9d9d9] rounded-lg p-6 mb-6">
+        <div class="mb-4">
+            <h3 class="text-sm font-semibold text-gray-700">Các chỉ số trung bình trên toàn bộ học sinh được thống kê</h3>
         </div>
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiên học với AI/ học sinh</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
-                    <i data-lucide="sparkles"
-                        class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div
+                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Thời gian làm/câu hỏi</span>
+                    <div
+                        class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
+                        <i data-lucide="timer"
+                            class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+                    </div>
                 </div>
+                <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">42s</span>
             </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">12.5</span>
-        </div>
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
-                    <i data-lucide="file-text"
-                        class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+            <div
+                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiên học với AI/ học sinh</span>
+                    <div
+                        class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
+                        <i data-lucide="sparkles"
+                            class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+                    </div>
                 </div>
+                <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">12.5</span>
             </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">8.4</span>
-        </div>
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ đúng lần đầu</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
-                    <i data-lucide="check-circle"
-                        class="w-4 h-4 text-[#52c41a] group-hover:scale-110 transition-transform"></i>
+            <div
+                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu</span>
+                    <div
+                        class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
+                        <i data-lucide="file-text"
+                            class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                    </div>
                 </div>
+                <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">8.4</span>
             </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
+            <div
+                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ đúng lần đầu</span>
+                    <div
+                        class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
+                        <i data-lucide="check-circle"
+                            class="w-4 h-4 text-[#52c41a] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+                <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
+            </div>
         </div>
     </div>
 
