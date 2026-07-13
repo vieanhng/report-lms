@@ -141,9 +141,10 @@
     </div>
 
     <!-- Statistics Section -->
-    <div class="border border-[#d9d9d9] rounded-lg p-6 mb-6">
+    <div class="bg-white/50 backdrop-blur-[2px] shadow-sm border border-[#d9d9d9] rounded-lg p-6 mb-6">
         <div class="mb-4">
-            <h3 class="text-sm font-semibold text-gray-700">Các chỉ số trung bình trên toàn bộ học sinh được thống kê</h3>
+            <h3 class="text-sm font-semibold text-gray-700">Các chỉ số trung bình trên toàn bộ học sinh được thống kê
+            </h3>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div
@@ -161,7 +162,8 @@
             <div
                 class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
                 <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiên học với AI/ học sinh</span>
+                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiên học với AI/ học
+                        sinh</span>
                     <div
                         class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
                         <i data-lucide="sparkles"
@@ -173,7 +175,7 @@
             <div
                 class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
                 <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu</span>
+                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập</span>
                     <div
                         class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
                         <i data-lucide="file-text"
@@ -287,7 +289,8 @@
         </div>
 
         <!-- Pagination Section -->
-        <div class="px-6 py-4 border-t border-[#f0f0f0] flex flex-col sm:flex-row items-center justify-between gap-4 bg-white text-sm text-gray-600">
+        <div
+            class="px-6 py-4 border-t border-[#f0f0f0] flex flex-col sm:flex-row items-center justify-between gap-4 bg-white text-sm text-gray-600">
             <div class="flex items-center gap-2">
                 <span>Hiển thị</span>
                 <select id="page-size-select"
@@ -299,11 +302,13 @@
                 <span id="pagination-info" class="text-xs text-gray-400 ml-2"></span>
             </div>
             <div class="flex items-center gap-1">
-                <button id="prev-page" class="w-8 h-8 rounded border border-[#d9d9d9] flex items-center justify-center hover:border-[#1677ff] hover:text-[#1677ff] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                <button id="prev-page"
+                    class="w-8 h-8 rounded border border-[#d9d9d9] flex items-center justify-center hover:border-[#1677ff] hover:text-[#1677ff] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
                     <i data-lucide="chevron-left" class="w-4 h-4"></i>
                 </button>
                 <div id="page-numbers" class="flex gap-1"></div>
-                <button id="next-page" class="w-8 h-8 rounded border border-[#d9d9d9] flex items-center justify-center hover:border-[#1677ff] hover:text-[#1677ff] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                <button id="next-page"
+                    class="w-8 h-8 rounded border border-[#d9d9d9] flex items-center justify-center hover:border-[#1677ff] hover:text-[#1677ff] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
                     <i data-lucide="chevron-right" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -626,11 +631,10 @@
             for (let i = 1; i <= totalPages; i++) {
                 const isActive = i === currentPage;
                 const btn = document.createElement('button');
-                btn.className = `w-8 h-8 rounded border flex items-center justify-center transition-all ${
-                    isActive
+                btn.className = `w-8 h-8 rounded border flex items-center justify-center transition-all ${isActive
                         ? 'border-[#1677ff] text-[#1677ff] font-medium bg-[#e6f4ff]/20'
                         : 'border-[#d9d9d9] text-gray-600 hover:border-[#1677ff] hover:text-[#1677ff]'
-                }`;
+                    }`;
                 btn.innerText = i;
                 btn.addEventListener('click', () => {
                     currentPage = i;
