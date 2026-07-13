@@ -10,13 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Cal-Heatmap v4 dependencies -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css" />
-    <!-- Tooltip plugin for cal-heatmap -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
+
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -41,6 +35,20 @@
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #bfbfbf;
+        }
+
+        /* Stats Collapse Animation */
+        .stats-collapse {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.4s ease-out;
+        }
+
+        .stats-collapse.show {
+            max-height: 400px;
+            opacity: 1;
+            padding-top: 0.5rem;
         }
 
         select {
@@ -114,147 +122,279 @@
         </div>
     </div>
 
-    <!-- Filter & Streak Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <!-- Filter Card -->
-        <div class="lg:col-span-2 bg-white rounded-lg shadow-sm border border-[#f0f0f0] p-6">
-            <div class="max-w-md">
-                <!-- Time Filter Only -->
-                <div class="flex flex-col gap-2">
-                    <span class="text-sm font-medium text-[rgba(0,0,0,0.65)]">Thời gian:</span>
-                    <div class="relative">
-                        <select id="timeFilter"
-                            class="w-full bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] focus:border-[#1677ff] focus:ring-[2px] focus:ring-[rgba(22,119,255,0.1)] px-3 py-1.5 text-sm outline-none transition-all cursor-pointer">
-                            <option value="all-time" selected>Toàn thời gian</option>
-                            <option value="week">Tuần này (11/05 - 17/05)</option>
-                            <option value="prev-week">Tuần trước (04/05 - 10/05)</option>
-                            <option value="month">Tháng này (Tháng 05)</option>
-                            <option value="custom">Tùy chọn khoảng thời gian</option>
-                        </select>
-                        <i data-lucide="chevron-down"
-                            class="absolute right-3 top-2.5 w-3.5 h-3.5 text-[rgba(0,0,0,0.25)] pointer-events-none"></i>
+    <!-- 30-Day Activity Heatmap & Streak Section (Combined) -->
+    <div class="bg-white rounded-lg shadow-sm border border-[#f0f0f0] p-6 mb-6 flex flex-col justify-between">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Left: Heatmap Grid (Col span 3) -->
+            <div class="md:col-span-3 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-semibold text-sm text-[rgba(0,0,0,0.88)]">Mức độ chăm chỉ học tập (30 ngày
+                                qua)</h4>
+                            <p class="text-xs text-gray-400 mt-1">Biểu diễn tần suất tự học bằng chỉ số ngọn lửa (Lửa bé
+                                lửa to)</p>
+                        </div>
                     </div>
+
+                    <!-- 30 flame containers -->
+                    <div class="flex flex-wrap gap-2.5 py-2" id="heatmap-30-days">
+                        <!-- Dynamic rendering via JS -->
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="flex items-center gap-3 text-[10px] text-gray-500 font-medium mt-3 flex-wrap">
+                    <span class="text-gray-400">Mức độ:</span>
+                    <span class="flex items-center gap-1"><i data-lucide="flame"
+                            class="w-3.5 h-3.5 text-gray-200 fill-gray-100"></i> Nghỉ</span>
+                    <span class="flex items-center gap-1"><i data-lucide="flame"
+                            class="w-4 h-4 text-orange-300 fill-orange-200"></i> Ít</span>
+                    <span class="flex items-center gap-1"><i data-lucide="flame"
+                            class="w-5 h-5 text-orange-400 fill-orange-300"></i> Vừa</span>
+                    <span class="flex items-center gap-1"><i data-lucide="flame"
+                            class="w-6.5 h-6.5 text-orange-500 fill-orange-400"></i> Khá</span>
+                    <span class="flex items-center gap-1"><i data-lucide="flame"
+                            class="w-8 h-8 text-red-500 fill-red-400 animate-pulse"></i> Nhiều</span>
                 </div>
             </div>
 
-            <!-- Custom Date Picker -->
-            <div id="customDateSection"
-                class="hidden flex flex-wrap items-center gap-4 pt-4 border-t border-[#f0f0f0] mt-4">
+            <!-- Right: Streak Card (Col span 1) -->
+            <div class="md:col-span-1 flex items-center justify-center">
                 <div
-                    class="flex items-center gap-2 border border-[#d9d9d9] rounded px-3 py-1 bg-white hover:border-[#1677ff] transition-all text-sm">
-                    <input type="date" class="outline-none cursor-pointer" />
-                    <span class="text-[rgba(0,0,0,0.25)]">~</span>
-                    <input type="date" class="outline-none cursor-pointer" />
-                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[rgba(0,0,0,0.25)]"></i>
+                    class="bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl shadow-sm border border-orange-400 p-4 flex flex-col justify-between text-white relative overflow-hidden group w-full shadow-inner">
+                    <!-- Decorative background flame icon -->
+                    <div
+                        class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-300 pointer-events-none">
+                        <i data-lucide="flame" class="w-24 h-24 fill-white"></i>
+                    </div>
+                    <div class="z-10">
+                        <div class="flex flex-col gap-1 mb-2">
+                            <span class="text-[9px] text-orange-100 font-bold uppercase tracking-wider">Streak học tập
+                                của bạn</span>
+                        </div>
+                        <div class="text-3xl font-extrabold leading-none flex items-baseline gap-1 mt-2">
+                            <span class="text-4xl">15</span>
+                            <span class="text-[10px] font-normal text-orange-100">ngày liên tiếp</span>
+                        </div>
+                        <p class="text-[10px] text-orange-50 mt-2 font-light leading-snug">
+                            Duy trì việc tự học hàng ngày nhé!
+                        </p>
+                    </div>
+                    <div
+                        class="z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-inner mt-2 self-end">
+                        <i data-lucide="flame" class="w-5 h-5 fill-white animate-pulse"></i>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Streak Card (Outside Time Filter) -->
-        <div
-            class="bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg shadow-sm border border-orange-400 p-6 flex items-center justify-between text-white relative overflow-hidden group">
-            <!-- Decorative background flame icon -->
-            <div
-                class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-300 pointer-events-none">
-                <i data-lucide="flame" class="w-32 h-32 fill-white"></i>
+        <!-- Hover status -->
+        <div class="pt-3 border-t border-[#f0f0f0] text-xs text-gray-500 flex items-center gap-1.5 mt-4"
+            id="heatmap-status">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-orange-500"></i>
+            <span>Di chuột qua mỗi ngọn lửa để xem chi tiết thời gian học từng ngày.</span>
+        </div>
+    </div>
+
+    <!-- Time Filter Section (Moved here) -->
+    <div
+        class="bg-white px-5 py-3.5 rounded-lg shadow-sm border border-[#f0f0f0] mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0">
+                <i data-lucide="filter" class="w-4 h-4 text-[#1677ff]"></i>
             </div>
-            <div class="z-10">
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                    <span class="text-[10px] text-orange-100 font-bold uppercase tracking-wider">Streak học tập của
-                        bạn</span>
-                    <span
-                        class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium bg-white/20 text-white border border-white/30 leading-none shrink-0">Tính
-                        trên toàn bộ thời gian</span>
-                </div>
-                <div class="text-3xl font-extrabold leading-none flex items-baseline gap-1">
-                    <span>15</span>
-                    <span class="text-sm font-normal text-orange-100">ngày liên tiếp</span>
-                </div>
-                <p class="text-[11px] text-orange-100 mt-3 font-light leading-relaxed">
-                    Duy trì việc tự học hàng ngày để đạt kết quả tốt nhất!
-                </p>
+            <div>
+                <span class="text-xs font-bold text-gray-800 uppercase tracking-wider">Bộ lọc thời gian</span>
+                <p class="text-[11px] text-gray-400 mt-0.5">Thay đổi khoảng thời gian xem báo cáo học tập bên dưới</p>
             </div>
-            <div
-                class="z-10 w-14 h-14 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-inner shrink-0 ml-4">
-                <i data-lucide="flame" class="w-8 h-8 fill-white animate-pulse"></i>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <div class="relative w-full sm:w-64">
+                <select id="timeFilter"
+                    class="w-full bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] focus:border-[#1677ff] px-3 py-1.5 text-sm outline-none transition-all cursor-pointer">
+                    <option value="all-time" selected>Toàn thời gian</option>
+                    <option value="week">Tuần này (11/05 - 17/05)</option>
+                    <option value="prev-week">Tuần trước (04/05 - 10/05)</option>
+                    <option value="month">Tháng này (Tháng 05)</option>
+                    <option value="custom">Tùy chọn khoảng thời gian</option>
+                </select>
+                <i data-lucide="chevron-down"
+                    class="absolute right-3 top-2.5 w-3.5 h-3.5 text-[rgba(0,0,0,0.25)] pointer-events-none"></i>
+            </div>
+            <!-- Custom Date Picker -->
+            <div id="customDateSection"
+                class="hidden flex items-center gap-2 border border-[#d9d9d9] rounded px-3 py-1.5 bg-white hover:border-[#1677ff] transition-all text-xs w-full sm:w-auto">
+                <input type="date" class="outline-none cursor-pointer" />
+                <span class="text-[rgba(0,0,0,0.25)]">~</span>
+                <input type="date" class="outline-none cursor-pointer" />
+                <i data-lucide="calendar" class="w-3.5 h-3.5 text-[rgba(0,0,0,0.25)]"></i>
             </div>
         </div>
     </div>
 
-    <!-- Statistics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiên tự học với AI</span>
+    <!-- Statistics Grid Section -->
+    <div
+        class="bg-white/50 backdrop-blur-[2px] shadow-sm border border-[#f0f0f0] rounded-lg p-5 mb-6 flex flex-col gap-4">
+        <!-- Nhóm 1: Thống kê trên chế độ học tập -->
+        <div>
+            <div class="mb-3 flex items-center gap-2">
+                <i data-lucide="book-open" class="w-4 h-4 text-gray-500"></i>
+                <h3 class="text-xs font-semibold text-gray-700">Thống kê trên chế độ học tập</h3>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <!-- Tổng thời gian học -->
                 <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
-                    <i data-lucide="sparkles"
-                        class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#13c2c2] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tổng thời gian
+                            học</span>
+                        <div
+                            class="w-8 h-8 rounded-lg bg-[rgba(19,194,194,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(19,194,194,0.15)] transition-colors">
+                            <i data-lucide="clock"
+                                class="w-4 h-4 text-[#13c2c2] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                    <span id="hs-total-time"
+                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">124h 15m</span>
+                </div>
+
+                <!-- Số phiên tự học với AI -->
+                <div id="hs-ai-sessions-card"
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[115px] cursor-pointer select-none active:scale-95 pb-3.5"
+                    title="Bấm vào để xem/ẩn các Chỉ số thống kê trên câu hỏi">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiên tự học với
+                                AI</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
+                                <i data-lucide="sparkles"
+                                    class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="hs-ai-sessions"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">245</span>
+                    </div>
+                    <div
+                        class="flex items-center gap-1 text-[10px] text-[#1677ff] font-semibold mt-3 pt-2 border-t border-[#f5f5f5] group-hover:text-[#0050b3] transition-colors w-full">
+                        <span id="hs-ai-action-text">Xem chỉ số câu hỏi</span>
+                        <i data-lucide="chevron-down" id="hs-ai-action-icon"
+                            class="w-3 h-3 transition-transform duration-200"></i>
+                    </div>
+                </div>
+
+                <!-- Số phiếu bài tập đã hoàn thành -->
+                <div
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#fa8c16] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập đã hoàn
+                            thành</span>
+                        <div
+                            class="w-8 h-8 rounded-lg bg-[rgba(250,140,22,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,140,22,0.15)] transition-colors">
+                            <i data-lucide="file-text"
+                                class="w-4 h-4 text-[#fa8c16] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                    <span id="hs-completed-homework"
+                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">145</span>
+                </div>
+
+                <!-- Số bài giảng đã hoàn thành -->
+                <div
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#13c2c2] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số bài giảng đã hoàn
+                            thành</span>
+                        <div
+                            class="w-8 h-8 rounded-lg bg-[rgba(19,194,194,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(19,194,194,0.15)] transition-colors">
+                            <i data-lucide="book-open"
+                                class="w-4 h-4 text-[#13c2c2] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                    <span id="hs-completed-lectures"
+                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">72</span>
+                </div>
+
+                <!-- Số đề thi đã hoàn thành -->
+                <div
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số đề thi đã hoàn
+                            thành</span>
+                        <div
+                            class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
+                            <i data-lucide="file-text"
+                                class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                    <span id="hs-completed-exams"
+                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">95</span>
                 </div>
             </div>
-            <span id="hs-ai-sessions" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">245</span>
         </div>
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số đề thi đã hoàn thành</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
-                    <i data-lucide="file-text"
-                        class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+
+        <!-- Đường kẻ phân tách tinh tế và Nhóm 2 lồng trong collapse container -->
+        <div id="hs-question-stats-container" class="stats-collapse">
+            <!-- Đường kẻ phân tách tinh tế -->
+            <div class="border-t border-[#f0f0f0] my-4"></div>
+
+            <!-- Nhóm 2: Chỉ số thống kê trên câu hỏi -->
+            <div>
+                <div class="mb-3 flex items-center gap-2">
+                    <i data-lucide="help-circle" class="w-4 h-4 text-gray-500"></i>
+                    <h3 class="text-xs font-semibold text-gray-700">Chỉ số thống kê trên câu hỏi</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- Thời gian làm/câu hỏi -->
+                    <div
+                        class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#8c8c8c] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Thời gian làm/câu
+                                hỏi</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(140,140,140,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(140,140,140,0.15)] transition-colors">
+                                <i data-lucide="timer"
+                                    class="w-4 h-4 text-[#8c8c8c] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="hs-avg-question-time"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">45s</span>
+                    </div>
+
+                    <!-- % trả lời đúng lần đầu -->
+                    <div
+                        class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">% trả lời đúng lần
+                                đầu</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
+                                <i data-lucide="check-circle"
+                                    class="w-4 h-4 text-[#52c41a] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="hs-correct-rate"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
+                    </div>
+
+                    <!-- Tỉ lệ xem gợi ý -->
+                    <div
+                        class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#faad14] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ xem gợi
+                                ý</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(250,173,20,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,173,20,0.15)] transition-colors">
+                                <i data-lucide="lightbulb"
+                                    class="w-4 h-4 text-[#faad14] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="hs-hint-rate"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">14%</span>
+                    </div>
                 </div>
             </div>
-            <span id="hs-completed-exams" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">95</span>
-        </div>
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#13c2c2] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số bài giảng đã hoàn thành</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(19,194,194,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(19,194,194,0.15)] transition-colors">
-                    <i data-lucide="book-open"
-                        class="w-4 h-4 text-[#13c2c2] group-hover:scale-110 transition-transform"></i>
-                </div>
-            </div>
-            <span id="hs-completed-lectures" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">72</span>
-        </div>
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">% trả lời đúng lần đầu</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
-                    <i data-lucide="check-circle"
-                        class="w-4 h-4 text-[#52c41a] group-hover:scale-110 transition-transform"></i>
-                </div>
-            </div>
-            <span id="hs-correct-rate" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
-        </div>
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#fa8c16] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập đã hoàn
-                    thành</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(250,140,22,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,140,22,0.15)] transition-colors">
-                    <i data-lucide="file-text"
-                        class="w-4 h-4 text-[#fa8c16] group-hover:scale-110 transition-transform"></i>
-                </div>
-            </div>
-            <span id="hs-completed-homework" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">145</span>
-        </div>
-        <div
-            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#faad14] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ xem gợi ý</span>
-                <div
-                    class="w-8 h-8 rounded-lg bg-[rgba(250,173,20,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,173,20,0.15)] transition-colors">
-                    <i data-lucide="lightbulb"
-                        class="w-4 h-4 text-[#faad14] group-hover:scale-110 transition-transform"></i>
-                </div>
-            </div>
-            <span id="hs-hint-rate" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">14%</span>
         </div>
     </div>
 
@@ -267,17 +407,14 @@
                 <div class="px-6 py-4 border-b border-[#f0f0f0] flex items-center justify-between">
                     <div>
                         <h4 class="font-semibold text-sm">Thống kê thời gian học</h4>
-                        <span id="pieTimeLabel" class="text-[10px] text-[rgba(0,0,0,0.45)] uppercase font-medium">Toàn thời gian</span>
+                        <span id="pieTimeLabel" class="text-[10px] text-[rgba(0,0,0,0.45)] uppercase font-medium">Toàn
+                            thời gian</span>
                     </div>
                     <i data-lucide="info" class="w-3.5 h-3.5 text-[rgba(0,0,0,0.25)] cursor-help"></i>
                 </div>
                 <div class="p-6 flex-grow grid grid-cols-1 md:grid-cols-2 gap-6 items-center overflow-hidden">
-                    <!-- Cột trái: Chỉ số và Chú thích -->
+                    <!-- Cột trái: Chú thích -->
                     <div class="flex flex-col justify-center h-full py-2">
-                        <span class="text-gray-400 text-xs font-medium mb-1">Tổng thời gian theo bộ lọc</span>
-                        <div class="text-3xl font-bold text-[#1677ff] mb-6 flex items-baseline gap-1">
-                            <span id="hs-total-time">124h 15m</span>
-                        </div>
                         <!-- Custom Legend -->
                         <div id="behavior-legend-hs"
                             class="flex flex-col gap-2.5 overflow-y-auto custom-scrollbar pr-2">
@@ -338,33 +475,6 @@
                     <div class="flex items-center justify-center relative h-full w-full">
                         <canvas id="overviewChart"></canvas>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Row 2: Biểu đồ hoạt động học tập -->
-        <div class="bg-white rounded-lg shadow-sm border border-[#f0f0f0] w-full flex flex-col">
-            <div class="px-6 py-4 border-b border-[#f0f0f0] flex items-center justify-between">
-                <h4 class="font-semibold text-sm">Biểu đồ hoạt động học tập</h4>
-                <div class="flex items-center gap-2 text-[10px] text-[rgba(0,0,0,0.45)] uppercase font-medium">
-                    <span>Ít</span>
-                    <div class="w-3 h-3 bg-[#ebedf0] rounded-sm"></div>
-                    <div class="w-3 h-3 bg-[#9be9a8] rounded-sm"></div>
-                    <div class="w-3 h-3 bg-[#40c463] rounded-sm"></div>
-                    <div class="w-3 h-3 bg-[#30a14e] rounded-sm"></div>
-                    <div class="w-3 h-3 bg-[#216e39] rounded-sm"></div>
-                    <span>Nhiều</span>
-                </div>
-            </div>
-            <div class="p-6 flex-1 flex flex-col justify-center overflow-hidden bg-[#fafafa]/30">
-                <!-- Heatmap target -->
-                <div id="heatmap" class="w-full overflow-x-auto custom-scrollbar py-4"></div>
-
-                <div
-                    class="mt-auto pt-4 border-t border-[#f0f0f0] flex items-center gap-2 text-[11px] text-slate-500 italic">
-                    <i data-lucide="info" class="w-3.5 h-3.5 text-blue-500"></i>
-                    Dữ liệu hoạt động học tập được ghi nhận theo từng ngày trong năm
-                    2026.
                 </div>
             </div>
         </div>
@@ -651,8 +761,7 @@
         // =============================================
         const behaviorData = [
             { name: 'Tự học với AI', value: 35, color: '#1677ff' },
-            { name: 'Bài tập AI', value: 25, color: '#52c41a' },
-            { name: 'Bài tập truyền thống', value: 20, color: '#faad14' },
+            { name: 'Phiếu bài tập', value: 45, color: '#52c41a' },
             { name: 'Xem bài giảng', value: 10, color: '#722ed1' },
             { name: 'Làm đề thi', value: 10, color: '#ff4d4f' },
         ];
@@ -671,7 +780,8 @@
                 correctRate: '78%',
                 homeworkCompleted: 145,
                 hintViewRate: '14%',
-                behaviorValues: [45, 25, 20, 5, 5]
+                avgQuestionTime: '45s',
+                behaviorValues: [45, 45, 5, 5]
             },
             'week': {
                 totalHours: '12h 45m',
@@ -681,7 +791,8 @@
                 correctRate: '82%',
                 homeworkCompleted: 21,
                 hintViewRate: '8%',
-                behaviorValues: [35, 25, 20, 10, 10]
+                avgQuestionTime: '38s',
+                behaviorValues: [35, 45, 10, 10]
             },
             'prev-week': {
                 totalHours: '14h 20m',
@@ -691,7 +802,8 @@
                 correctRate: '76%',
                 homeworkCompleted: 24,
                 hintViewRate: '9%',
-                behaviorValues: [38, 22, 20, 10, 10]
+                avgQuestionTime: '46s',
+                behaviorValues: [38, 42, 10, 10]
             },
             'month': {
                 totalHours: '52h 30m',
@@ -701,7 +813,8 @@
                 correctRate: '79%',
                 homeworkCompleted: 92,
                 hintViewRate: '12%',
-                behaviorValues: [40, 26, 19, 8, 7]
+                avgQuestionTime: '42s',
+                behaviorValues: [40, 45, 8, 7]
             },
             'custom': {
                 totalHours: '32h 10m',
@@ -711,7 +824,8 @@
                 correctRate: '80%',
                 homeworkCompleted: 58,
                 hintViewRate: '11%',
-                behaviorValues: [39, 25, 21, 8, 7]
+                avgQuestionTime: '40s',
+                behaviorValues: [39, 46, 8, 7]
             }
         };
 
@@ -727,6 +841,7 @@
             document.getElementById('hs-completed-homework').innerText = data.homeworkCompleted;
             document.getElementById('hs-hint-rate').innerText = data.hintViewRate;
             document.getElementById('hs-total-time').innerText = data.totalHours;
+            document.getElementById('hs-avg-question-time').innerText = data.avgQuestionTime;
 
             // 2. Update Donut Chart
             if (hsDonutChartInstance) {
@@ -761,79 +876,105 @@
                 pieTimeLabel.textContent = 'Khoảng ngày tùy chọn';
             } else {
                 customDateSection.classList.add('hidden');
-                pieTimeLabel.textContent = 
+                pieTimeLabel.textContent =
                     val === 'all-time' ? 'Toàn thời gian' :
-                    val === 'week' ? 'Tuần này (11/05 - 17/05)' :
-                    val === 'prev-week' ? 'Tuần trước (04/05 - 10/05)' : 'Tháng này (Tháng 05)';
+                        val === 'week' ? 'Tuần này (11/05 - 17/05)' :
+                            val === 'prev-week' ? 'Tuần trước (04/05 - 10/05)' : 'Tháng này (Tháng 05)';
             }
             updateStudentDashboard(val);
         });
 
-        // --- CAL-HEATMAP INITIALIZATION ---
-        function initCalHeatmap() {
-            const startDate = new Date(2026, 0, 1);
+        // --- 30-DAY LEARNING CONSISTENCY HEATMAP ---
+        function render30DayHeatmap() {
+            const container = document.getElementById('heatmap-30-days');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const today = new Date();
             const data = [];
-            for (let i = 0; i < 365; i++) {
-                const date = new Date(startDate);
-                date.setDate(startDate.getDate() + i);
+
+            // Generate mock data for the last 30 days
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+
+                // Random learning duration between 0 and 150 minutes
+                let value = 0;
+                if (Math.random() > 0.25) {
+                    value = Math.floor(Math.random() * 150) + 15;
+                }
                 data.push({
-                    date: date.toISOString(),
-                    value: Math.floor(Math.random() * 100),
+                    date: date,
+                    value: value
                 });
             }
 
-            const cal = new CalHeatmap();
-            cal.paint(
-                {
-                    itemSelector: '#heatmap',
-                    data: {
-                        source: data,
-                        x: 'date',
-                        y: 'value',
-                    },
-                    range: 12,
-                    domain: {
-                        type: 'month',
-                        gutter: 12,
-                        label: {
-                            text: 'MMM',
-                            position: 'top',
-                            align: 'start',
-                            offset: { x: 0, y: 0 },
-                        },
-                    },
-                    subDomain: {
-                        type: 'day',
-                        radius: 2,
-                        width: 12,
-                        height: 12,
-                        gutter: 4,
-                    },
-                    scale: {
-                        color: {
-                            scheme: 'Greens',
-                            type: 'threshold',
-                            domain: [1, 20, 40, 60, 80],
-                            range: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
-                        },
-                    },
-                    date: { start: new Date(2026, 0, 1) },
-                },
-                [
-                    [
-                        Tooltip,
-                        {
-                            text: (timestamp, value, dayjsDate) => {
-                                return (
-                                    (value ? value + ' phút' : 'Không có hoạt động') +
-                                    ' vào ' +
-                                    dayjsDate.format('LL')
-                                );
-                            },
-                        },
-                    ],
-                ]
-            );
+            // Render 30 cells containing flames
+            data.forEach((day) => {
+                let colorClass = 'text-gray-200 fill-gray-100';
+                let sizeClass = 'w-3.5 h-3.5';
+                let levelText = 'Không học';
+
+                if (day.value === 0) {
+                    colorClass = 'text-gray-200 fill-gray-100';
+                    sizeClass = 'w-3.5 h-3.5';
+                    levelText = 'Không học';
+                } else if (day.value > 0 && day.value <= 30) {
+                    colorClass = 'text-orange-300 fill-orange-200'; // small fire
+                    sizeClass = 'w-5 h-5';
+                    levelText = `Học ${day.value} phút (Ít)`;
+                } else if (day.value > 30 && day.value <= 60) {
+                    colorClass = 'text-orange-400 fill-orange-300'; // medium fire
+                    sizeClass = 'w-6.5 h-6.5';
+                    levelText = `Học ${day.value} phút (Trung bình)`;
+                } else if (day.value > 60 && day.value <= 120) {
+                    colorClass = 'text-orange-500 fill-orange-400'; // large fire
+                    sizeClass = 'w-8 h-8';
+                    levelText = `Học ${day.value} phút (Khá)`;
+                } else if (day.value > 120) {
+                    colorClass = 'text-red-500 fill-red-400 animate-pulse'; // giant fire
+                    sizeClass = 'w-9 h-9';
+                    levelText = `Học ${day.value} phút (Nhiều)`;
+                }
+
+                const formattedDate = day.date.toLocaleDateString('vi-VN', {
+                    day: 'numeric',
+                    month: 'numeric'
+                });
+                const tooltipText = `Ngày ${formattedDate}: ${levelText}`;
+
+                // Create cell container (square)
+                const cell = document.createElement('div');
+                cell.className = 'w-11 h-11 flex items-center justify-center bg-[#fafafa]/50 border border-gray-100 rounded-lg cursor-pointer transition-all duration-150 hover:bg-orange-50/30 hover:scale-105 hover:shadow-sm';
+                cell.setAttribute('title', tooltipText);
+
+                // Create Lucide flame icon inside it
+                const icon = document.createElement('i');
+                icon.setAttribute('data-lucide', 'flame');
+                icon.className = `${colorClass} ${sizeClass} transition-all duration-150`;
+                cell.appendChild(icon);
+
+                cell.addEventListener('mouseenter', () => {
+                    document.getElementById('heatmap-status').innerHTML = `
+                        <i data-lucide="flame" class="w-4 h-4 text-orange-500 fill-orange-500 animate-pulse"></i>
+                        <span class="font-semibold text-gray-800">${tooltipText}</span>
+                    `;
+                    if (window.lucide) window.lucide.createIcons();
+                });
+                cell.addEventListener('mouseleave', () => {
+                    document.getElementById('heatmap-status').innerHTML = `
+                        <i data-lucide="info" class="w-3.5 h-3.5 text-orange-500"></i>
+                        <span>Di chuột qua mỗi ngọn lửa để xem chi tiết thời gian học từng ngày.</span>
+                    `;
+                    if (window.lucide) window.lucide.createIcons();
+                });
+
+                container.appendChild(cell);
+            });
+
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
         }
 
         // --- CHART.JS PIE CHART (Behavior) ---
@@ -1031,12 +1172,40 @@
         }
 
         window.onload = function () {
-            initCalHeatmap();
+            render30DayHeatmap();
             renderYccdDetailTable();
-            
+
             // Khởi chạy dữ liệu theo bộ lọc mặc định
             const initialRange = document.getElementById('timeFilter').value;
             updateStudentDashboard(initialRange);
+
+            // Bắt sự kiện click để hiển thị/ẩn Chỉ số câu hỏi
+            const aiSessionsCard = document.getElementById('hs-ai-sessions-card');
+            const questionStatsContainer = document.getElementById('hs-question-stats-container');
+
+            if (aiSessionsCard && questionStatsContainer) {
+                const actionText = document.getElementById('hs-ai-action-text');
+                const actionIcon = document.getElementById('hs-ai-action-icon');
+
+                aiSessionsCard.addEventListener('click', () => {
+                    const isOpen = questionStatsContainer.classList.contains('show');
+                    if (isOpen) {
+                        questionStatsContainer.classList.remove('show');
+                        aiSessionsCard.classList.remove('border-[#1677ff]', 'ring-2', 'ring-[#1677ff]/10');
+                        if (actionText) actionText.innerText = 'Xem chỉ số câu hỏi';
+                        if (actionIcon) actionIcon.style.transform = 'rotate(0deg)';
+                    } else {
+                        questionStatsContainer.classList.add('show');
+                        aiSessionsCard.classList.add('border-[#1677ff]', 'ring-2', 'ring-[#1677ff]/10');
+                        if (actionText) actionText.innerText = 'Ẩn chỉ số câu hỏi';
+                        if (actionIcon) actionIcon.style.transform = 'rotate(180deg)';
+                        // Cuộn mượt đến chỉ số câu hỏi
+                        setTimeout(() => {
+                            questionStatsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 200);
+                    }
+                });
+            }
         };
     </script>
 </body>

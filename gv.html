@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Báo cáo học tập - Ant Design Style</title>
+    <title>Báo cáo tần suất học tập</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -39,6 +39,20 @@
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #bfbfbf;
+        }
+
+        /* Stats Collapse Animation */
+        .stats-collapse {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.4s ease-out;
+        }
+
+        .stats-collapse.show {
+            max-height: 400px;
+            opacity: 1;
+            padding-top: 0.5rem;
         }
 
         .tree-node-content:hover {
@@ -142,87 +156,167 @@
     </div>
 
     <!-- Statistics Section -->
-    <div class="bg-white/50 backdrop-blur-[2px] shadow-sm border border-[#d9d9d9] rounded-lg p-6 mb-6">
-        <div class="mb-4">
-            <h3 class="text-sm font-semibold text-gray-700">Các chỉ số trung bình trên toàn bộ học sinh được thống kê
-            </h3>
+    <div
+        class="bg-white/50 backdrop-blur-[2px] shadow-sm border border-[#d9d9d9] rounded-lg p-6 mb-6 flex flex-col gap-6">
+        <!-- Nhóm 1: Hoạt động & Chế độ học tập -->
+        <div>
+            <div class="mb-4 flex items-center gap-2">
+                <i data-lucide="book-open" class="w-4 h-4 text-gray-500"></i>
+                <h3 class="text-sm font-semibold text-gray-700">Thống kê trung bình trên chế độ học tập</h3>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <!-- Thời lượng học trung bình / học sinh -->
+                <div
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#13c2c2] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Thời lượng học trung
+                            bình / học sinh</span>
+                        <div
+                            class="w-8 h-8 rounded-lg bg-[rgba(19,194,194,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(19,194,194,0.15)] transition-colors">
+                            <i data-lucide="clock"
+                                class="w-4 h-4 text-[#13c2c2] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                    <span id="avg-learning-time"
+                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">19.6 giờ</span>
+                </div>
+
+                <!-- Số phiên học với AI / học sinh -->
+                <div id="gv-ai-sessions-card"
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[115px] cursor-pointer select-none active:scale-95 pb-3.5"
+                    title="Bấm vào để xem/ẩn các Chỉ số thống kê trên câu hỏi">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiên học với AI/
+                                học sinh</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
+                                <i data-lucide="sparkles"
+                                    class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="avg-ai-sessions"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">85.4</span>
+                    </div>
+                    <div
+                        class="flex items-center gap-1 text-[10px] text-[#1677ff] font-semibold mt-3 pt-2 border-t border-[#f5f5f5] group-hover:text-[#0050b3] transition-colors w-full">
+                        <span id="gv-ai-action-text">Xem chỉ số câu hỏi</span>
+                        <i data-lucide="chevron-down" id="gv-ai-action-icon"
+                            class="w-3 h-3 transition-transform duration-200"></i>
+                    </div>
+                </div>
+
+                <!-- Số phiếu bài tập hoàn thành -->
+                <div
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập hoàn
+                            thành</span>
+                        <div
+                            class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
+                            <i data-lucide="file-text"
+                                class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                    <span id="avg-homework-completed"
+                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">48.2</span>
+                </div>
+
+                <!-- Số bài giảng hoàn thành / học sinh -->
+                <div
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#fa8c16] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số bài giảng hoàn
+                            thành / học sinh</span>
+                        <div
+                            class="w-8 h-8 rounded-lg bg-[rgba(250,140,22,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,140,22,0.15)] transition-colors">
+                            <i data-lucide="book-open"
+                                class="w-4 h-4 text-[#fa8c16] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                    <span id="avg-lectures-completed"
+                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">32.6</span>
+                </div>
+
+                <!-- Số đề thi hoàn thành / học sinh -->
+                <div
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#ff4d4f] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số đề thi hoàn
+                            thành / học sinh</span>
+                        <div
+                            class="w-8 h-8 rounded-lg bg-[rgba(255,77,79,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(255,77,79,0.15)] transition-colors">
+                            <i data-lucide="award"
+                                class="w-4 h-4 text-[#ff4d4f] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                    <span id="avg-exams-completed"
+                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">32.4</span>
+                </div>
+            </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
-            <div
-                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Thời gian làm/câu hỏi</span>
+
+        <!-- Đường kẻ phân tách tinh tế và Nhóm 2 lồng trong collapse container -->
+        <div id="gv-question-stats-container" class="stats-collapse">
+            <!-- Đường kẻ phân tách tinh tế -->
+            <div class="border-t border-[#f0f0f0] my-4"></div>
+
+            <!-- Nhóm 2: Chỉ số thống kê trên câu hỏi -->
+            <div>
+                <div class="mb-4 flex items-center gap-2">
+                    <i data-lucide="help-circle" class="w-4 h-4 text-gray-500"></i>
+                    <h3 class="text-sm font-semibold text-gray-700">Chỉ số thống kê trên câu hỏi</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Thời gian làm/câu hỏi -->
                     <div
-                        class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
-                        <i data-lucide="timer"
-                            class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+                        class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Thời gian làm/câu
+                                hỏi</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
+                                <i data-lucide="timer"
+                                    class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="avg-question-time"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">42s</span>
+                    </div>
+
+                    <!-- Tỉ lệ trả lời đúng lần đầu -->
+                    <div
+                        class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ trả lời đúng
+                                lần
+                                đầu</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
+                                <i data-lucide="check-circle"
+                                    class="w-4 h-4 text-[#52c41a] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="avg-correct-rate"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
+                    </div>
+
+                    <!-- Tỉ lệ xem gợi ý -->
+                    <div
+                        class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#faad14] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ xem gợi
+                                ý</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(250,173,20,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,173,20,0.15)] transition-colors">
+                                <i data-lucide="lightbulb"
+                                    class="w-4 h-4 text-[#faad14] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="avg-hint-rate"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">18%</span>
                     </div>
                 </div>
-                <span id="avg-question-time" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">42s</span>
-            </div>
-            <div
-                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiên học với AI/ học
-                        sinh</span>
-                    <div
-                        class="w-8 h-8 rounded-lg bg-[rgba(22,119,255,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(22,119,255,0.15)] transition-colors">
-                        <i data-lucide="sparkles"
-                            class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
-                    </div>
-                </div>
-                <span id="avg-ai-sessions" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">85.4</span>
-            </div>
-            <div
-                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập hoàn
-                        thành</span>
-                    <div
-                        class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
-                        <i data-lucide="file-text"
-                            class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
-                    </div>
-                </div>
-                <span id="avg-homework-completed" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">48.2</span>
-            </div>
-            <div
-                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#fa8c16] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số bài giảng hoàn
-                        thành / học sinh</span>
-                    <div
-                        class="w-8 h-8 rounded-lg bg-[rgba(250,140,22,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,140,22,0.15)] transition-colors">
-                        <i data-lucide="book-open"
-                            class="w-4 h-4 text-[#fa8c16] group-hover:scale-110 transition-transform"></i>
-                    </div>
-                </div>
-                <span id="avg-lectures-completed" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">32.6</span>
-            </div>
-            <div
-                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ trả lời đúng lần
-                        đầu</span>
-                    <div
-                        class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
-                        <i data-lucide="check-circle"
-                            class="w-4 h-4 text-[#52c41a] group-hover:scale-110 transition-transform"></i>
-                    </div>
-                </div>
-                <span id="avg-correct-rate" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
-            </div>
-            <div
-                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#faad14] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ xem gợi ý / học sinh</span>
-                    <div
-                        class="w-8 h-8 rounded-lg bg-[rgba(250,173,20,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,173,20,0.15)] transition-colors">
-                        <i data-lucide="lightbulb"
-                            class="w-4 h-4 text-[#faad14] group-hover:scale-110 transition-transform"></i>
-                    </div>
-                </div>
-                <span id="avg-hint-rate" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">18%</span>
             </div>
         </div>
     </div>
@@ -234,13 +328,8 @@
                 <h4 class="font-semibold text-sm">Thống kê thời gian học</h4>
             </div>
             <div class="p-6 flex-grow grid grid-cols-1 md:grid-cols-2 gap-6 items-center overflow-hidden">
-                <!-- Cột trái: Chỉ số và Chú thích -->
+                <!-- Cột trái: Chú thích -->
                 <div class="flex flex-col justify-center h-full py-2">
-                    <span class="text-gray-400 text-xs font-medium mb-1">Tổng thời gian theo bộ lọc</span>
-                    <div class="text-3xl font-bold text-[#1677ff] mb-6 flex items-baseline gap-1">
-                        <span id="total-learning-time">342.5</span>
-                        <span class="text-sm font-medium text-gray-500">giờ</span>
-                    </div>
                     <!-- Custom Legend -->
                     <div id="behavior-legend-gv" class="flex flex-col gap-2.5 overflow-y-auto custom-scrollbar pr-2">
                         <!-- Rendered dynamically via JS -->
@@ -263,7 +352,8 @@
         <!-- Phân bố thời gian học theo tuần và hành vi -->
         <div class="ant-card overflow-hidden h-[400px] flex flex-col lg:col-span-2">
             <div class="px-6 py-4 border-b border-[#f0f0f0] flex justify-between items-center bg-[#fafafa]/50">
-                <h4 class="font-semibold text-sm text-[rgba(0,0,0,0.88)]" id="stacked-chart-title">Phân bố thời gian học theo tuần và hành vi</h4>
+                <h4 class="font-semibold text-sm text-[rgba(0,0,0,0.88)]" id="stacked-chart-title">Phân bố thời gian học
+                    theo tuần và hành vi</h4>
                 <span class="text-xs text-[rgba(0,0,0,0.45)]">Đơn vị: Giờ học</span>
             </div>
             <div class="p-6 flex-grow relative w-full h-full">
@@ -274,38 +364,14 @@
 
     <!-- Student List -->
     <div class="ant-card overflow-hidden">
-        <div class="px-6 py-4 border-b border-[#f0f0f0] flex flex-col gap-4 bg-[#fafafa]/50">
-            <div class="flex justify-between items-center">
-                <h4 class="font-semibold text-sm">Danh sách học sinh chi tiết</h4>
-                <div class="flex gap-2">
-                    <div class="relative">
-                        <i data-lucide="search" class="absolute left-2.5 top-2.5 w-4 h-4 text-gray-300"></i>
-                        <input type="text" id="search-name" placeholder="Tìm tên..."
-                            class="pl-8 pr-3 py-1.5 border border-[#d9d9d9] rounded text-sm hover:border-[#1677ff] outline-none" />
-                    </div>
-                    <button
-                        class="bg-[#1677ff] hover:bg-[#4096ff] text-white px-4 py-1.5 rounded text-sm font-medium flex items-center gap-2">
-                        <i data-lucide="download" class="w-4 h-4"></i> Xuất dữ liệu
-                    </button>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-6 p-3 bg-white border border-[#f0f0f0] rounded-md text-xs">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="timer" class="w-4 h-4 text-gray-400"></i>
-                    <span class="font-semibold text-gray-600">Thời gian học (phút):</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <input type="number" id="min-time" placeholder="≥ Phút"
-                        class="w-24 px-2 py-1 border border-[#d9d9d9] rounded outline-none" />
-                    <span class="text-gray-300">~</span>
-                    <input type="number" id="max-time" placeholder="≤ Phút"
-                        class="w-24 px-2 py-1 border border-[#d9d9d9] rounded outline-none" />
-                    <button id="clear-filters" class="hidden text-red-500 hover:underline">
-                        Xóa lọc
-                    </button>
-                </div>
-                <div class="ml-auto text-gray-400 italic" id="row-count"></div>
+        <div class="px-6 py-4 border-b border-[#f0f0f0] flex justify-between items-center bg-[#fafafa]/50">
+            <h4 class="font-semibold text-sm">Danh sách học sinh chi tiết</h4>
+            <div class="flex items-center gap-4">
+                <span class="text-xs text-gray-400 italic" id="row-count"></span>
+                <button
+                    class="bg-[#1677ff] hover:bg-[#4096ff] text-white px-4 py-1.5 rounded text-sm font-medium flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i> Xuất dữ liệu
+                </button>
             </div>
         </div>
 
@@ -313,19 +379,120 @@
             <table class="w-full text-left text-sm border-collapse" id="student-table">
                 <thead class="bg-[#fafafa] text-gray-800 border-b border-[#f0f0f0]">
                     <tr>
-                        <th class="px-6 py-4 font-semibold w-16 text-[10px] text-gray-400 uppercase">
+                        <th class="px-6 py-4 font-semibold w-16 text-[10px] text-gray-400 uppercase select-none">
                             STT
                         </th>
-                        <th class="px-6 py-4 font-semibold">Học sinh</th>
-                        <th class="px-6 py-4 font-semibold">Lớp học</th>
-                        <th class="px-6 py-4 font-semibold">Thời gian học</th>
-                        <th class="px-6 py-4 font-semibold">Phiên học AI</th>
-                        <th class="px-6 py-4 font-semibold">Phiếu bài tập</th>
-                        <th class="px-6 py-4 font-semibold">Bài giảng</th>
-                        <th class="px-6 py-4 font-semibold">TB/Câu hỏi</th>
-                        <th class="px-6 py-4 font-semibold">Đúng lần đầu</th>
-                        <th class="px-6 py-4 font-semibold">Xem gợi ý</th>
-                        <th class="px-6 py-4 font-semibold text-center w-24">Thao tác</th>
+                        <th class="px-6 py-4 font-semibold select-none">Học sinh</th>
+                        <th class="px-6 py-4 font-semibold select-none">Lớp học</th>
+                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
+                            onclick="handleSort('time')">
+                            <div class="flex items-center gap-1">
+                                <span>Thời gian học</span>
+                                <i data-lucide="chevrons-up-down"
+                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
+                                    id="sort-icon-time"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
+                            onclick="handleSort('aiSessions')">
+                            <div class="flex items-center gap-1">
+                                <span>Phiên học AI</span>
+                                <i data-lucide="chevrons-up-down"
+                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
+                                    id="sort-icon-aiSessions"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
+                            onclick="handleSort('homeworkCompleted')">
+                            <div class="flex items-center gap-1">
+                                <span>Phiếu bài tập</span>
+                                <i data-lucide="chevrons-up-down"
+                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
+                                    id="sort-icon-homeworkCompleted"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
+                            onclick="handleSort('completedLectures')">
+                            <div class="flex items-center gap-1">
+                                <span>Bài giảng</span>
+                                <i data-lucide="chevrons-up-down"
+                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
+                                    id="sort-icon-completedLectures"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
+                            onclick="handleSort('completedExams')">
+                            <div class="flex items-center gap-1">
+                                <span>Đề thi</span>
+                                <i data-lucide="chevrons-up-down"
+                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
+                                    id="sort-icon-completedExams"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
+                            onclick="handleSort('avgQuestionTime')">
+                            <div class="flex items-center gap-1">
+                                <span>TB/Câu hỏi</span>
+                                <i data-lucide="chevrons-up-down"
+                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
+                                    id="sort-icon-avgQuestionTime"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
+                            onclick="handleSort('correctRate')">
+                            <div class="flex items-center gap-1">
+                                <span>Đúng lần đầu</span>
+                                <i data-lucide="chevrons-up-down"
+                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
+                                    id="sort-icon-correctRate"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
+                            onclick="handleSort('hintRate')">
+                            <div class="flex items-center gap-1">
+                                <span>Xem gợi ý</span>
+                                <i data-lucide="chevrons-up-down"
+                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
+                                    id="sort-icon-hintRate"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-4 font-semibold text-center w-24 select-none">Thao tác</th>
+                    </tr>
+                    <tr class="bg-white border-t border-[#f0f0f0]">
+                        <th class="px-4 py-2"></th>
+                        <th class="px-4 py-2">
+                            <input type="text" id="col-filter-name" placeholder="Lọc tên..."
+                                class="w-full px-2 py-1 text-xs border border-[#d9d9d9] rounded outline-none hover:border-[#1677ff] focus:border-[#1677ff] transition-all font-normal text-gray-600" />
+                        </th>
+                        <th class="px-4 py-2">
+                            <select id="col-filter-class"
+                                class="w-full px-1 py-1 text-xs border border-[#d9d9d9] rounded outline-none hover:border-[#1677ff] focus:border-[#1677ff] bg-white transition-all font-normal text-gray-600">
+                                <option value="">Tất cả</option>
+                                <option value="12A2">12A2</option>
+                                <option value="12A3">12A3</option>
+                            </select>
+                        </th>
+                        <th class="px-4 py-2">
+                            <div class="flex items-center gap-1">
+                                <input type="number" id="col-filter-time-min" placeholder="Min"
+                                    class="w-12 px-1 py-1 text-[11px] border border-[#d9d9d9] rounded outline-none hover:border-[#1677ff] focus:border-[#1677ff] font-normal text-gray-600" />
+                                <span class="text-gray-300">-</span>
+                                <input type="number" id="col-filter-time-max" placeholder="Max"
+                                    class="w-12 px-1 py-1 text-[11px] border border-[#d9d9d9] rounded outline-none hover:border-[#1677ff] focus:border-[#1677ff] font-normal text-gray-600" />
+                            </div>
+                        </th>
+                        <th class="px-4 py-2"></th>
+                        <th class="px-4 py-2"></th>
+                        <th class="px-4 py-2"></th>
+                        <th class="px-4 py-2"></th>
+                        <th class="px-4 py-2"></th>
+                        <th class="px-4 py-2"></th>
+                        <th class="px-4 py-2"></th>
+                        <th class="px-4 py-2 text-center">
+                            <button id="col-filter-clear"
+                                class="w-full px-2 py-1 text-xs bg-[#fafafa] hover:bg-red-50 text-red-500 hover:text-red-700 border border-[#d9d9d9] hover:border-red-200 rounded font-semibold transition-all">Xóa
+                                lọc</button>
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#f0f0f0]"></tbody>
@@ -389,8 +556,7 @@
 
         const behaviorData = [
             { name: 'Tự học với AI', value: 35, color: '#1677ff' },
-            { name: 'Bài tập AI', value: 25, color: '#52c41a' },
-            { name: 'Bài tập truyền thống', value: 20, color: '#faad14' },
+            { name: 'Phiếu bài tập', value: 45, color: '#52c41a' },
             { name: 'Xem bài giảng', value: 10, color: '#722ed1' },
             { name: 'Làm đề thi', value: 10, color: '#ff4d4f' },
         ];
@@ -416,6 +582,7 @@
                     Math.random() * 60
                 )}m`,
                 completedLectures: Math.floor(Math.random() * 8) + 3,
+                completedExams: Math.floor(Math.random() * 6) + 2,
             };
         });
 
@@ -437,15 +604,16 @@
                 avgAISessions: '85.4',
                 avgHomework: '48.2',
                 avgLectures: '32.6',
+                avgExams: '32.4',
+                avgLearningTime: '19.6 giờ',
                 avgCorrectRate: '78%',
                 avgHintRate: '18%',
-                behaviorValues: [120, 85.6, 68.5, 34.2, 34.2],
-                stackedTitle: 'Phân bố thời gian học theo tuần và hành vi (Toàn thời gian)',
+                behaviorValues: [120, 154.1, 34.2, 34.2],
+                stackedTitle: 'Phân bố thời lượng học theo các chế độ học',
                 stackedLabels: ['Tuần 1 (13/04 - 19/04)', 'Tuần 2 (20/04 - 26/04)', 'Tuần 3 (27/04 - 03/05)', 'Tuần 4 (04/05 - 10/05)', 'Tuần 5 (11/05 - 17/05)'],
                 stackedDatasets: [
                     [22.0, 25.0, 21.0, 28.0, 24.0],
-                    [16.0, 18.0, 15.0, 20.0, 16.6],
-                    [13.0, 14.0, 12.0, 16.0, 13.5],
+                    [29.0, 32.0, 27.0, 36.0, 30.1],
                     [6.0, 7.0, 7.0, 8.0, 6.2],
                     [6.0, 7.0, 6.0, 8.0, 7.2]
                 ]
@@ -456,15 +624,16 @@
                 avgAISessions: '12.5',
                 avgHomework: '8.4',
                 avgLectures: '5.6',
+                avgExams: '5.2',
+                avgLearningTime: '1.6 giờ',
                 avgCorrectRate: '82%',
                 avgHintRate: '8%',
-                behaviorValues: [25.5, 18.2, 14.6, 7.3, 7.2],
+                behaviorValues: [25.5, 32.8, 7.3, 7.2],
                 stackedTitle: 'Phân bộ thời gian học theo ngày và hành vi (Tuần này)',
                 stackedLabels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
                 stackedDatasets: [
                     [3.2, 4.1, 3.8, 4.5, 4.0, 3.5, 2.4],
-                    [2.1, 2.8, 2.5, 3.1, 2.9, 2.6, 2.2],
-                    [1.8, 2.2, 2.0, 2.5, 2.3, 2.0, 1.8],
+                    [3.9, 5.0, 4.5, 5.6, 5.2, 4.6, 4.0],
                     [0.9, 1.1, 1.0, 1.2, 1.1, 1.0, 1.0],
                     [0.8, 1.0, 0.9, 1.2, 1.1, 1.2, 1.0]
                 ]
@@ -475,15 +644,16 @@
                 avgAISessions: '14.2',
                 avgHomework: '9.6',
                 avgLectures: '6.2',
+                avgExams: '6.1',
+                avgLearningTime: '1.9 giờ',
                 avgCorrectRate: '76%',
                 avgHintRate: '9%',
-                behaviorValues: [29.5, 21.1, 16.8, 8.4, 8.4],
+                behaviorValues: [29.5, 37.9, 8.4, 8.4],
                 stackedTitle: 'Phân bộ thời gian học theo ngày và hành vi (Tuần trước)',
                 stackedLabels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
                 stackedDatasets: [
                     [3.8, 4.5, 4.2, 5.0, 4.8, 4.2, 3.0],
-                    [2.5, 3.2, 2.8, 3.5, 3.3, 3.0, 2.8],
-                    [2.0, 2.5, 2.2, 2.8, 2.6, 2.4, 2.3],
+                    [4.5, 5.7, 5.0, 6.3, 5.9, 5.4, 5.1],
                     [1.0, 1.2, 1.1, 1.4, 1.3, 1.2, 1.2],
                     [0.9, 1.1, 1.0, 1.3, 1.2, 1.3, 1.6]
                 ]
@@ -494,15 +664,16 @@
                 avgAISessions: '42.8',
                 avgHomework: '24.5',
                 avgLectures: '16.8',
+                avgExams: '18.5',
+                avgLearningTime: '4.1 giờ',
                 avgCorrectRate: '79%',
                 avgHintRate: '14%',
-                behaviorValues: [65.0, 46.4, 37.1, 18.5, 18.5],
+                behaviorValues: [65.0, 83.5, 18.5, 18.5],
                 stackedTitle: 'Phân bộ thời gian học theo tuần và hành vi (Tháng này)',
                 stackedLabels: ['Tuần 1 (01-07)', 'Tuần 2 (08-14)', 'Tuần 3 (15-21)', 'Tuần 4 (22-28)', 'Tuần 5 (29-31)'],
                 stackedDatasets: [
                     [14.2, 15.5, 13.8, 14.8, 6.7],
-                    [10.1, 11.2, 9.8, 10.5, 4.8],
-                    [8.0, 9.0, 7.8, 8.4, 3.9],
+                    [18.1, 20.2, 17.6, 18.9, 8.7],
                     [4.0, 4.5, 3.9, 4.2, 1.9],
                     [4.0, 4.5, 3.9, 4.2, 1.9]
                 ]
@@ -513,15 +684,16 @@
                 avgAISessions: '28.2',
                 avgHomework: '16.4',
                 avgLectures: '10.8',
+                avgExams: '11.8',
+                avgLearningTime: '2.7 giờ',
                 avgCorrectRate: '80%',
                 avgHintRate: '11%',
-                behaviorValues: [42.0, 30.0, 24.0, 12.0, 12.0],
+                behaviorValues: [42.0, 54.0, 12.0, 12.0],
                 stackedTitle: 'Phân bộ thời gian học theo tuần và hành vi (Khoảng tùy chọn)',
                 stackedLabels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
                 stackedDatasets: [
                     [10.0, 11.0, 10.5, 10.5],
-                    [7.2, 7.8, 7.5, 7.5],
-                    [5.8, 6.2, 6.0, 6.0],
+                    [13.0, 14.0, 13.5, 13.5],
                     [2.9, 3.1, 3.0, 3.0],
                     [2.9, 3.1, 3.0, 3.0]
                 ]
@@ -658,16 +830,9 @@
                             barPercentage: 0.5
                         },
                         {
-                            label: 'Bài tập AI',
+                            label: 'Phiếu bài tập',
                             data: [],
                             backgroundColor: '#52c41a',
-                            borderRadius: 2,
-                            barPercentage: 0.5
-                        },
-                        {
-                            label: 'Bài tập truyền thống',
-                            data: [],
-                            backgroundColor: '#faad14',
                             borderRadius: 2,
                             barPercentage: 0.5
                         },
@@ -741,11 +906,12 @@
             if (!data) return;
 
             // 1. Update text indicators
-            document.getElementById('total-learning-time').innerText = data.totalHours;
+            document.getElementById('avg-learning-time').innerText = data.avgLearningTime;
             document.getElementById('avg-question-time').innerText = data.avgQuestionTime;
             document.getElementById('avg-ai-sessions').innerText = data.avgAISessions;
             document.getElementById('avg-homework-completed').innerText = data.avgHomework;
             document.getElementById('avg-lectures-completed').innerText = data.avgLectures;
+            document.getElementById('avg-exams-completed').innerText = data.avgExams;
             document.getElementById('avg-correct-rate').innerText = data.avgCorrectRate;
             document.getElementById('avg-hint-rate').innerText = data.avgHintRate;
 
@@ -788,7 +954,7 @@
 
             // 6. Update student records
             students.forEach((s) => {
-                let hours, mins, lectures, aiSessions, homeworkCompleted, avgQuestionTime, correctRate, hintRate;
+                let hours, mins, lectures, aiSessions, homeworkCompleted, completedExams, avgQuestionTime, correctRate, hintRate;
                 const seed = s.id;
                 if (timeRange === 'all-time') {
                     hours = (seed % 15) + 12;
@@ -796,6 +962,7 @@
                     lectures = (seed % 7) + 24;
                     aiSessions = (seed % 30) + 70;
                     homeworkCompleted = (seed % 20) + 40;
+                    completedExams = (seed % 10) + 25;
                     avgQuestionTime = (seed % 15) + 35 + 's';
                     correctRate = (seed % 20) + 70 + '%';
                     hintRate = (seed % 15) + 10 + '%';
@@ -805,6 +972,7 @@
                     lectures = (seed % 5) + 3;
                     aiSessions = (seed % 5) + 10;
                     homeworkCompleted = (seed % 4) + 6;
+                    completedExams = (seed % 3) + 3;
                     avgQuestionTime = (seed % 10) + 32 + 's';
                     correctRate = (seed % 15) + 75 + '%';
                     hintRate = (seed % 8) + 4 + '%';
@@ -814,6 +982,7 @@
                     lectures = (seed % 6) + 4;
                     aiSessions = (seed % 6) + 11;
                     homeworkCompleted = (seed % 5) + 7;
+                    completedExams = (seed % 4) + 4;
                     avgQuestionTime = (seed % 12) + 38 + 's';
                     correctRate = (seed % 15) + 70 + '%';
                     hintRate = (seed % 8) + 5 + '%';
@@ -823,6 +992,7 @@
                     lectures = (seed % 12) + 10;
                     aiSessions = (seed % 15) + 35;
                     homeworkCompleted = (seed % 10) + 20;
+                    completedExams = (seed % 8) + 12;
                     avgQuestionTime = (seed % 14) + 34 + 's';
                     correctRate = (seed % 18) + 72 + '%';
                     hintRate = (seed % 12) + 8 + '%';
@@ -832,6 +1002,7 @@
                     lectures = (seed % 8) + 6;
                     aiSessions = (seed % 10) + 23;
                     homeworkCompleted = (seed % 8) + 12;
+                    completedExams = (seed % 6) + 8;
                     avgQuestionTime = (seed % 12) + 35 + 's';
                     correctRate = (seed % 15) + 73 + '%';
                     hintRate = (seed % 10) + 6 + '%';
@@ -840,6 +1011,7 @@
                 s.completedLectures = lectures;
                 s.aiSessions = aiSessions;
                 s.homeworkCompleted = homeworkCompleted;
+                s.completedExams = completedExams;
                 s.avgQuestionTime = avgQuestionTime;
                 s.correctRate = correctRate;
                 s.hintRate = hintRate;
@@ -949,33 +1121,68 @@
 
         function renderStudentTable() {
             const tbody = document.querySelector('#student-table tbody');
-            const min = document.getElementById('min-time').value;
-            const max = document.getElementById('max-time').value;
-            const search = document
-                .getElementById('search-name')
-                .value.toLowerCase();
 
-            const filtered = students.filter((s) => {
-                // Lọc theo lớp học
+            // Lấy giá trị lọc từ các cột
+            const filterName = document.getElementById('col-filter-name')?.value.toLowerCase() || '';
+            const filterClass = document.getElementById('col-filter-class')?.value || '';
+            const filterTimeMin = document.getElementById('col-filter-time-min')?.value || '';
+            const filterTimeMax = document.getElementById('col-filter-time-max')?.value || '';
+
+            let filtered = students.filter((s) => {
+                // 1. Lọc theo cây đơn vị lớp học
                 const classKey = s.className.toLowerCase();
                 if (selectedUnitKeys.length > 0 && !selectedUnitKeys.includes(classKey)) return false;
 
+                // 2. Lọc theo lớp học ở cột (col-filter-class)
+                if (filterClass && s.className !== filterClass) return false;
+
+                // 3. Lọc theo tên học sinh
+                if (filterName && !s.name.toLowerCase().includes(filterName)) return false;
+
+                // 4. Lọc theo thời gian học (phút)
                 const mins =
                     s.time.match(/(\d+)h/)[1] * 60 +
                     parseInt(s.time.match(/(\d+)m/)[1]);
-                if (min && mins < min) return false;
-                if (max && mins > max) return false;
-                if (search && !s.name.toLowerCase().includes(search)) return false;
+                if (filterTimeMin && mins < parseInt(filterTimeMin)) return false;
+                if (filterTimeMax && mins > parseInt(filterTimeMax)) return false;
+
                 return true;
             });
+
+            // Sắp xếp dữ liệu theo cột được chọn
+            if (sortColumn && sortOrder) {
+                filtered.sort((a, b) => {
+                    let valA, valB;
+
+                    if (sortColumn === 'time') {
+                        const matchA = a.time.match(/(\d+)h\s*(\d+)m/);
+                        const matchB = b.time.match(/(\d+)h\s*(\d+)m/);
+                        valA = matchA ? parseInt(matchA[1]) * 60 + parseInt(matchA[2]) : 0;
+                        valB = matchB ? parseInt(matchB[1]) * 60 + parseInt(matchB[2]) : 0;
+                    } else if (sortColumn === 'avgQuestionTime') {
+                        valA = parseInt(a.avgQuestionTime) || 0;
+                        valB = parseInt(b.avgQuestionTime) || 0;
+                    } else if (sortColumn === 'correctRate') {
+                        valA = parseInt(a.correctRate) || 0;
+                        valB = parseInt(b.correctRate) || 0;
+                    } else if (sortColumn === 'hintRate') {
+                        valA = parseInt(a.hintRate) || 0;
+                        valB = parseInt(b.hintRate) || 0;
+                    } else {
+                        valA = a[sortColumn];
+                        valB = b[sortColumn];
+                    }
+
+                    if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
+                    if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
+                    return 0;
+                });
+            }
 
             filteredStudentsCount = filtered.length;
             document.getElementById(
                 'row-count'
             ).innerText = `Tìm thấy ${filteredStudentsCount} học sinh.`;
-            document
-                .getElementById('clear-filters')
-                .classList.toggle('hidden', !min && !max);
 
             const totalPages = Math.ceil(filteredStudentsCount / pageSize) || 1;
             if (currentPage > totalPages) currentPage = totalPages;
@@ -987,7 +1194,7 @@
 
             tbody.innerHTML = paginatedData.length
                 ? ''
-                : '<tr><td colspan="11" class="p-8 text-center text-gray-300">Không có dữ liệu</td></tr>';
+                : '<tr><td colspan="12" class="p-8 text-center text-gray-300">Không có dữ liệu</td></tr>';
             paginatedData.forEach((s) => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-[#fafafa]">
@@ -998,6 +1205,7 @@
                         <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#1677ff]"></i> ${s.aiSessions} phiên</div></td>
                         <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="file-text" class="w-3.5 h-3.5 text-[#722ed1]"></i> ${s.homeworkCompleted} phiếu</div></td>
                         <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-[#fa8c16]"></i> ${s.completedLectures} bài</div></td>
+                        <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="award" class="w-3.5 h-3.5 text-[#ff4d4f]"></i> ${s.completedExams} đề</div></td>
                         <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="timer" class="w-3.5 h-3.5 text-gray-400"></i> ${s.avgQuestionTime}</div></td>
                         <td class="px-6 py-4 font-semibold text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#52c41a]"></i> ${s.correctRate}</div></td>
                         <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="lightbulb" class="w-3.5 h-3.5 text-[#faad14]"></i> ${s.hintRate}</div></td>
@@ -1058,21 +1266,73 @@
                 .classList.toggle('hidden', e.target.value !== 'custom');
             updateDashboard(e.target.value);
         };
-        document.getElementById('min-time').oninput = () => {
+        let sortColumn = '';
+        let sortOrder = ''; // '', 'asc', 'desc'
+
+        function handleSort(column) {
+            if (sortColumn === column) {
+                if (sortOrder === '') sortOrder = 'asc';
+                else if (sortOrder === 'asc') sortOrder = 'desc';
+                else {
+                    sortOrder = '';
+                    sortColumn = '';
+                }
+            } else {
+                sortColumn = column;
+                sortOrder = 'asc';
+            }
+            updateSortIcons();
             currentPage = 1;
             renderStudentTable();
-        };
-        document.getElementById('max-time').oninput = () => {
-            currentPage = 1;
-            renderStudentTable();
-        };
-        document.getElementById('search-name').oninput = () => {
-            currentPage = 1;
-            renderStudentTable();
-        };
-        document.getElementById('clear-filters').onclick = () => {
-            document.getElementById('min-time').value = '';
-            document.getElementById('max-time').value = '';
+        }
+
+        function updateSortIcons() {
+            const columns = ['time', 'aiSessions', 'homeworkCompleted', 'completedLectures', 'completedExams', 'avgQuestionTime', 'correctRate', 'hintRate'];
+            columns.forEach(col => {
+                const el = document.getElementById(`sort-icon-${col}`);
+                if (!el) return;
+
+                if (sortColumn === col) {
+                    if (sortOrder === 'asc') {
+                        el.setAttribute('data-lucide', 'chevron-up');
+                        el.className = 'w-3.5 h-3.5 text-[#1677ff] shrink-0';
+                    } else if (sortOrder === 'desc') {
+                        el.setAttribute('data-lucide', 'chevron-down');
+                        el.className = 'w-3.5 h-3.5 text-[#1677ff] shrink-0';
+                    }
+                } else {
+                    el.setAttribute('data-lucide', 'chevrons-up-down');
+                    el.className = 'w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0';
+                }
+            });
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        }
+
+        const colFilterIds = [
+            'col-filter-name', 'col-filter-class', 'col-filter-time-min', 'col-filter-time-max'
+        ];
+
+        colFilterIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                const eventName = el.tagName === 'SELECT' ? 'change' : 'input';
+                el.addEventListener(eventName, () => {
+                    currentPage = 1;
+                    renderStudentTable();
+                });
+            }
+        });
+
+        document.getElementById('col-filter-clear').onclick = () => {
+            colFilterIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            sortColumn = '';
+            sortOrder = '';
+            updateSortIcons();
             currentPage = 1;
             renderStudentTable();
         };
@@ -1101,11 +1361,39 @@
             initCharts();
             refreshTree();
             updateUnitTags();
-            
+
             // Khởi chạy dữ liệu theo bộ lọc mặc định
             const initialRange = document.getElementById('time-range-select').value;
             updateDashboard(initialRange);
-            
+
+            // Bắt sự kiện click để hiển thị/ẩn Chỉ số câu hỏi (Giáo viên)
+            const aiSessionsCard = document.getElementById('gv-ai-sessions-card');
+            const questionStatsContainer = document.getElementById('gv-question-stats-container');
+
+            if (aiSessionsCard && questionStatsContainer) {
+                const actionText = document.getElementById('gv-ai-action-text');
+                const actionIcon = document.getElementById('gv-ai-action-icon');
+
+                aiSessionsCard.addEventListener('click', () => {
+                    const isOpen = questionStatsContainer.classList.contains('show');
+                    if (isOpen) {
+                        questionStatsContainer.classList.remove('show');
+                        aiSessionsCard.classList.remove('border-[#1677ff]', 'ring-2', 'ring-[#1677ff]/10');
+                        if (actionText) actionText.innerText = 'Xem chỉ số câu hỏi';
+                        if (actionIcon) actionIcon.style.transform = 'rotate(0deg)';
+                    } else {
+                        questionStatsContainer.classList.add('show');
+                        aiSessionsCard.classList.add('border-[#1677ff]', 'ring-2', 'ring-[#1677ff]/10');
+                        if (actionText) actionText.innerText = 'Ẩn chỉ số câu hỏi';
+                        if (actionIcon) actionIcon.style.transform = 'rotate(180deg)';
+                        // Cuộn mượt đến chỉ số câu hỏi
+                        setTimeout(() => {
+                            questionStatsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 200);
+                    }
+                });
+            }
+
             // Gọi Lucide icons
             lucide.createIcons();
         };
