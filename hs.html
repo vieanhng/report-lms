@@ -125,13 +125,10 @@
                     <div class="relative">
                         <select id="timeFilter"
                             class="w-full bg-white border border-[#d9d9d9] rounded hover:border-[#1677ff] focus:border-[#1677ff] focus:ring-[2px] focus:ring-[rgba(22,119,255,0.1)] px-3 py-1.5 text-sm outline-none transition-all cursor-pointer">
-                            <option value="Tuần này (11/05 - 17/05)">
-                                Tuần này (11/05 - 17/05)
-                            </option>
-                            <option value="Tuần trước (04/05 - 10/05)">
-                                Tuần trước (04/05 - 10/05)
-                            </option>
-                            <option value="Tháng này (Tháng 05)">Tháng này (Tháng 05)</option>
+                            <option value="all-time" selected>Toàn thời gian</option>
+                            <option value="week">Tuần này (11/05 - 17/05)</option>
+                            <option value="prev-week">Tuần trước (04/05 - 10/05)</option>
+                            <option value="month">Tháng này (Tháng 05)</option>
                             <option value="custom">Tùy chọn khoảng thời gian</option>
                         </select>
                         <i data-lucide="chevron-down"
@@ -185,7 +182,7 @@
     </div>
 
     <!-- Statistics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
         <div
             class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
             <div class="flex items-center justify-between mb-3">
@@ -196,7 +193,7 @@
                         class="w-4 h-4 text-[#1677ff] group-hover:scale-110 transition-transform"></i>
                 </div>
             </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">42</span>
+            <span id="hs-ai-sessions" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">245</span>
         </div>
         <div
             class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
@@ -208,7 +205,7 @@
                         class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
                 </div>
             </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">15</span>
+            <span id="hs-completed-exams" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">95</span>
         </div>
         <div
             class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#13c2c2] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
@@ -220,7 +217,7 @@
                         class="w-4 h-4 text-[#13c2c2] group-hover:scale-110 transition-transform"></i>
                 </div>
             </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">12</span>
+            <span id="hs-completed-lectures" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">72</span>
         </div>
         <div
             class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
@@ -232,7 +229,7 @@
                         class="w-4 h-4 text-[#52c41a] group-hover:scale-110 transition-transform"></i>
                 </div>
             </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
+            <span id="hs-correct-rate" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
         </div>
         <div
             class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#fa8c16] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
@@ -245,7 +242,19 @@
                         class="w-4 h-4 text-[#fa8c16] group-hover:scale-110 transition-transform"></i>
                 </div>
             </div>
-            <span class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">21</span>
+            <span id="hs-completed-homework" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">145</span>
+        </div>
+        <div
+            class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#faad14] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ xem gợi ý</span>
+                <div
+                    class="w-8 h-8 rounded-lg bg-[rgba(250,173,20,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,173,20,0.15)] transition-colors">
+                    <i data-lucide="lightbulb"
+                        class="w-4 h-4 text-[#faad14] group-hover:scale-110 transition-transform"></i>
+                </div>
+            </div>
+            <span id="hs-hint-rate" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">14%</span>
         </div>
     </div>
 
@@ -258,8 +267,7 @@
                 <div class="px-6 py-4 border-b border-[#f0f0f0] flex items-center justify-between">
                     <div>
                         <h4 class="font-semibold text-sm">Thống kê thời gian học</h4>
-                        <span id="pieTimeLabel" class="text-[10px] text-[rgba(0,0,0,0.45)] uppercase font-medium">Tuần
-                            này (11/05 - 17/05)</span>
+                        <span id="pieTimeLabel" class="text-[10px] text-[rgba(0,0,0,0.45)] uppercase font-medium">Toàn thời gian</span>
                     </div>
                     <i data-lucide="info" class="w-3.5 h-3.5 text-[rgba(0,0,0,0.25)] cursor-help"></i>
                 </div>
@@ -268,7 +276,7 @@
                     <div class="flex flex-col justify-center h-full py-2">
                         <span class="text-gray-400 text-xs font-medium mb-1">Tổng thời gian theo bộ lọc</span>
                         <div class="text-3xl font-bold text-[#1677ff] mb-6 flex items-baseline gap-1">
-                            <span>12h 45m</span>
+                            <span id="hs-total-time">124h 15m</span>
                         </div>
                         <!-- Custom Legend -->
                         <div id="behavior-legend-hs"
@@ -654,6 +662,98 @@
         const customDateSection = document.getElementById('customDateSection');
         const pieTimeLabel = document.getElementById('pieTimeLabel');
 
+        const hsMockData = {
+            'all-time': {
+                totalHours: '124h 15m',
+                aiSessions: 245,
+                examsCompleted: 95,
+                lecturesCompleted: 72,
+                correctRate: '78%',
+                homeworkCompleted: 145,
+                hintViewRate: '14%',
+                behaviorValues: [45, 25, 20, 5, 5]
+            },
+            'week': {
+                totalHours: '12h 45m',
+                aiSessions: 42,
+                examsCompleted: 15,
+                lecturesCompleted: 12,
+                correctRate: '82%',
+                homeworkCompleted: 21,
+                hintViewRate: '8%',
+                behaviorValues: [35, 25, 20, 10, 10]
+            },
+            'prev-week': {
+                totalHours: '14h 20m',
+                aiSessions: 48,
+                examsCompleted: 18,
+                lecturesCompleted: 15,
+                correctRate: '76%',
+                homeworkCompleted: 24,
+                hintViewRate: '9%',
+                behaviorValues: [38, 22, 20, 10, 10]
+            },
+            'month': {
+                totalHours: '52h 30m',
+                aiSessions: 165,
+                examsCompleted: 58,
+                lecturesCompleted: 42,
+                correctRate: '79%',
+                homeworkCompleted: 92,
+                hintViewRate: '12%',
+                behaviorValues: [40, 26, 19, 8, 7]
+            },
+            'custom': {
+                totalHours: '32h 10m',
+                aiSessions: 95,
+                examsCompleted: 35,
+                lecturesCompleted: 26,
+                correctRate: '80%',
+                homeworkCompleted: 58,
+                hintViewRate: '11%',
+                behaviorValues: [39, 25, 21, 8, 7]
+            }
+        };
+
+        function updateStudentDashboard(timeRange) {
+            const data = hsMockData[timeRange];
+            if (!data) return;
+
+            // 1. Update text indicators
+            document.getElementById('hs-ai-sessions').innerText = data.aiSessions;
+            document.getElementById('hs-completed-exams').innerText = data.examsCompleted;
+            document.getElementById('hs-completed-lectures').innerText = data.lecturesCompleted;
+            document.getElementById('hs-correct-rate').innerText = data.correctRate;
+            document.getElementById('hs-completed-homework').innerText = data.homeworkCompleted;
+            document.getElementById('hs-hint-rate').innerText = data.hintViewRate;
+            document.getElementById('hs-total-time').innerText = data.totalHours;
+
+            // 2. Update Donut Chart
+            if (hsDonutChartInstance) {
+                hsDonutChartInstance.data.datasets[0].data = data.behaviorValues;
+                hsDonutChartInstance.update();
+            }
+
+            // 3. Update legend percentages dynamically
+            const legendContainer = document.getElementById('behavior-legend-hs');
+            if (legendContainer) {
+                const total = data.behaviorValues.reduce((sum, v) => sum + v, 0);
+                legendContainer.innerHTML = behaviorData.map((item, idx) => {
+                    const val = data.behaviorValues[idx];
+                    const percent = Math.round((val / total) * 100);
+                    return `
+                        <div class="flex items-center gap-2 text-sm text-gray-600 justify-between w-full">
+                            <div class="flex items-center gap-2 truncate">
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${item.color}"></span>
+                                <span class="truncate">${item.name}</span>
+                            </div>
+                            <span class="font-semibold text-gray-800 text-xs shrink-0">${percent}%</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
         timeFilter.addEventListener('change', (e) => {
             const val = e.target.value;
             if (val === 'custom') {
@@ -661,8 +761,12 @@
                 pieTimeLabel.textContent = 'Khoảng ngày tùy chọn';
             } else {
                 customDateSection.classList.add('hidden');
-                pieTimeLabel.textContent = val;
+                pieTimeLabel.textContent = 
+                    val === 'all-time' ? 'Toàn thời gian' :
+                    val === 'week' ? 'Tuần này (11/05 - 17/05)' :
+                    val === 'prev-week' ? 'Tuần trước (04/05 - 10/05)' : 'Tháng này (Tháng 05)';
             }
+            updateStudentDashboard(val);
         });
 
         // --- CAL-HEATMAP INITIALIZATION ---
@@ -736,7 +840,7 @@
         const behaviorCtx = document
             .getElementById('behaviorChart')
             .getContext('2d');
-        new Chart(behaviorCtx, {
+        hsDonutChartInstance = new Chart(behaviorCtx, {
             type: 'doughnut',
             data: {
                 labels: behaviorData.map((d) => d.name),
@@ -842,16 +946,7 @@
             },
         });
 
-        // Render custom legend in left column
-        const legendContainerHs = document.getElementById('behavior-legend-hs');
-        if (legendContainerHs) {
-            legendContainerHs.innerHTML = behaviorData.map(item => `
-                <div class="flex items-center gap-2 text-sm text-gray-600">
-                    <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${item.color}"></span>
-                    <span class="truncate">${item.name}</span>
-                </div>
-            `).join('');
-        }
+        // Legend is rendered dynamically via updateStudentDashboard
 
 
 
@@ -938,6 +1033,10 @@
         window.onload = function () {
             initCalHeatmap();
             renderYccdDetailTable();
+            
+            // Khởi chạy dữ liệu theo bộ lọc mặc định
+            const initialRange = document.getElementById('timeFilter').value;
+            updateStudentDashboard(initialRange);
         };
     </script>
 </body>

@@ -147,7 +147,7 @@
             <h3 class="text-sm font-semibold text-gray-700">Các chỉ số trung bình trên toàn bộ học sinh được thống kê
             </h3>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
             <div
                 class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
                 <div class="flex items-center justify-between mb-3">
@@ -211,6 +211,18 @@
                     </div>
                 </div>
                 <span id="avg-correct-rate" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">78%</span>
+            </div>
+            <div
+                class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#faad14] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ xem gợi ý / học sinh</span>
+                    <div
+                        class="w-8 h-8 rounded-lg bg-[rgba(250,173,20,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,173,20,0.15)] transition-colors">
+                        <i data-lucide="lightbulb"
+                            class="w-4 h-4 text-[#faad14] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+                <span id="avg-hint-rate" class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">18%</span>
             </div>
         </div>
     </div>
@@ -312,6 +324,7 @@
                         <th class="px-6 py-4 font-semibold">Bài giảng</th>
                         <th class="px-6 py-4 font-semibold">TB/Câu hỏi</th>
                         <th class="px-6 py-4 font-semibold">Đúng lần đầu</th>
+                        <th class="px-6 py-4 font-semibold">Xem gợi ý</th>
                         <th class="px-6 py-4 font-semibold text-center w-24">Thao tác</th>
                     </tr>
                 </thead>
@@ -425,6 +438,7 @@
                 avgHomework: '48.2',
                 avgLectures: '32.6',
                 avgCorrectRate: '78%',
+                avgHintRate: '18%',
                 behaviorValues: [120, 85.6, 68.5, 34.2, 34.2],
                 stackedTitle: 'Phân bố thời gian học theo tuần và hành vi (Toàn thời gian)',
                 stackedLabels: ['Tuần 1 (13/04 - 19/04)', 'Tuần 2 (20/04 - 26/04)', 'Tuần 3 (27/04 - 03/05)', 'Tuần 4 (04/05 - 10/05)', 'Tuần 5 (11/05 - 17/05)'],
@@ -443,6 +457,7 @@
                 avgHomework: '8.4',
                 avgLectures: '5.6',
                 avgCorrectRate: '82%',
+                avgHintRate: '8%',
                 behaviorValues: [25.5, 18.2, 14.6, 7.3, 7.2],
                 stackedTitle: 'Phân bộ thời gian học theo ngày và hành vi (Tuần này)',
                 stackedLabels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
@@ -461,6 +476,7 @@
                 avgHomework: '9.6',
                 avgLectures: '6.2',
                 avgCorrectRate: '76%',
+                avgHintRate: '9%',
                 behaviorValues: [29.5, 21.1, 16.8, 8.4, 8.4],
                 stackedTitle: 'Phân bộ thời gian học theo ngày và hành vi (Tuần trước)',
                 stackedLabels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
@@ -479,6 +495,7 @@
                 avgHomework: '24.5',
                 avgLectures: '16.8',
                 avgCorrectRate: '79%',
+                avgHintRate: '14%',
                 behaviorValues: [65.0, 46.4, 37.1, 18.5, 18.5],
                 stackedTitle: 'Phân bộ thời gian học theo tuần và hành vi (Tháng này)',
                 stackedLabels: ['Tuần 1 (01-07)', 'Tuần 2 (08-14)', 'Tuần 3 (15-21)', 'Tuần 4 (22-28)', 'Tuần 5 (29-31)'],
@@ -497,6 +514,7 @@
                 avgHomework: '16.4',
                 avgLectures: '10.8',
                 avgCorrectRate: '80%',
+                avgHintRate: '11%',
                 behaviorValues: [42.0, 30.0, 24.0, 12.0, 12.0],
                 stackedTitle: 'Phân bộ thời gian học theo tuần và hành vi (Khoảng tùy chọn)',
                 stackedLabels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
@@ -729,6 +747,7 @@
             document.getElementById('avg-homework-completed').innerText = data.avgHomework;
             document.getElementById('avg-lectures-completed').innerText = data.avgLectures;
             document.getElementById('avg-correct-rate').innerText = data.avgCorrectRate;
+            document.getElementById('avg-hint-rate').innerText = data.avgHintRate;
 
             // 2. Update Donut Chart
             donutChartInstance.data.datasets[0].data = data.behaviorValues;
@@ -769,7 +788,7 @@
 
             // 6. Update student records
             students.forEach((s) => {
-                let hours, mins, lectures, aiSessions, homeworkCompleted, avgQuestionTime, correctRate;
+                let hours, mins, lectures, aiSessions, homeworkCompleted, avgQuestionTime, correctRate, hintRate;
                 const seed = s.id;
                 if (timeRange === 'all-time') {
                     hours = (seed % 15) + 12;
@@ -779,6 +798,7 @@
                     homeworkCompleted = (seed % 20) + 40;
                     avgQuestionTime = (seed % 15) + 35 + 's';
                     correctRate = (seed % 20) + 70 + '%';
+                    hintRate = (seed % 15) + 10 + '%';
                 } else if (timeRange === 'week') {
                     hours = seed % 3;
                     mins = (seed * 13) % 60;
@@ -787,6 +807,7 @@
                     homeworkCompleted = (seed % 4) + 6;
                     avgQuestionTime = (seed % 10) + 32 + 's';
                     correctRate = (seed % 15) + 75 + '%';
+                    hintRate = (seed % 8) + 4 + '%';
                 } else if (timeRange === 'prev-week') {
                     hours = (seed % 3) + 1;
                     mins = (seed * 17) % 60;
@@ -795,6 +816,7 @@
                     homeworkCompleted = (seed % 5) + 7;
                     avgQuestionTime = (seed % 12) + 38 + 's';
                     correctRate = (seed % 15) + 70 + '%';
+                    hintRate = (seed % 8) + 5 + '%';
                 } else if (timeRange === 'month') {
                     hours = (seed % 8) + 4;
                     mins = (seed * 23) % 60;
@@ -803,6 +825,7 @@
                     homeworkCompleted = (seed % 10) + 20;
                     avgQuestionTime = (seed % 14) + 34 + 's';
                     correctRate = (seed % 18) + 72 + '%';
+                    hintRate = (seed % 12) + 8 + '%';
                 } else {
                     hours = (seed % 5) + 2;
                     mins = (seed * 11) % 60;
@@ -811,6 +834,7 @@
                     homeworkCompleted = (seed % 8) + 12;
                     avgQuestionTime = (seed % 12) + 35 + 's';
                     correctRate = (seed % 15) + 73 + '%';
+                    hintRate = (seed % 10) + 6 + '%';
                 }
                 s.time = `${hours}h ${mins}m`;
                 s.completedLectures = lectures;
@@ -818,6 +842,7 @@
                 s.homeworkCompleted = homeworkCompleted;
                 s.avgQuestionTime = avgQuestionTime;
                 s.correctRate = correctRate;
+                s.hintRate = hintRate;
             });
 
             // 7. Render student table with updated data
@@ -962,7 +987,7 @@
 
             tbody.innerHTML = paginatedData.length
                 ? ''
-                : '<tr><td colspan="10" class="p-8 text-center text-gray-300">Không có dữ liệu</td></tr>';
+                : '<tr><td colspan="11" class="p-8 text-center text-gray-300">Không có dữ liệu</td></tr>';
             paginatedData.forEach((s) => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-[#fafafa]">
@@ -975,6 +1000,7 @@
                         <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-[#fa8c16]"></i> ${s.completedLectures} bài</div></td>
                         <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="timer" class="w-3.5 h-3.5 text-gray-400"></i> ${s.avgQuestionTime}</div></td>
                         <td class="px-6 py-4 font-semibold text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#52c41a]"></i> ${s.correctRate}</div></td>
+                        <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="lightbulb" class="w-3.5 h-3.5 text-[#faad14]"></i> ${s.hintRate}</div></td>
                         <td class="px-6 py-4 text-center"><button class="p-1.5 hover:bg-[#e6f4ff] rounded text-[#1677ff]"><i data-lucide="eye" class="w-4 h-4"></i></button></td>
                     </tr>
                 `;
