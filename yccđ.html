@@ -223,8 +223,7 @@
 
                     <div class="mt-8 space-y-8">
                         <div class="flex flex-col items-center md:items-start gap-3">
-                            <img src="https://lms-vdi-data.streamlit.app:443/~/+/media/50e69336b615a5201ffd7e406e8c7e12cf845875c489f4f2a544c8cf.png"
-                                alt="Minh hoạ chỉ số"
+                            <img src="yccđ1.png" alt="Minh hoạ chỉ số"
                                 class="max-w-full md:max-w-[550px] rounded border border-[#f0f0f0]" />
                             <p class="text-[11px] text-gray-400 font-medium italic">
                                 Minh hoạ chỉ số mức độ hoàn thành chủ đề
@@ -236,8 +235,7 @@
                                 Bên dưới là hình ảnh minh hoạ mức độ hoàn thành các chủ đề từ
                                 giao diện HS.
                             </p>
-                            <img src="https://lms-vdi-data.streamlit.app:443/~/+/media/2191b4f980f057ab0db3620930dc841e291c711bef1cf44cd4e26bd6.jpg"
-                                alt="Giao diện HS"
+                            <img src="yccđ2.jpg" alt="Giao diện HS"
                                 class="max-w-full md:max-w-[1000px] rounded border border-[#f0f0f0]" />
                             <p class="text-[11px] text-gray-400 font-medium italic">
                                 Minh hoạ mức độ hoàn thành các chủ đề từ giao diện HS
@@ -399,6 +397,32 @@
                     <tbody class="divide-y divide-[#f0f0f0]" id="student-topic-progress-list-body"></tbody>
                 </table>
             </div>
+
+            <!-- Pagination Section for Topic Detail -->
+            <div
+                class="px-8 py-4 border-t border-[#f0f0f0] flex flex-col sm:flex-row items-center justify-between gap-4 bg-white text-sm text-gray-600">
+                <div class="flex items-center gap-2">
+                    <span>Hiển thị</span>
+                    <select id="topic-page-size-select"
+                        class="bg-white border border-[#d9d9d9] rounded px-2 py-1 text-xs outline-none cursor-pointer hover:border-[#1677ff] transition-all">
+                        <option value="5">5 / trang</option>
+                        <option value="10" selected>10 / trang</option>
+                        <option value="20">20 / trang</option>
+                    </select>
+                    <span id="topic-pagination-info" class="text-xs text-gray-400 ml-2"></span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button id="topic-prev-page"
+                        class="w-8 h-8 rounded border border-[#d9d9d9] flex items-center justify-center hover:border-[#1677ff] hover:text-[#1677ff] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    </button>
+                    <div id="topic-page-numbers" class="flex gap-1"></div>
+                    <button id="topic-next-page"
+                        class="w-8 h-8 rounded border border-[#d9d9d9] flex items-center justify-center hover:border-[#1677ff] hover:text-[#1677ff] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -414,6 +438,19 @@
                     </div>
                 </div>
                 <div class="flex-grow overflow-y-auto custom-scrollbar" id="student-list-container"></div>
+                <!-- Pagination Section for Student Sidebar -->
+                <div
+                    class="p-4 border-t border-[#f0f0f0] flex items-center justify-between bg-[#fafafa]/50 text-xs text-gray-500 shrink-0">
+                    <button id="sidebar-prev-page"
+                        class="w-7 h-7 rounded border border-[#d9d9d9] flex items-center justify-center hover:border-[#1677ff] hover:text-[#1677ff] bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <span id="sidebar-pagination-info" class="font-medium text-gray-600">Trang 1 / 1</span>
+                    <button id="sidebar-next-page"
+                        class="w-7 h-7 rounded border border-[#d9d9d9] flex items-center justify-center hover:border-[#1677ff] hover:text-[#1677ff] bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
             </div>
             <div class="lg:col-span-8 ant-card p-6 flex flex-col h-[600px]">
                 <div class="flex items-center justify-between mb-4 border-b border-[#f0f0f0] pb-4">
@@ -435,7 +472,8 @@
                 <div class="flex-grow grid grid-cols-1 md:grid-cols-12 gap-6 items-center overflow-hidden">
                     <!-- Cột trái: Chú thích xếp dọc -->
                     <div class="md:col-span-4 flex flex-col justify-center h-full py-4 border-r border-[#f5f5f5] pr-4">
-                        <span class="text-gray-400 text-xs font-semibold mb-4 uppercase tracking-wider">Mạch kiến thức</span>
+                        <span class="text-gray-400 text-xs font-semibold mb-4 uppercase tracking-wider">Mạch kiến
+                            thức</span>
                         <div class="flex flex-col gap-3">
                             <div class="flex items-center gap-2 text-xs text-gray-600 font-semibold">
                                 <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#722ed1]"></span>
@@ -686,6 +724,14 @@
             currentTopicId = 1,
             selectedStudent = studentData[0];
 
+        let topicCurrentPage = 1;
+        let topicPageSize = 10;
+        let topicFilteredStudentsCount = 0;
+
+        let sidebarCurrentPage = 1;
+        const sidebarPageSize = 8;
+        let sidebarFilteredCount = 0;
+
         function initOverviewTab() {
             const ctx = document
                 .getElementById('topic-polar-chart-overview')
@@ -756,6 +802,7 @@
 
         function onSelectTopicFromTable(id) {
             currentTopicId = id;
+            topicCurrentPage = 1;
             renderSimplifiedTopicTable();
             document.getElementById('topic-selector-dropdown').value = id;
             renderByTopicDetail();
@@ -773,6 +820,7 @@
                 .join('');
             dropdown.onchange = (e) => {
                 currentTopicId = parseInt(e.target.value);
+                topicCurrentPage = 1;
                 renderSimplifiedTopicTable();
                 renderByTopicDetail();
             };
@@ -787,7 +835,17 @@
             const tbody = document.getElementById(
                 'student-topic-progress-list-body'
             );
-            tbody.innerHTML = studentData
+
+            topicFilteredStudentsCount = studentData.length;
+            const totalPages = Math.ceil(topicFilteredStudentsCount / topicPageSize) || 1;
+            if (topicCurrentPage > totalPages) topicCurrentPage = totalPages;
+            if (topicCurrentPage < 1) topicCurrentPage = 1;
+
+            const startIndex = (topicCurrentPage - 1) * topicPageSize;
+            const endIndex = startIndex + topicPageSize;
+            const paginatedData = studentData.slice(startIndex, endIndex);
+
+            tbody.innerHTML = paginatedData
                 .map((s) => {
                     const score = s.scores.find((sc) => sc.id === currentTopicId).value;
                     return `
@@ -810,6 +868,42 @@
                 `;
                 })
                 .join('');
+
+            renderTopicPagination(topicFilteredStudentsCount);
+        }
+
+        function renderTopicPagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / topicPageSize) || 1;
+            const paginationInfo = document.getElementById('topic-pagination-info');
+            const start = totalItems === 0 ? 0 : (topicCurrentPage - 1) * topicPageSize + 1;
+            const end = Math.min(topicCurrentPage * topicPageSize, totalItems);
+            if (paginationInfo) {
+                paginationInfo.innerText = `Hiển thị ${start}-${end} trong số ${totalItems} học sinh`;
+            }
+
+            const prevBtn = document.getElementById('topic-prev-page');
+            const nextBtn = document.getElementById('topic-next-page');
+            if (prevBtn) prevBtn.disabled = topicCurrentPage === 1;
+            if (nextBtn) nextBtn.disabled = topicCurrentPage === totalPages;
+
+            const pageNumbersContainer = document.getElementById('topic-page-numbers');
+            if (!pageNumbersContainer) return;
+            pageNumbersContainer.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const isActive = i === topicCurrentPage;
+                const btn = document.createElement('button');
+                btn.className = `w-8 h-8 rounded border flex items-center justify-center transition-all ${isActive
+                    ? 'border-[#1677ff] text-[#1677ff] font-medium bg-[#e6f4ff]/20'
+                    : 'border-[#d9d9d9] text-gray-600 hover:border-[#1677ff] hover:text-[#1677ff]'
+                    }`;
+                btn.innerText = i;
+                btn.addEventListener('click', () => {
+                    topicCurrentPage = i;
+                    renderByTopicDetail();
+                });
+                pageNumbersContainer.appendChild(btn);
+            }
         }
 
         function renderStudentList(filter = '') {
@@ -819,7 +913,17 @@
                     s.fullName.toLowerCase().includes(filter.toLowerCase()) ||
                     s.id.toLowerCase().includes(filter.toLowerCase())
             );
-            container.innerHTML = filtered
+
+            sidebarFilteredCount = filtered.length;
+            const totalPages = Math.ceil(sidebarFilteredCount / sidebarPageSize) || 1;
+            if (sidebarCurrentPage > totalPages) sidebarCurrentPage = totalPages;
+            if (sidebarCurrentPage < 1) sidebarCurrentPage = 1;
+
+            const startIndex = (sidebarCurrentPage - 1) * sidebarPageSize;
+            const endIndex = startIndex + sidebarPageSize;
+            const paginatedData = filtered.slice(startIndex, endIndex);
+
+            container.innerHTML = paginatedData
                 .map(
                     (s) => `
                 <div class="student-item px-4 py-4 cursor-pointer hover:bg-gray-50 border-b border-[#f0f0f0] ${s.id === selectedStudent.id ? 'active' : ''
@@ -841,6 +945,21 @@
             `
                 )
                 .join('');
+
+            updateSidebarPaginationControls();
+        }
+
+        function updateSidebarPaginationControls() {
+            const totalPages = Math.ceil(sidebarFilteredCount / sidebarPageSize) || 1;
+            const info = document.getElementById('sidebar-pagination-info');
+            if (info) {
+                info.innerText = `Trang ${sidebarCurrentPage} / ${totalPages}`;
+            }
+
+            const prevBtn = document.getElementById('sidebar-prev-page');
+            const nextBtn = document.getElementById('sidebar-next-page');
+            if (prevBtn) prevBtn.disabled = sidebarCurrentPage === 1;
+            if (nextBtn) nextBtn.disabled = sidebarCurrentPage === totalPages;
         }
 
         function onSelectStudent(id) {
@@ -968,8 +1087,45 @@
         };
         window.onclick = () =>
             document.getElementById('unit-dropdown').classList.remove('show');
-        document.getElementById('student-search-input').oninput = (e) =>
+
+        // Sidebar search and pagination listeners
+        document.getElementById('student-search-input').oninput = (e) => {
+            sidebarCurrentPage = 1;
             renderStudentList(e.target.value);
+        };
+        document.getElementById('sidebar-prev-page').onclick = () => {
+            if (sidebarCurrentPage > 1) {
+                sidebarCurrentPage--;
+                renderStudentList(document.getElementById('student-search-input').value);
+            }
+        };
+        document.getElementById('sidebar-next-page').onclick = () => {
+            const totalPages = Math.ceil(sidebarFilteredCount / sidebarPageSize) || 1;
+            if (sidebarCurrentPage < totalPages) {
+                sidebarCurrentPage++;
+                renderStudentList(document.getElementById('student-search-input').value);
+            }
+        };
+
+        // Detailed student table pagination listeners
+        document.getElementById('topic-page-size-select').onchange = (e) => {
+            topicPageSize = parseInt(e.target.value);
+            topicCurrentPage = 1;
+            renderByTopicDetail();
+        };
+        document.getElementById('topic-prev-page').onclick = () => {
+            if (topicCurrentPage > 1) {
+                topicCurrentPage--;
+                renderByTopicDetail();
+            }
+        };
+        document.getElementById('topic-next-page').onclick = () => {
+            const totalPages = Math.ceil(topicFilteredStudentsCount / topicPageSize) || 1;
+            if (topicCurrentPage < totalPages) {
+                topicCurrentPage++;
+                renderByTopicDetail();
+            }
+        };
     </script>
 </body>
 
