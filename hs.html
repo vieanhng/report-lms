@@ -105,6 +105,44 @@
         #competencyChart {
             cursor: pointer;
         }
+
+        /* Liquid wave animation keyframes */
+        @keyframes wave-move {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-wave {
+            animation: wave-move 2.5s linear infinite;
+        }
+
+        .animate-wave-reverse {
+            animation: wave-move 4s linear infinite reverse;
+        }
+
+        /* Subtle pulse for very high activity */
+        @keyframes pulse-subtle {
+
+            0%,
+            100% {
+                box-shadow: 0 0 4px rgba(14, 165, 233, 0.15);
+                border-color: rgba(14, 165, 233, 0.35);
+            }
+
+            50% {
+                box-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
+                border-color: rgba(14, 165, 233, 0.7);
+            }
+        }
+
+        .animate-pulse-subtle {
+            animation: pulse-subtle 2s infinite ease-in-out;
+        }
     </style>
 </head>
 
@@ -132,37 +170,64 @@
                         <div>
                             <h4 class="font-semibold text-sm text-[rgba(0,0,0,0.88)]">Mức độ chăm chỉ học tập (30 ngày
                                 qua)</h4>
-                            <p class="text-xs text-gray-400 mt-1">Biểu diễn tần suất tự học bằng chỉ số ngọn lửa (Lửa bé
-                                lửa to)</p>
+                            <p class="text-xs text-gray-400 mt-1">Biểu diễn thời gian tự học dưới dạng dung dịch làm đầy
+                                hình tròn</p>
                         </div>
                     </div>
 
-                    <!-- 30 flame containers -->
+                    <!-- 30 liquid fill circles -->
                     <div class="flex flex-wrap gap-2.5 py-2" id="heatmap-30-days">
                         <!-- Dynamic rendering via JS -->
                     </div>
                 </div>
 
                 <!-- Legend -->
-                <div class="flex items-center gap-3 text-[10px] text-gray-500 font-medium mt-3 flex-wrap">
+                <div class="flex items-center gap-4 text-[10px] text-gray-500 font-medium mt-3 flex-wrap">
                     <span class="text-gray-400">Mức độ:</span>
-                    <span class="flex items-center gap-1"><i data-lucide="flame"
-                            class="w-3.5 h-3.5 text-gray-200 fill-gray-100"></i> Nghỉ</span>
-                    <span class="flex items-center gap-1"><i data-lucide="flame"
-                            class="w-4 h-4 text-orange-300 fill-orange-200"></i> Ít</span>
-                    <span class="flex items-center gap-1"><i data-lucide="flame"
-                            class="w-5 h-5 text-orange-400 fill-orange-300"></i> Vừa</span>
-                    <span class="flex items-center gap-1"><i data-lucide="flame"
-                            class="w-6.5 h-6.5 text-orange-500 fill-orange-400"></i> Khá</span>
-                    <span class="flex items-center gap-1"><i data-lucide="flame"
-                            class="w-8 h-8 text-red-500 fill-red-400 animate-pulse"></i> Nhiều</span>
+                    <span class="flex items-center gap-1.5">
+                        <span
+                            class="w-5 h-5 rounded-full border border-dashed border-gray-300 bg-gray-50/20 block"></span>
+                        Không học
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <span
+                            class="w-5 h-5 rounded-full border border-sky-100 relative overflow-hidden block bg-gray-50/50">
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-[25%] bg-gradient-to-t from-sky-200 to-sky-100"></span>
+                        </span>
+                        Dưới 25 phút
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <span
+                            class="w-5 h-5 rounded-full border border-sky-200 relative overflow-hidden block bg-gray-50/50">
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-sky-300 to-sky-200"></span>
+                        </span>
+                        25 - 45 phút
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <span
+                            class="w-5 h-5 rounded-full border border-sky-300 relative overflow-hidden block bg-gray-50/50">
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-[75%] bg-gradient-to-t from-sky-400 to-sky-300"></span>
+                        </span>
+                        45 - 60 phút
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <span
+                            class="w-5 h-5 rounded-full border border-sky-400 relative overflow-hidden block bg-gray-50/50">
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-[95%] bg-gradient-to-t from-sky-500 to-sky-400"></span>
+                        </span>
+                        Trên 60 phút
+                    </span>
                 </div>
             </div>
 
             <!-- Right: Streak Card (Col span 1) -->
             <div class="md:col-span-1 flex items-center justify-center">
                 <div
-                    class="bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl shadow-sm border border-orange-400 p-4 flex flex-col justify-between text-white relative overflow-hidden group w-full shadow-inner">
+                    class="bg-gradient-to-br from-sky-400 to-cyan-300 rounded-xl shadow-sm border border-sky-300 p-4 flex flex-col justify-between text-white relative overflow-hidden group w-full shadow-inner">
                     <!-- Decorative background flame icon -->
                     <div
                         class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-300 pointer-events-none">
@@ -170,20 +235,20 @@
                     </div>
                     <div class="z-10">
                         <div class="flex flex-col gap-1 mb-2">
-                            <span class="text-[9px] text-orange-100 font-bold uppercase tracking-wider">Streak học tập
+                            <span class="text-[9px] text-sky-100 font-bold uppercase tracking-wider">Streak học tập
                                 của bạn</span>
                         </div>
                         <div class="text-3xl font-extrabold leading-none flex items-baseline gap-1 mt-2">
                             <span class="text-4xl">15</span>
-                            <span class="text-[10px] font-normal text-orange-100">ngày liên tiếp</span>
+                            <span class="text-[10px] font-normal text-sky-100">ngày liên tiếp</span>
                         </div>
-                        <p class="text-[10px] text-orange-50 mt-2 font-light leading-snug">
+                        <p class="text-[10px] text-sky-50 mt-2 font-light leading-snug">
                             Duy trì việc tự học hàng ngày nhé!
                         </p>
                     </div>
                     <div
                         class="z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-inner mt-2 self-end">
-                        <i data-lucide="flame" class="w-5 h-5 fill-white animate-pulse"></i>
+                        <i data-lucide="flame" class="w-5 h-5 fill-white"></i>
                     </div>
                 </div>
             </div>
@@ -192,8 +257,8 @@
         <!-- Hover status -->
         <div class="pt-3 border-t border-[#f0f0f0] text-xs text-gray-500 flex items-center gap-1.5 mt-4"
             id="heatmap-status">
-            <i data-lucide="info" class="w-3.5 h-3.5 text-orange-500"></i>
-            <span>Di chuột qua mỗi ngọn lửa để xem chi tiết thời gian học từng ngày.</span>
+            <i data-lucide="info" class="w-3.5 h-3.5 text-sky-500"></i>
+            <span>Di chuột qua mỗi hình tròn để xem chi tiết thời gian học từng ngày.</span>
         </div>
     </div>
 
@@ -750,7 +815,7 @@
         // Generate target scores for the student
         yccdData.forEach((t) => {
             t.targets = t.targets.map(name => {
-                const targetVal = Math.floor(Math.random() * 30) + 70;
+                const targetVal = Math.random() > 0.15 ? Math.floor(Math.random() * 25) + 75 : 100;
                 return { name: name, value: targetVal };
             });
             t.value = Math.round(t.targets.reduce((sum, tgt) => sum + tgt.value, 0) / t.targets.length);
@@ -909,32 +974,45 @@
                 });
             }
 
-            // Render 30 cells containing flames
+            // Render 30 cells containing liquid fill circles
             data.forEach((day) => {
-                let colorClass = 'text-gray-200 fill-gray-100';
-                let sizeClass = 'w-3.5 h-3.5';
                 let levelText = 'Không học';
+                let percentage = 0;
+                let colorHex = '';
+                let backColorHex = '';
+                let cellClass = '';
 
                 if (day.value === 0) {
-                    colorClass = 'text-gray-200 fill-gray-100';
-                    sizeClass = 'w-3.5 h-3.5';
                     levelText = 'Không học';
-                } else if (day.value > 0 && day.value <= 30) {
-                    colorClass = 'text-orange-300 fill-orange-200'; // small fire
-                    sizeClass = 'w-5 h-5';
-                    levelText = `Học ${day.value} phút (Ít)`;
-                } else if (day.value > 30 && day.value <= 60) {
-                    colorClass = 'text-orange-400 fill-orange-300'; // medium fire
-                    sizeClass = 'w-6.5 h-6.5';
-                    levelText = `Học ${day.value} phút (Trung bình)`;
-                } else if (day.value > 60 && day.value <= 120) {
-                    colorClass = 'text-orange-500 fill-orange-400'; // large fire
-                    sizeClass = 'w-8 h-8';
-                    levelText = `Học ${day.value} phút (Khá)`;
-                } else if (day.value > 120) {
-                    colorClass = 'text-red-500 fill-red-400 animate-pulse'; // giant fire
-                    sizeClass = 'w-9 h-9';
-                    levelText = `Học ${day.value} phút (Nhiều)`;
+                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-dashed border-gray-200 bg-gray-50/20 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-300 hover:bg-sky-50/10';
+                } else if (day.value > 0 && day.value < 25) {
+                    // Low level: 15% - 30% fill
+                    percentage = Math.max(15, Math.min(30, 15 + Math.round((day.value / 24) * 15)));
+                    colorHex = '#bae6fd'; // sky-200
+                    backColorHex = '#e0f2fe'; // sky-100
+                    levelText = `Học ${day.value} phút (Dưới 25 phút)`;
+                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-sky-100 bg-gray-50/50 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-300 hover:shadow-sm overflow-hidden';
+                } else if (day.value >= 25 && day.value <= 45) {
+                    // Medium level: 35% - 55% fill
+                    percentage = Math.max(35, Math.min(55, 35 + Math.round(((day.value - 25) / 20) * 20)));
+                    colorHex = '#7dd3fc'; // sky-300
+                    backColorHex = '#bae6fd'; // sky-200
+                    levelText = `Học ${day.value} phút (25-45 phút)`;
+                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-sky-200 bg-gray-50/50 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-400 hover:shadow-sm overflow-hidden';
+                } else if (day.value > 45 && day.value <= 60) {
+                    // High level: 60% - 85% fill
+                    percentage = Math.max(60, Math.min(85, 60 + Math.round(((day.value - 45) / 15) * 25)));
+                    colorHex = '#38bdf8'; // sky-400
+                    backColorHex = '#7dd3fc'; // sky-300
+                    levelText = `Học ${day.value} phút (45-60 phút)`;
+                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-sky-300 bg-gray-50/50 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-500 hover:shadow-md overflow-hidden';
+                } else if (day.value > 60) {
+                    // Very high level: 90% - 100% fill
+                    percentage = Math.max(90, Math.min(100, 90 + Math.round((Math.min(day.value - 60, 60) / 60) * 10)));
+                    colorHex = '#0ea5e9'; // sky-500
+                    backColorHex = '#38bdf8'; // sky-400
+                    levelText = `Học ${day.value} phút (Trên 60 phút)`;
+                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-sky-400 bg-gray-50/50 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-600 hover:shadow-lg overflow-hidden';
                 }
 
                 const formattedDate = day.date.toLocaleDateString('vi-VN', {
@@ -943,28 +1021,67 @@
                 });
                 const tooltipText = `Ngày ${formattedDate}: ${levelText}`;
 
-                // Create cell container (square)
+                // Create cell container (circle)
                 const cell = document.createElement('div');
-                cell.className = 'w-11 h-11 flex items-center justify-center bg-[#fafafa]/50 border border-gray-100 rounded-lg cursor-pointer transition-all duration-150 hover:bg-orange-50/30 hover:scale-105 hover:shadow-sm';
+                cell.className = cellClass;
                 cell.setAttribute('title', tooltipText);
 
-                // Create Lucide flame icon inside it
-                const icon = document.createElement('i');
-                icon.setAttribute('data-lucide', 'flame');
-                icon.className = `${colorClass} ${sizeClass} transition-all duration-150`;
-                cell.appendChild(icon);
+                if (day.value > 0) {
+                    // Create liquid fill div
+                    const liquid = document.createElement('div');
+                    liquid.className = 'absolute bottom-0 left-0 w-full transition-all duration-1000 ease-out';
+                    liquid.style.height = `${percentage}%`;
+                    liquid.style.background = `linear-gradient(180deg, ${colorHex} 0%, ${backColorHex} 100%)`;
 
+                    // Wave shapes (Double Wave)
+                    // Back wave (semi-transparent, reverse animation)
+                    const backWave = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    backWave.setAttribute('class', 'absolute left-0 w-[200%] h-[10px] opacity-40 animate-wave-reverse');
+                    backWave.setAttribute('style', 'top: -9px; pointer-events: none;');
+                    backWave.setAttribute('viewBox', '0 0 120 28');
+                    backWave.setAttribute('preserveAspectRatio', 'none');
+
+                    const backWavePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    backWavePath.setAttribute('d', 'M0 15 Q 15 5, 30 15 T 60 15 Q 75 5, 90 15 T 120 15 L 120 28 L 0 28 Z');
+                    backWavePath.setAttribute('fill', colorHex);
+                    backWave.appendChild(backWavePath);
+
+                    // Front wave (opaque, normal animation)
+                    const frontWave = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    frontWave.setAttribute('class', 'absolute left-0 w-[200%] h-[10px] animate-wave');
+                    frontWave.setAttribute('style', 'top: -9px; pointer-events: none;');
+                    frontWave.setAttribute('viewBox', '0 0 120 28');
+                    frontWave.setAttribute('preserveAspectRatio', 'none');
+
+                    const frontWavePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    frontWavePath.setAttribute('d', 'M0 15 Q 15 5, 30 15 T 60 15 Q 75 5, 90 15 T 120 15 L 120 28 L 0 28 Z');
+                    frontWavePath.setAttribute('fill', colorHex);
+                    frontWave.appendChild(frontWavePath);
+
+                    liquid.appendChild(backWave);
+                    liquid.appendChild(frontWave);
+                    cell.appendChild(liquid);
+                }
+
+                // Create text label for date (day/month) centered
+                const dateLabel = document.createElement('span');
+                dateLabel.className = `absolute inset-0 flex items-center justify-center text-[8.5px] font-extrabold tracking-tighter z-10 pointer-events-none select-none transition-colors duration-300 ${day.value > 0 ? 'text-sky-950/80' : 'text-gray-400/80'
+                    }`;
+                dateLabel.innerText = `${day.date.getDate()}/${day.date.getMonth() + 1}`;
+                cell.appendChild(dateLabel);
+
+                // Hover interactions
                 cell.addEventListener('mouseenter', () => {
                     document.getElementById('heatmap-status').innerHTML = `
-                        <i data-lucide="flame" class="w-4 h-4 text-orange-500 fill-orange-500 animate-pulse"></i>
+                        <i data-lucide="droplet" class="w-4 h-4 text-sky-500 fill-sky-500 animate-bounce"></i>
                         <span class="font-semibold text-gray-800">${tooltipText}</span>
                     `;
                     if (window.lucide) window.lucide.createIcons();
                 });
                 cell.addEventListener('mouseleave', () => {
                     document.getElementById('heatmap-status').innerHTML = `
-                        <i data-lucide="info" class="w-3.5 h-3.5 text-orange-500"></i>
-                        <span>Di chuột qua mỗi ngọn lửa để xem chi tiết thời gian học từng ngày.</span>
+                        <i data-lucide="info" class="w-3.5 h-3.5 text-sky-500"></i>
+                        <span>Di chuột qua mỗi hình tròn để xem chi tiết thời gian học từng ngày.</span>
                     `;
                     if (window.lucide) window.lucide.createIcons();
                 });
@@ -1125,9 +1242,16 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div class="flex-grow bg-[#f5f5f5] h-2 rounded-full overflow-hidden">
-                                    <div class="h-full bg-[#1677ff] rounded-full transition-all duration-500" style="width: ${item.value}%"></div>
+                                    <div class="h-full ${item.value === 100 ? 'bg-[#52c41a]' : 'bg-[#1677ff]'} rounded-full transition-all duration-500" style="width: ${item.value}%"></div>
                                 </div>
-                                <span class="text-xs text-[rgba(0,0,0,0.88)] font-medium w-10 text-right">${item.value}%</span>
+                                <div class="flex items-center gap-1.5 shrink-0 justify-end w-16">
+                                    <span class="text-xs text-[rgba(0,0,0,0.88)] font-medium text-right">${item.value}%</span>
+                                    ${item.value === 100 ? `
+                                        <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#f6ffed] border border-[#b7eb8f] text-[#52c41a] shrink-0" title="Hoàn thành chủ đề">
+                                            <i data-lucide="check" class="w-2.5 h-2.5"></i>
+                                        </span>
+                                    ` : ''}
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -1141,7 +1265,12 @@
                                             <div class="flex-grow bg-gray-200 h-1.5 rounded-full overflow-hidden">
                                                 <div class="h-full bg-[#52c41a] rounded-full" style="width: ${tg.value}%"></div>
                                             </div>
-                                            <span class="font-bold w-8 text-right text-gray-700">${tg.value}%</span>
+                                            <div class="flex items-center gap-1 w-14 justify-end shrink-0">
+                                                <span class="font-bold text-gray-700">${tg.value}%</span>
+                                                ${tg.value === 100 ? `
+                                                    <i data-lucide="check" class="w-3.5 h-3.5 text-[#52c41a] shrink-0" title="Hoàn thành YCCĐ"></i>
+                                                ` : ''}
+                                            </div>
                                         </div>
                                     </div>
                                 `).join('')}
