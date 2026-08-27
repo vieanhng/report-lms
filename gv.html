@@ -207,19 +207,29 @@
                 </div>
 
                 <!-- Số phiếu bài tập hoàn thành -->
-                <div
-                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập hoàn
-                            thành</span>
-                        <div
-                            class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
-                            <i data-lucide="file-text"
-                                class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                <div id="gv-homework-card"
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[115px] cursor-pointer select-none active:scale-95 pb-3.5"
+                    title="Bấm vào để xem/ẩn các Chỉ số thống kê trên câu hỏi cho Phiếu bài tập">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập
+                                hoàn
+                                thành</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
+                                <i data-lucide="file-text"
+                                    class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                            </div>
                         </div>
+                        <span id="avg-homework-completed"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">48.2</span>
                     </div>
-                    <span id="avg-homework-completed"
-                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">48.2</span>
+                    <div
+                        class="flex items-center gap-1 text-[10px] text-[#722ed1] font-semibold mt-3 pt-2 border-t border-[#f5f5f5] group-hover:text-[#531dab] transition-colors w-full">
+                        <span id="gv-hw-action-text">Xem chỉ số câu hỏi</span>
+                        <i data-lucide="chevron-down" id="gv-hw-action-icon"
+                            class="w-3 h-3 transition-transform duration-200"></i>
+                    </div>
                 </div>
 
                 <!-- Số bài giảng hoàn thành / học sinh -->
@@ -239,19 +249,28 @@
                 </div>
 
                 <!-- Số đề thi hoàn thành / học sinh -->
-                <div
-                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#ff4d4f] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số đề thi hoàn
-                            thành / học sinh</span>
-                        <div
-                            class="w-8 h-8 rounded-lg bg-[rgba(255,77,79,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(255,77,79,0.15)] transition-colors">
-                            <i data-lucide="award"
-                                class="w-4 h-4 text-[#ff4d4f] group-hover:scale-110 transition-transform"></i>
+                <div id="gv-exams-card"
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#ff4d4f] hover:shadow-md transition-all group flex flex-col justify-between min-h-[115px] cursor-pointer select-none active:scale-95 pb-3.5"
+                    title="Bấm vào để xem/ẩn các Chỉ số thống kê trên câu hỏi cho Đề thi">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số đề thi hoàn
+                                thành / học sinh</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(255,77,79,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(255,77,79,0.15)] transition-colors">
+                                <i data-lucide="award"
+                                    class="w-4 h-4 text-[#ff4d4f] group-hover:scale-110 transition-transform"></i>
+                            </div>
                         </div>
+                        <span id="avg-exams-completed"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">32.4</span>
                     </div>
-                    <span id="avg-exams-completed"
-                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">32.4</span>
+                    <div
+                        class="flex items-center gap-1 text-[10px] text-[#ff4d4f] font-semibold mt-3 pt-2 border-t border-[#f5f5f5] group-hover:text-[#cf1322] transition-colors w-full">
+                        <span id="gv-exams-action-text">Xem chỉ số câu hỏi</span>
+                        <i data-lucide="chevron-down" id="gv-exams-action-icon"
+                            class="w-3 h-3 transition-transform duration-200"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -263,11 +282,41 @@
 
             <!-- Nhóm 2: Chỉ số thống kê trên câu hỏi -->
             <div>
-                <div class="mb-4 flex items-center gap-2">
-                    <i data-lucide="help-circle" class="w-4 h-4 text-gray-500"></i>
-                    <h3 class="text-sm font-semibold text-gray-700">Chỉ số thống kê trên câu hỏi</h3>
+                <div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-gray-500"></i>
+                        <h3 class="text-sm font-semibold text-gray-700">Chỉ số thống kê trên câu hỏi</h3>
+                        <span id="gv-mode-badge"
+                            class="px-2 py-0.5 text-[11px] font-medium bg-blue-50 text-blue-600 rounded-md border border-blue-100">Tất
+                            cả chế độ</span>
+                    </div>
+                    <!-- Mode Filter Tabs -->
+                    <div class="flex items-center gap-1 bg-gray-100 p-1 rounded-lg text-xs font-medium text-gray-600">
+                        <button type="button" onclick="switchGvQuestionMode('homework')" id="gv-tab-homework"
+                            class="px-2.5 py-1 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Phiếu bài tập</button>
+                        <button type="button" onclick="switchGvQuestionMode('exams')" id="gv-tab-exams"
+                            class="px-2.5 py-1 rounded-md transition-all hover:text-gray-900 text-gray-500">Đề thi</button>
+                        <button type="button" onclick="switchGvQuestionMode('ai')" id="gv-tab-ai"
+                            class="px-2.5 py-1 rounded-md transition-all hover:text-gray-900 text-gray-500">Tự học AI</button>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="gv-q-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Số câu hỏi đã thực hiện -->
+                    <div
+                        class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số câu hỏi đã thực
+                                hiện</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
+                                <i data-lucide="list-checks"
+                                    class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="avg-questions-attempted"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">1,450</span>
+                    </div>
+
                     <!-- Thời gian làm/câu hỏi -->
                     <div
                         class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#1677ff] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
@@ -284,12 +333,12 @@
                             class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">42s</span>
                     </div>
 
-                    <!-- Tỉ lệ trả lời đúng lần đầu -->
+                    <!-- Tỉ lệ trả lời đúng -->
                     <div
                         class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
                         <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ trả lời đúng
-                                lần
+                            <span id="gv-correct-rate-title"
+                                class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ trả lời đúng lần
                                 đầu</span>
                             <div
                                 class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
@@ -302,7 +351,7 @@
                     </div>
 
                     <!-- Tỉ lệ xem gợi ý -->
-                    <div
+                    <div id="gv-hint-card"
                         class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#faad14] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ xem gợi
@@ -368,8 +417,8 @@
             <h4 class="font-semibold text-sm">Danh sách học sinh chi tiết</h4>
             <div class="flex items-center gap-4">
                 <span class="text-xs text-gray-400 italic" id="row-count"></span>
-                <button
-                    class="bg-[#1677ff] hover:bg-[#4096ff] text-white px-4 py-1.5 rounded text-sm font-medium flex items-center gap-2">
+                <button onclick="exportStudentData()"
+                    class="bg-[#1677ff] hover:bg-[#4096ff] text-white px-4 py-1.5 rounded text-sm font-medium flex items-center gap-2 transition-colors">
                     <i data-lucide="download" class="w-4 h-4"></i> Xuất dữ liệu
                 </button>
             </div>
@@ -391,6 +440,16 @@
                                 <i data-lucide="chevrons-up-down"
                                     class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
                                     id="sort-icon-time"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
+                            onclick="handleSort('streak')">
+                            <div class="flex items-center gap-1">
+                                <span>Streak</span>
+                                <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0"></i>
+                                <i data-lucide="chevrons-up-down"
+                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
+                                    id="sort-icon-streak"></i>
                             </div>
                         </th>
                         <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
@@ -430,30 +489,13 @@
                             </div>
                         </th>
                         <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
-                            onclick="handleSort('avgQuestionTime')">
-                            <div class="flex items-center gap-1">
-                                <span>TB/Câu hỏi</span>
+                            onclick="handleSort('totalQuestions')">
+                            <div class="flex items-center gap-1 text-[#722ed1]">
+                                <span>Tổng số câu</span>
+                                <i data-lucide="list-checks" class="w-3.5 h-3.5 text-[#722ed1] shrink-0"></i>
                                 <i data-lucide="chevrons-up-down"
                                     class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
-                                    id="sort-icon-avgQuestionTime"></i>
-                            </div>
-                        </th>
-                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
-                            onclick="handleSort('correctRate')">
-                            <div class="flex items-center gap-1">
-                                <span>Đúng lần đầu</span>
-                                <i data-lucide="chevrons-up-down"
-                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
-                                    id="sort-icon-correctRate"></i>
-                            </div>
-                        </th>
-                        <th class="px-6 py-4 font-semibold cursor-pointer select-none hover:bg-gray-100/50 transition-colors group"
-                            onclick="handleSort('hintRate')">
-                            <div class="flex items-center gap-1">
-                                <span>Xem gợi ý</span>
-                                <i data-lucide="chevrons-up-down"
-                                    class="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors shrink-0"
-                                    id="sort-icon-hintRate"></i>
+                                    id="sort-icon-totalQuestions"></i>
                             </div>
                         </th>
                         <th class="px-6 py-4 font-semibold text-center w-24 select-none">Thao tác</th>
@@ -481,7 +523,6 @@
                                     class="w-12 px-1 py-1 text-[11px] border border-[#d9d9d9] rounded outline-none hover:border-[#1677ff] focus:border-[#1677ff] font-normal text-gray-600" />
                             </div>
                         </th>
-                        <th class="px-4 py-2"></th>
                         <th class="px-4 py-2"></th>
                         <th class="px-4 py-2"></th>
                         <th class="px-4 py-2"></th>
@@ -596,18 +637,27 @@
         let distributionChartInstance;
         let weeklyStackedChartInstance;
 
+        let currentGvQuestionMode = 'homework';
+
         // Mock data for each time range
         const timeRangeMockData = {
             'all-time': {
                 totalHours: '342.5',
+                avgQuestionsAttempted: '1,450',
                 avgQuestionTime: '42s',
                 avgAISessions: '85.4',
-                avgHomework: '48.2',
-                avgLectures: '32.6',
-                avgExams: '32.4',
+                avgHomework: '48',
+                avgLectures: '33',
+                avgExams: '32',
                 avgLearningTime: '19.6 giờ',
                 avgCorrectRate: '78%',
                 avgHintRate: '18%',
+                modes: {
+                    'all': { questions: '1,450', time: '42s', correctRate: '78%', hintRate: '18%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '680', time: '35s', correctRate: '84%', hintRate: '12%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '520', time: '55s', correctRate: '75%', hintRate: '5%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '250', time: '28s', correctRate: '72%', hintRate: '22%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [120, 154.1, 34.2, 34.2],
                 stackedTitle: 'Phân bố thời lượng học theo các chế độ học',
                 stackedLabels: ['Tuần 1 (13/04 - 19/04)', 'Tuần 2 (20/04 - 26/04)', 'Tuần 3 (27/04 - 03/05)', 'Tuần 4 (04/05 - 10/05)', 'Tuần 5 (11/05 - 17/05)'],
@@ -620,6 +670,7 @@
             },
             'week': {
                 totalHours: '72.8',
+                avgQuestionsAttempted: '245',
                 avgQuestionTime: '38s',
                 avgAISessions: '12.5',
                 avgHomework: '8.4',
@@ -628,6 +679,12 @@
                 avgLearningTime: '1.6 giờ',
                 avgCorrectRate: '82%',
                 avgHintRate: '8%',
+                modes: {
+                    'all': { questions: '245', time: '38s', correctRate: '82%', hintRate: '8%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '115', time: '32s', correctRate: '86%', hintRate: '5%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '85', time: '48s', correctRate: '80%', hintRate: '3%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '45', time: '26s', correctRate: '76%', hintRate: '14%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [25.5, 32.8, 7.3, 7.2],
                 stackedTitle: 'Phân bộ thời gian học theo ngày và hành vi (Tuần này)',
                 stackedLabels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
@@ -640,6 +697,7 @@
             },
             'prev-week': {
                 totalHours: '84.2',
+                avgQuestionsAttempted: '280',
                 avgQuestionTime: '44s',
                 avgAISessions: '14.2',
                 avgHomework: '9.6',
@@ -648,6 +706,12 @@
                 avgLearningTime: '1.9 giờ',
                 avgCorrectRate: '76%',
                 avgHintRate: '9%',
+                modes: {
+                    'all': { questions: '280', time: '44s', correctRate: '76%', hintRate: '9%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '130', time: '36s', correctRate: '82%', hintRate: '6%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '98', time: '52s', correctRate: '74%', hintRate: '4%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '52', time: '30s', correctRate: '70%', hintRate: '15%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [29.5, 37.9, 8.4, 8.4],
                 stackedTitle: 'Phân bộ thời gian học theo ngày và hành vi (Tuần trước)',
                 stackedLabels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
@@ -660,6 +724,7 @@
             },
             'month': {
                 totalHours: '185.5',
+                avgQuestionsAttempted: '620',
                 avgQuestionTime: '41s',
                 avgAISessions: '42.8',
                 avgHomework: '24.5',
@@ -668,6 +733,12 @@
                 avgLearningTime: '4.1 giờ',
                 avgCorrectRate: '79%',
                 avgHintRate: '14%',
+                modes: {
+                    'all': { questions: '620', time: '41s', correctRate: '79%', hintRate: '14%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '290', time: '34s', correctRate: '85%', hintRate: '10%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '220', time: '53s', correctRate: '76%', hintRate: '4%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '110', time: '27s', correctRate: '74%', hintRate: '18%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [65.0, 83.5, 18.5, 18.5],
                 stackedTitle: 'Phân bộ thời gian học theo tuần và hành vi (Tháng này)',
                 stackedLabels: ['Tuần 1 (01-07)', 'Tuần 2 (08-14)', 'Tuần 3 (15-21)', 'Tuần 4 (22-28)', 'Tuần 5 (29-31)'],
@@ -680,6 +751,7 @@
             },
             'custom': {
                 totalHours: '120.0',
+                avgQuestionsAttempted: '410',
                 avgQuestionTime: '40s',
                 avgAISessions: '28.2',
                 avgHomework: '16.4',
@@ -688,6 +760,12 @@
                 avgLearningTime: '2.7 giờ',
                 avgCorrectRate: '80%',
                 avgHintRate: '11%',
+                modes: {
+                    'all': { questions: '410', time: '40s', correctRate: '80%', hintRate: '11%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '190', time: '33s', correctRate: '85%', hintRate: '8%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '145', time: '51s', correctRate: '77%', hintRate: '4%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '75', time: '27s', correctRate: '75%', hintRate: '16%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [42.0, 54.0, 12.0, 12.0],
                 stackedTitle: 'Phân bộ thời gian học theo tuần và hành vi (Khoảng tùy chọn)',
                 stackedLabels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
@@ -699,6 +777,105 @@
                 ]
             }
         };
+
+        function switchGvQuestionMode(mode) {
+            currentGvQuestionMode = mode;
+            const timeSelect = document.getElementById('time-range-select');
+            const timeRange = timeSelect ? timeSelect.value : 'all-time';
+            const data = timeRangeMockData[timeRange];
+            if (!data) return;
+
+            const modeData = (data.modes && data.modes[mode]) ? data.modes[mode] : data.modes['all'];
+
+            document.getElementById('avg-questions-attempted').innerText = modeData.questions;
+            document.getElementById('avg-question-time').innerText = modeData.time;
+            document.getElementById('avg-correct-rate').innerText = modeData.correctRate;
+            document.getElementById('avg-hint-rate').innerText = modeData.hintRate;
+            const badgeEl = document.getElementById('gv-mode-badge');
+            if (badgeEl) badgeEl.innerText = modeData.badge;
+
+            // Handle 3 vs 4 stat cards (Homework/Exams vs All/AI)
+            const correctTitleEl = document.getElementById('gv-correct-rate-title');
+            const hintCardEl = document.getElementById('gv-hint-card');
+            const gridEl = document.getElementById('gv-q-grid');
+
+            if (mode === 'homework' || mode === 'exams') {
+                if (correctTitleEl) correctTitleEl.innerText = 'Tỉ lệ trả lời đúng';
+                if (hintCardEl) hintCardEl.classList.add('hidden');
+                if (gridEl) {
+                    gridEl.classList.remove('lg:grid-cols-4');
+                    gridEl.classList.add('lg:grid-cols-3');
+                }
+            } else {
+                if (correctTitleEl) correctTitleEl.innerText = 'Tỉ lệ trả lời đúng lần đầu';
+                if (hintCardEl) hintCardEl.classList.remove('hidden');
+                if (gridEl) {
+                    gridEl.classList.remove('lg:grid-cols-3');
+                    gridEl.classList.add('lg:grid-cols-4');
+                }
+            }
+
+            // Update tab button styles
+            const tabs = ['homework', 'exams', 'ai'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`gv-tab-${t}`);
+                if (btn) {
+                    if (t === mode) {
+                        btn.className = 'px-2.5 py-1 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold';
+                    } else {
+                        btn.className = 'px-2.5 py-1 rounded-md transition-all hover:text-gray-900 text-gray-500';
+                    }
+                }
+            });
+        }
+
+        function toggleGvQuestionCard(cardType) {
+            const questionStatsContainer = document.getElementById('gv-question-stats-container');
+            if (!questionStatsContainer) return;
+
+            const isOpen = questionStatsContainer.classList.contains('show');
+
+            const cardMap = {
+                'ai': { card: 'gv-ai-sessions-card', text: 'gv-ai-action-text', icon: 'gv-ai-action-icon' },
+                'homework': { card: 'gv-homework-card', text: 'gv-hw-action-text', icon: 'gv-hw-action-icon' },
+                'exams': { card: 'gv-exams-card', text: 'gv-exams-action-text', icon: 'gv-exams-action-icon' }
+            };
+
+            function resetAllCards() {
+                Object.keys(cardMap).forEach(key => {
+                    const item = cardMap[key];
+                    const elCard = document.getElementById(item.card);
+                    const elText = document.getElementById(item.text);
+                    const elIcon = document.getElementById(item.icon);
+                    if (elCard) elCard.classList.remove('ring-2', 'ring-blue-500/30', 'ring-purple-500/30', 'ring-red-500/30');
+                    if (elText) elText.innerText = 'Xem chỉ số câu hỏi';
+                    if (elIcon) elIcon.style.transform = 'rotate(0deg)';
+                });
+            }
+
+            if (isOpen && currentGvQuestionMode === cardType) {
+                questionStatsContainer.classList.remove('show');
+                resetAllCards();
+            } else {
+                resetAllCards();
+                questionStatsContainer.classList.add('show');
+                switchGvQuestionMode(cardType);
+
+                const target = cardMap[cardType];
+                if (target) {
+                    const elCard = document.getElementById(target.card);
+                    const elText = document.getElementById(target.text);
+                    const elIcon = document.getElementById(target.icon);
+                    if (elCard) elCard.classList.add('ring-2', 'ring-blue-500/30');
+                    if (elText) elText.innerText = 'Ẩn chỉ số câu hỏi';
+                    if (elIcon) elIcon.style.transform = 'rotate(180deg)';
+                }
+
+                setTimeout(() => {
+                    questionStatsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 150);
+            }
+        }
 
         // Hàm tính phân phối chuẩn Histogram hình chuông
         function getHistogramForTimeRange(timeRange) {
@@ -907,13 +1084,13 @@
 
             // 1. Update text indicators
             document.getElementById('avg-learning-time').innerText = data.avgLearningTime;
-            document.getElementById('avg-question-time').innerText = data.avgQuestionTime;
             document.getElementById('avg-ai-sessions').innerText = data.avgAISessions;
             document.getElementById('avg-homework-completed').innerText = data.avgHomework;
             document.getElementById('avg-lectures-completed').innerText = data.avgLectures;
             document.getElementById('avg-exams-completed').innerText = data.avgExams;
-            document.getElementById('avg-correct-rate').innerText = data.avgCorrectRate;
-            document.getElementById('avg-hint-rate').innerText = data.avgHintRate;
+
+            // Update mode question statistics
+            switchGvQuestionMode(currentGvQuestionMode);
 
             // 2. Update Donut Chart
             donutChartInstance.data.datasets[0].data = data.behaviorValues;
@@ -952,10 +1129,14 @@
             });
             weeklyStackedChartInstance.update();
 
-            // 6. Update student records
             students.forEach((s) => {
-                let hours, mins, lectures, aiSessions, homeworkCompleted, completedExams, avgQuestionTime, correctRate, hintRate;
+                let hours, mins, lectures, aiSessions, homeworkCompleted, completedExams, streak;
+                let aiQuestions, homeworkQuestions, examQuestions;
+                let aiAvgTime, aiCorrectRate, aiHintRate;
+                let homeworkAvgTime, homeworkCorrectRate;
+                let examAvgTime, examCorrectRate;
                 const seed = s.id;
+
                 if (timeRange === 'all-time') {
                     hours = (seed % 15) + 12;
                     mins = (seed * 7) % 60;
@@ -963,9 +1144,21 @@
                     aiSessions = (seed % 30) + 70;
                     homeworkCompleted = (seed % 20) + 40;
                     completedExams = (seed % 10) + 25;
-                    avgQuestionTime = (seed % 15) + 35 + 's';
-                    correctRate = (seed % 20) + 70 + '%';
-                    hintRate = (seed % 15) + 10 + '%';
+                    streak = (seed % 18) + 5;
+
+                    aiQuestions = (seed % 80) + 120;
+                    homeworkQuestions = homeworkCompleted * 15 + (seed % 30);
+                    examQuestions = completedExams * 20 + (seed % 40);
+
+                    aiAvgTime = (seed % 10) + 24 + 's';
+                    aiCorrectRate = (seed % 15) + 68 + '%';
+                    aiHintRate = (seed % 10) + 18 + '%';
+
+                    homeworkAvgTime = (seed % 12) + 30 + 's';
+                    homeworkCorrectRate = (seed % 15) + 78 + '%';
+
+                    examAvgTime = (seed % 15) + 48 + 's';
+                    examCorrectRate = (seed % 15) + 70 + '%';
                 } else if (timeRange === 'week') {
                     hours = seed % 3;
                     mins = (seed * 13) % 60;
@@ -973,9 +1166,21 @@
                     aiSessions = (seed % 5) + 10;
                     homeworkCompleted = (seed % 4) + 6;
                     completedExams = (seed % 3) + 3;
-                    avgQuestionTime = (seed % 10) + 32 + 's';
-                    correctRate = (seed % 15) + 75 + '%';
-                    hintRate = (seed % 8) + 4 + '%';
+                    streak = (seed % 5) + 3;
+
+                    aiQuestions = (seed % 25) + 20;
+                    homeworkQuestions = homeworkCompleted * 10 + (seed % 15);
+                    examQuestions = completedExams * 15 + (seed % 20);
+
+                    aiAvgTime = (seed % 8) + 22 + 's';
+                    aiCorrectRate = (seed % 12) + 72 + '%';
+                    aiHintRate = (seed % 8) + 12 + '%';
+
+                    homeworkAvgTime = (seed % 10) + 28 + 's';
+                    homeworkCorrectRate = (seed % 12) + 82 + '%';
+
+                    examAvgTime = (seed % 12) + 45 + 's';
+                    examCorrectRate = (seed % 12) + 74 + '%';
                 } else if (timeRange === 'prev-week') {
                     hours = (seed % 3) + 1;
                     mins = (seed * 17) % 60;
@@ -983,19 +1188,42 @@
                     aiSessions = (seed % 6) + 11;
                     homeworkCompleted = (seed % 5) + 7;
                     completedExams = (seed % 4) + 4;
-                    avgQuestionTime = (seed % 12) + 38 + 's';
-                    correctRate = (seed % 15) + 70 + '%';
-                    hintRate = (seed % 8) + 5 + '%';
+                    streak = (seed % 6) + 2;
+
+                    aiQuestions = (seed % 28) + 22;
+                    homeworkQuestions = homeworkCompleted * 10 + (seed % 18);
+                    examQuestions = completedExams * 15 + (seed % 22);
+
+                    aiAvgTime = (seed % 8) + 25 + 's';
+                    aiCorrectRate = (seed % 12) + 69 + '%';
+                    aiHintRate = (seed % 8) + 15 + '%';
+
+                    homeworkAvgTime = (seed % 10) + 32 + 's';
+                    homeworkCorrectRate = (seed % 12) + 76 + '%';
+
+                    examAvgTime = (seed % 12) + 49 + 's';
+                    examCorrectRate = (seed % 12) + 71 + '%';
                 } else if (timeRange === 'month') {
                     hours = (seed % 8) + 4;
                     mins = (seed * 23) % 60;
                     lectures = (seed % 12) + 10;
-                    aiSessions = (seed % 15) + 35;
-                    homeworkCompleted = (seed % 10) + 20;
+                    aiSessions = (seed % 10) + 20;
                     completedExams = (seed % 8) + 12;
-                    avgQuestionTime = (seed % 14) + 34 + 's';
-                    correctRate = (seed % 18) + 72 + '%';
-                    hintRate = (seed % 12) + 8 + '%';
+                    streak = (seed % 14) + 4;
+
+                    aiQuestions = (seed % 50) + 65;
+                    homeworkQuestions = homeworkCompleted * 12 + (seed % 25);
+                    examQuestions = completedExams * 18 + (seed % 30);
+
+                    aiAvgTime = (seed % 9) + 23 + 's';
+                    aiCorrectRate = (seed % 14) + 71 + '%';
+                    aiHintRate = (seed % 9) + 14 + '%';
+
+                    homeworkAvgTime = (seed % 11) + 29 + 's';
+                    homeworkCorrectRate = (seed % 14) + 80 + '%';
+
+                    examAvgTime = (seed % 14) + 47 + 's';
+                    examCorrectRate = (seed % 14) + 73 + '%';
                 } else {
                     hours = (seed % 5) + 2;
                     mins = (seed * 11) % 60;
@@ -1003,18 +1231,43 @@
                     aiSessions = (seed % 10) + 23;
                     homeworkCompleted = (seed % 8) + 12;
                     completedExams = (seed % 6) + 8;
-                    avgQuestionTime = (seed % 12) + 35 + 's';
-                    correctRate = (seed % 15) + 73 + '%';
-                    hintRate = (seed % 10) + 6 + '%';
+                    streak = (seed % 10) + 3;
+
+                    aiQuestions = (seed % 35) + 40;
+                    homeworkQuestions = homeworkCompleted * 11 + (seed % 20);
+                    examQuestions = completedExams * 16 + (seed % 25);
+
+                    aiAvgTime = (seed % 9) + 24 + 's';
+                    aiCorrectRate = (seed % 13) + 70 + '%';
+                    aiHintRate = (seed % 9) + 16 + '%';
+
+                    homeworkAvgTime = (seed % 11) + 31 + 's';
+                    homeworkCorrectRate = (seed % 13) + 79 + '%';
+
+                    examAvgTime = (seed % 13) + 48 + 's';
+                    examCorrectRate = (seed % 13) + 72 + '%';
                 }
                 s.time = `${hours}h ${mins}m`;
                 s.completedLectures = lectures;
                 s.aiSessions = aiSessions;
                 s.homeworkCompleted = homeworkCompleted;
                 s.completedExams = completedExams;
-                s.avgQuestionTime = avgQuestionTime;
-                s.correctRate = correctRate;
-                s.hintRate = hintRate;
+                s.streak = streak;
+
+                s.aiQuestions = aiQuestions;
+                s.homeworkQuestions = homeworkQuestions;
+                s.examQuestions = examQuestions;
+                s.totalQuestions = aiQuestions + homeworkQuestions + examQuestions;
+
+                s.aiAvgTime = aiAvgTime;
+                s.aiCorrectRate = aiCorrectRate;
+                s.aiHintRate = aiHintRate;
+
+                s.homeworkAvgTime = homeworkAvgTime;
+                s.homeworkCorrectRate = homeworkCorrectRate;
+
+                s.examAvgTime = examAvgTime;
+                s.examCorrectRate = examCorrectRate;
             });
 
             // 7. Render student table with updated data
@@ -1159,15 +1412,6 @@
                         const matchB = b.time.match(/(\d+)h\s*(\d+)m/);
                         valA = matchA ? parseInt(matchA[1]) * 60 + parseInt(matchA[2]) : 0;
                         valB = matchB ? parseInt(matchB[1]) * 60 + parseInt(matchB[2]) : 0;
-                    } else if (sortColumn === 'avgQuestionTime') {
-                        valA = parseInt(a.avgQuestionTime) || 0;
-                        valB = parseInt(b.avgQuestionTime) || 0;
-                    } else if (sortColumn === 'correctRate') {
-                        valA = parseInt(a.correctRate) || 0;
-                        valB = parseInt(b.correctRate) || 0;
-                    } else if (sortColumn === 'hintRate') {
-                        valA = parseInt(a.hintRate) || 0;
-                        valB = parseInt(b.hintRate) || 0;
                     } else {
                         valA = a[sortColumn];
                         valB = b[sortColumn];
@@ -1194,7 +1438,7 @@
 
             tbody.innerHTML = paginatedData.length
                 ? ''
-                : '<tr><td colspan="12" class="p-8 text-center text-gray-300">Không có dữ liệu</td></tr>';
+                : '<tr><td colspan="11" class="p-8 text-center text-gray-300">Không có dữ liệu</td></tr>';
             paginatedData.forEach((s) => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-[#fafafa]">
@@ -1202,13 +1446,27 @@
                         <td class="px-6 py-4"><div class="font-semibold text-[#1677ff] cursor-pointer">${s.name}</div><div class="text-[11px] text-gray-400">@${s.username}</div></td>
                         <td class="px-6 py-4"><div class="font-medium text-gray-700">${s.className}</div><div class="text-[11px] text-gray-400">${s.schoolName}</div></td>
                         <td class="px-6 py-4 font-bold text-gray-600 italic"><div class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3 h-3"></i> ${s.time}</div></td>
-                        <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#1677ff]"></i> ${s.aiSessions} phiên</div></td>
-                        <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="file-text" class="w-3.5 h-3.5 text-[#722ed1]"></i> ${s.homeworkCompleted} phiếu</div></td>
+                        <td class="px-6 py-4 font-medium text-gray-600"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200"><i data-lucide="flame" class="w-3 h-3 text-amber-500 fill-amber-500"></i> ${s.streak} ngày</span></td>
+                        <td class="px-6 py-3.5 font-medium text-gray-700">
+                            <div>
+                                <div class="flex items-center gap-1.5 font-semibold text-gray-800"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#1677ff]"></i> <span>${s.aiSessions} phiên</span> <span class="text-gray-300">•</span> <span class="text-blue-600 font-semibold">${s.aiQuestions} câu</span></div>
+                                <div class="text-[11px] text-gray-500 mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5"><span>⏱ ${s.aiAvgTime}</span> <span>🎯 ${s.aiCorrectRate} L1</span> <span>💡 ${s.aiHintRate}</span></div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-3.5 font-medium text-gray-700">
+                            <div>
+                                <div class="flex items-center gap-1.5 font-semibold text-gray-800"><i data-lucide="file-text" class="w-3.5 h-3.5 text-[#722ed1]"></i> <span>${s.homeworkCompleted} phiếu</span> <span class="text-gray-300">•</span> <span class="text-purple-600 font-semibold">${s.homeworkQuestions} câu</span></div>
+                                <div class="text-[11px] text-gray-500 mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5"><span>⏱ ${s.homeworkAvgTime}</span> <span>🎯 ${s.homeworkCorrectRate} đúng</span></div>
+                            </div>
+                        </td>
                         <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-[#fa8c16]"></i> ${s.completedLectures} bài</div></td>
-                        <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="award" class="w-3.5 h-3.5 text-[#ff4d4f]"></i> ${s.completedExams} đề</div></td>
-                        <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="timer" class="w-3.5 h-3.5 text-gray-400"></i> ${s.avgQuestionTime}</div></td>
-                        <td class="px-6 py-4 font-semibold text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#52c41a]"></i> ${s.correctRate}</div></td>
-                        <td class="px-6 py-4 font-medium text-gray-600"><div class="flex items-center gap-1.5"><i data-lucide="lightbulb" class="w-3.5 h-3.5 text-[#faad14]"></i> ${s.hintRate}</div></td>
+                        <td class="px-6 py-3.5 font-medium text-gray-700">
+                            <div>
+                                <div class="flex items-center gap-1.5 font-semibold text-gray-800"><i data-lucide="award" class="w-3.5 h-3.5 text-[#ff4d4f]"></i> <span>${s.completedExams} đề</span> <span class="text-gray-300">•</span> <span class="text-red-500 font-semibold">${s.examQuestions} câu</span></div>
+                                <div class="text-[11px] text-gray-500 mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5"><span>⏱ ${s.examAvgTime}</span> <span>🎯 ${s.examCorrectRate} đúng</span></div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-3.5 font-bold text-[#722ed1]"><div class="flex items-center gap-1.5 text-base"><i data-lucide="list-checks" class="w-4 h-4 text-[#722ed1]"></i> ${s.totalQuestions} câu</div></td>
                         <td class="px-6 py-4 text-center"><button class="p-1.5 hover:bg-[#e6f4ff] rounded text-[#1677ff]"><i data-lucide="eye" class="w-4 h-4"></i></button></td>
                     </tr>
                 `;
@@ -1216,6 +1474,91 @@
 
             renderPagination(filteredStudentsCount);
             lucide.createIcons();
+        }
+
+        function exportStudentData() {
+            const filterName = document.getElementById('col-filter-name')?.value.toLowerCase() || '';
+            const filterClass = document.getElementById('col-filter-class')?.value || '';
+            const filterTimeMin = document.getElementById('col-filter-time-min')?.value || '';
+            const filterTimeMax = document.getElementById('col-filter-time-max')?.value || '';
+
+            let filtered = students.filter((s) => {
+                const classKey = s.className.toLowerCase();
+                if (selectedUnitKeys.length > 0 && !selectedUnitKeys.includes(classKey)) return false;
+                if (filterClass && s.className !== filterClass) return false;
+                if (filterName && !s.name.toLowerCase().includes(filterName)) return false;
+                const mins = s.time.match(/(\d+)h/)[1] * 60 + parseInt(s.time.match(/(\d+)m/)[1]);
+                if (filterTimeMin && mins < parseInt(filterTimeMin)) return false;
+                if (filterTimeMax && mins > parseInt(filterTimeMax)) return false;
+                return true;
+            });
+
+            if (!filtered || filtered.length === 0) {
+                alert('Không có dữ liệu học sinh để xuất!');
+                return;
+            }
+
+            const headers = [
+                'STT',
+                'Họ và tên',
+                'Tên đăng nhập',
+                'Lớp học',
+                'Trường học',
+                'Thời gian học tổng cộng',
+                'Streak (Chuỗi ngày học)',
+                'Số phiên Tự học AI',
+                'Số câu hỏi Tự học AI',
+                'Thời gian TB/câu (AI)',
+                'Tỉ lệ đúng lần đầu (AI)',
+                'Tỉ lệ xem gợi ý (AI)',
+                'Số phiếu bài tập hoàn thành',
+                'Số câu hỏi Phiếu bài tập',
+                'Thời gian TB/câu (PBT)',
+                'Tỉ lệ trả lời đúng (PBT)',
+                'Số bài giảng hoàn thành',
+                'Số đề thi hoàn thành',
+                'Số câu hỏi Đề thi',
+                'Thời gian TB/câu (Đề thi)',
+                'Tỉ lệ trả lời đúng (Đề thi)',
+                'TỔNG SỐ CÂU HỎI ĐÃ LÀM'
+            ];
+
+            const rows = filtered.map((s, idx) => [
+                idx + 1,
+                `"${s.name.replace(/"/g, '""')}"`,
+                `"${s.username}"`,
+                `"${s.className}"`,
+                `"${s.schoolName}"`,
+                `"${s.time}"`,
+                s.streak || 15,
+                s.aiSessions,
+                s.aiQuestions,
+                `"${s.aiAvgTime}"`,
+                `"${s.aiCorrectRate}"`,
+                `"${s.aiHintRate}"`,
+                s.homeworkCompleted,
+                s.homeworkQuestions,
+                `"${s.homeworkAvgTime}"`,
+                `"${s.homeworkCorrectRate}"`,
+                s.completedLectures,
+                s.completedExams,
+                s.examQuestions,
+                `"${s.examAvgTime}"`,
+                `"${s.examCorrectRate}"`,
+                s.totalQuestions
+            ]);
+
+            let csvContent = '\uFEFF' + headers.join(',') + '\n' + rows.map(r => r.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            const timeRangeSelect = document.getElementById('time-range-select');
+            const rangeName = timeRangeSelect ? timeRangeSelect.options[timeRangeSelect.selectedIndex].text.replace(/\s+/g, '_') : 'Tat_Ca';
+            link.setAttribute('download', `Bao_Cao_Chi_Tiet_Hoc_Sinh_${rangeName}_${new Date().toISOString().slice(0, 10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function renderPagination(totalItems) {
@@ -1368,31 +1711,12 @@
 
             // Bắt sự kiện click để hiển thị/ẩn Chỉ số câu hỏi (Giáo viên)
             const aiSessionsCard = document.getElementById('gv-ai-sessions-card');
-            const questionStatsContainer = document.getElementById('gv-question-stats-container');
+            const homeworkCard = document.getElementById('gv-homework-card');
+            const examsCard = document.getElementById('gv-exams-card');
 
-            if (aiSessionsCard && questionStatsContainer) {
-                const actionText = document.getElementById('gv-ai-action-text');
-                const actionIcon = document.getElementById('gv-ai-action-icon');
-
-                aiSessionsCard.addEventListener('click', () => {
-                    const isOpen = questionStatsContainer.classList.contains('show');
-                    if (isOpen) {
-                        questionStatsContainer.classList.remove('show');
-                        aiSessionsCard.classList.remove('border-[#1677ff]', 'ring-2', 'ring-[#1677ff]/10');
-                        if (actionText) actionText.innerText = 'Xem chỉ số câu hỏi';
-                        if (actionIcon) actionIcon.style.transform = 'rotate(0deg)';
-                    } else {
-                        questionStatsContainer.classList.add('show');
-                        aiSessionsCard.classList.add('border-[#1677ff]', 'ring-2', 'ring-[#1677ff]/10');
-                        if (actionText) actionText.innerText = 'Ẩn chỉ số câu hỏi';
-                        if (actionIcon) actionIcon.style.transform = 'rotate(180deg)';
-                        // Cuộn mượt đến chỉ số câu hỏi
-                        setTimeout(() => {
-                            questionStatsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        }, 200);
-                    }
-                });
-            }
+            if (aiSessionsCard) aiSessionsCard.addEventListener('click', () => toggleGvQuestionCard('ai'));
+            if (homeworkCard) homeworkCard.addEventListener('click', () => toggleGvQuestionCard('homework'));
+            if (examsCard) examsCard.addEventListener('click', () => toggleGvQuestionCard('exams'));
 
             // Gọi Lucide icons
             lucide.createIcons();

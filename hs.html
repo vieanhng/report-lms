@@ -186,12 +186,12 @@
                     <span class="text-gray-400">Mức độ:</span>
                     <span class="flex items-center gap-1.5">
                         <span
-                            class="w-5 h-5 rounded-full border border-dashed border-gray-300 bg-gray-50/20 block"></span>
+                            class="w-5 h-5 rounded-full bg-gray-100 block"></span>
                         Không học
                     </span>
                     <span class="flex items-center gap-1.5">
                         <span
-                            class="w-5 h-5 rounded-full border border-sky-100 relative overflow-hidden block bg-gray-50/50">
+                            class="w-5 h-5 rounded-full relative overflow-hidden block bg-sky-50/40">
                             <span
                                 class="absolute bottom-0 left-0 w-full h-[25%] bg-gradient-to-t from-sky-200 to-sky-100"></span>
                         </span>
@@ -199,7 +199,7 @@
                     </span>
                     <span class="flex items-center gap-1.5">
                         <span
-                            class="w-5 h-5 rounded-full border border-sky-200 relative overflow-hidden block bg-gray-50/50">
+                            class="w-5 h-5 rounded-full relative overflow-hidden block bg-sky-50/40">
                             <span
                                 class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-sky-300 to-sky-200"></span>
                         </span>
@@ -207,7 +207,7 @@
                     </span>
                     <span class="flex items-center gap-1.5">
                         <span
-                            class="w-5 h-5 rounded-full border border-sky-300 relative overflow-hidden block bg-gray-50/50">
+                            class="w-5 h-5 rounded-full relative overflow-hidden block bg-sky-50/40">
                             <span
                                 class="absolute bottom-0 left-0 w-full h-[75%] bg-gradient-to-t from-sky-400 to-sky-300"></span>
                         </span>
@@ -215,7 +215,7 @@
                     </span>
                     <span class="flex items-center gap-1.5">
                         <span
-                            class="w-5 h-5 rounded-full border border-sky-400 relative overflow-hidden block bg-gray-50/50">
+                            class="w-5 h-5 rounded-full relative overflow-hidden block bg-sky-50/40">
                             <span
                                 class="absolute bottom-0 left-0 w-full h-[95%] bg-gradient-to-t from-sky-500 to-sky-400"></span>
                         </span>
@@ -239,11 +239,11 @@
                                 của bạn</span>
                         </div>
                         <div class="text-3xl font-extrabold leading-none flex items-baseline gap-1 mt-2">
-                            <span class="text-4xl">15</span>
+                            <span id="hs-streak-count" class="text-4xl">15</span>
                             <span class="text-[10px] font-normal text-sky-100">ngày liên tiếp</span>
                         </div>
-                        <p class="text-[10px] text-sky-50 mt-2 font-light leading-snug">
-                            Duy trì việc tự học hàng ngày nhé!
+                        <p id="hs-streak-msg" class="text-[10px] text-sky-50 mt-2 font-light leading-snug">
+                            Duy trì việc tự học hàng ngày nhé! 🔥
                         </p>
                     </div>
                     <div
@@ -350,19 +350,29 @@
                 </div>
 
                 <!-- Số phiếu bài tập đã hoàn thành -->
-                <div
-                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#fa8c16] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập đã hoàn
-                            thành</span>
-                        <div
-                            class="w-8 h-8 rounded-lg bg-[rgba(250,140,22,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,140,22,0.15)] transition-colors">
-                            <i data-lucide="file-text"
-                                class="w-4 h-4 text-[#fa8c16] group-hover:scale-110 transition-transform"></i>
+                <div id="hs-homework-card"
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#fa8c16] hover:shadow-md transition-all group flex flex-col justify-between min-h-[115px] cursor-pointer select-none active:scale-95 pb-3.5"
+                    title="Bấm vào để xem/ẩn các Chỉ số thống kê trên câu hỏi cho Phiếu bài tập">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số phiếu bài tập đã
+                                hoàn
+                                thành</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(250,140,22,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(250,140,22,0.15)] transition-colors">
+                                <i data-lucide="file-text"
+                                    class="w-4 h-4 text-[#fa8c16] group-hover:scale-110 transition-transform"></i>
+                            </div>
                         </div>
+                        <span id="hs-completed-homework"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">145</span>
                     </div>
-                    <span id="hs-completed-homework"
-                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">145</span>
+                    <div
+                        class="flex items-center gap-1 text-[10px] text-[#fa8c16] font-semibold mt-3 pt-2 border-t border-[#f5f5f5] group-hover:text-[#d46b08] transition-colors w-full">
+                        <span id="hs-hw-action-text">Xem chỉ số câu hỏi</span>
+                        <i data-lucide="chevron-down" id="hs-hw-action-icon"
+                            class="w-3 h-3 transition-transform duration-200"></i>
+                    </div>
                 </div>
 
                 <!-- Số bài giảng đã hoàn thành -->
@@ -382,19 +392,28 @@
                 </div>
 
                 <!-- Số đề thi đã hoàn thành -->
-                <div
-                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số đề thi đã hoàn
-                            thành</span>
-                        <div
-                            class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
-                            <i data-lucide="file-text"
-                                class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                <div id="hs-exams-card"
+                    class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[115px] cursor-pointer select-none active:scale-95 pb-3.5"
+                    title="Bấm vào để xem/ẩn các Chỉ số thống kê trên câu hỏi cho Đề thi">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số đề thi đã hoàn
+                                thành</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
+                                <i data-lucide="file-text"
+                                    class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                            </div>
                         </div>
+                        <span id="hs-completed-exams"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">95</span>
                     </div>
-                    <span id="hs-completed-exams"
-                        class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">95</span>
+                    <div
+                        class="flex items-center gap-1 text-[10px] text-[#722ed1] font-semibold mt-3 pt-2 border-t border-[#f5f5f5] group-hover:text-[#531dab] transition-colors w-full">
+                        <span id="hs-exams-action-text">Xem chỉ số câu hỏi</span>
+                        <i data-lucide="chevron-down" id="hs-exams-action-icon"
+                            class="w-3 h-3 transition-transform duration-200"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -406,11 +425,41 @@
 
             <!-- Nhóm 2: Chỉ số thống kê trên câu hỏi -->
             <div>
-                <div class="mb-3 flex items-center gap-2">
-                    <i data-lucide="help-circle" class="w-4 h-4 text-gray-500"></i>
-                    <h3 class="text-xs font-semibold text-gray-700">Chỉ số thống kê trên câu hỏi</h3>
+                <div class="mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-gray-500"></i>
+                        <h3 class="text-xs font-semibold text-gray-700">Chỉ số thống kê trên câu hỏi</h3>
+                        <span id="hs-mode-badge"
+                            class="px-2 py-0.5 text-[11px] font-medium bg-blue-50 text-blue-600 rounded-md border border-blue-100">Tất
+                            cả chế độ</span>
+                    </div>
+                    <!-- Mode Filter Tabs -->
+                    <div class="flex items-center gap-1 bg-gray-100 p-1 rounded-lg text-xs font-medium text-gray-600">
+                        <button type="button" onclick="switchHsQuestionMode('homework')" id="hs-tab-homework"
+                            class="px-2.5 py-1 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Phiếu bài tập</button>
+                        <button type="button" onclick="switchHsQuestionMode('exams')" id="hs-tab-exams"
+                            class="px-2.5 py-1 rounded-md transition-all hover:text-gray-900 text-gray-500">Đề thi</button>
+                        <button type="button" onclick="switchHsQuestionMode('ai')" id="hs-tab-ai"
+                            class="px-2.5 py-1 rounded-md transition-all hover:text-gray-900 text-gray-500">Tự học AI</button>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div id="hs-q-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Số câu hỏi đã thực hiện -->
+                    <div
+                        class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#722ed1] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Số câu hỏi đã thực
+                                hiện</span>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-[rgba(114,46,209,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(114,46,209,0.15)] transition-colors">
+                                <i data-lucide="list-checks"
+                                    class="w-4 h-4 text-[#722ed1] group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </div>
+                        <span id="hs-questions-completed"
+                            class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">1,280</span>
+                    </div>
+
                     <!-- Thời gian làm/câu hỏi -->
                     <div
                         class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#8c8c8c] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
@@ -427,11 +476,12 @@
                             class="text-2xl font-bold leading-none tracking-tight text-[rgba(0,0,0,0.88)]">45s</span>
                     </div>
 
-                    <!-- % trả lời đúng lần đầu -->
+                    <!-- % trả lời đúng -->
                     <div
                         class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#52c41a] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
                         <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">% trả lời đúng lần
+                            <span id="hs-correct-rate-title"
+                                class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ trả lời đúng lần
                                 đầu</span>
                             <div
                                 class="w-8 h-8 rounded-lg bg-[rgba(82,196,26,0.08)] flex items-center justify-center shrink-0 group-hover:bg-[rgba(82,196,26,0.15)] transition-colors">
@@ -444,7 +494,7 @@
                     </div>
 
                     <!-- Tỉ lệ xem gợi ý -->
-                    <div
+                    <div id="hs-hint-card"
                         class="bg-white p-5 rounded-lg shadow-sm border border-[#f0f0f0] hover:border-[#faad14] hover:shadow-md transition-all group flex flex-col justify-between min-h-[100px]">
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-xs text-[rgba(0,0,0,0.45)] font-medium leading-tight">Tỉ lệ xem gợi
@@ -836,6 +886,8 @@
         const customDateSection = document.getElementById('customDateSection');
         const pieTimeLabel = document.getElementById('pieTimeLabel');
 
+        let currentHsQuestionMode = 'homework';
+
         const hsMockData = {
             'all-time': {
                 totalHours: '124h 15m',
@@ -845,7 +897,14 @@
                 correctRate: '78%',
                 homeworkCompleted: 145,
                 hintViewRate: '14%',
+                questionsCompleted: '1,280',
                 avgQuestionTime: '45s',
+                modes: {
+                    'all': { questions: '1,280', time: '45s', correctRate: '78%', hintRate: '14%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '580', time: '36s', correctRate: '84%', hintRate: '10%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '450', time: '58s', correctRate: '76%', hintRate: '4%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '250', time: '30s', correctRate: '72%', hintRate: '20%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [45, 45, 5, 5]
             },
             'week': {
@@ -856,7 +915,14 @@
                 correctRate: '82%',
                 homeworkCompleted: 21,
                 hintViewRate: '8%',
+                questionsCompleted: '185',
                 avgQuestionTime: '38s',
+                modes: {
+                    'all': { questions: '185', time: '38s', correctRate: '82%', hintRate: '8%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '85', time: '31s', correctRate: '86%', hintRate: '5%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '60', time: '49s', correctRate: '80%', hintRate: '3%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '40', time: '26s', correctRate: '78%', hintRate: '12%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [35, 45, 10, 10]
             },
             'prev-week': {
@@ -867,7 +933,14 @@
                 correctRate: '76%',
                 homeworkCompleted: 24,
                 hintViewRate: '9%',
+                questionsCompleted: '210',
                 avgQuestionTime: '46s',
+                modes: {
+                    'all': { questions: '210', time: '46s', correctRate: '76%', hintRate: '9%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '98', time: '37s', correctRate: '81%', hintRate: '7%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '68', time: '55s', correctRate: '73%', hintRate: '4%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '44', time: '31s', correctRate: '71%', hintRate: '14%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [38, 42, 10, 10]
             },
             'month': {
@@ -878,7 +951,14 @@
                 correctRate: '79%',
                 homeworkCompleted: 92,
                 hintViewRate: '12%',
+                questionsCompleted: '560',
                 avgQuestionTime: '42s',
+                modes: {
+                    'all': { questions: '560', time: '42s', correctRate: '79%', hintRate: '12%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '260', time: '34s', correctRate: '85%', hintRate: '9%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '195', time: '54s', correctRate: '75%', hintRate: '4%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '105', time: '28s', correctRate: '74%', hintRate: '17%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [40, 45, 8, 7]
             },
             'custom': {
@@ -889,10 +969,116 @@
                 correctRate: '80%',
                 homeworkCompleted: 58,
                 hintViewRate: '11%',
+                questionsCompleted: '340',
                 avgQuestionTime: '40s',
+                modes: {
+                    'all': { questions: '340', time: '40s', correctRate: '80%', hintRate: '11%', badge: 'Tất cả chế độ' },
+                    'homework': { questions: '155', time: '33s', correctRate: '85%', hintRate: '8%', badge: 'Mục: Phiếu bài tập' },
+                    'exams': { questions: '120', time: '52s', correctRate: '77%', hintRate: '4%', badge: 'Mục: Đề thi' },
+                    'ai': { questions: '65', time: '27s', correctRate: '75%', hintRate: '15%', badge: 'Mục: Tự học với AI' }
+                },
                 behaviorValues: [39, 46, 8, 7]
             }
         };
+
+        function switchHsQuestionMode(mode) {
+            currentHsQuestionMode = mode;
+            const timeFilterSelect = document.getElementById('timeFilter');
+            const timeRange = timeFilterSelect ? timeFilterSelect.value : 'all-time';
+            const data = hsMockData[timeRange];
+            if (!data) return;
+
+            const modeData = (data.modes && data.modes[mode]) ? data.modes[mode] : data.modes['all'];
+
+            document.getElementById('hs-questions-completed').innerText = modeData.questions;
+            document.getElementById('hs-avg-question-time').innerText = modeData.time;
+            document.getElementById('hs-correct-rate').innerText = modeData.correctRate;
+            document.getElementById('hs-hint-rate').innerText = modeData.hintRate;
+            const badgeEl = document.getElementById('hs-mode-badge');
+            if (badgeEl) badgeEl.innerText = modeData.badge;
+
+            // Handle 3 vs 4 stat cards (Homework/Exams vs All/AI)
+            const correctTitleEl = document.getElementById('hs-correct-rate-title');
+            const hintCardEl = document.getElementById('hs-hint-card');
+            const gridEl = document.getElementById('hs-q-grid');
+
+            if (mode === 'homework' || mode === 'exams') {
+                if (correctTitleEl) correctTitleEl.innerText = 'Tỉ lệ trả lời đúng';
+                if (hintCardEl) hintCardEl.classList.add('hidden');
+                if (gridEl) {
+                    gridEl.classList.remove('lg:grid-cols-4');
+                    gridEl.classList.add('lg:grid-cols-3');
+                }
+            } else {
+                if (correctTitleEl) correctTitleEl.innerText = '% trả lời đúng lần đầu';
+                if (hintCardEl) hintCardEl.classList.remove('hidden');
+                if (gridEl) {
+                    gridEl.classList.remove('lg:grid-cols-3');
+                    gridEl.classList.add('lg:grid-cols-4');
+                }
+            }
+
+            // Update tab buttons
+            const tabs = ['homework', 'exams', 'ai'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`hs-tab-${t}`);
+                if (btn) {
+                    if (t === mode) {
+                        btn.className = 'px-2.5 py-1 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold';
+                    } else {
+                        btn.className = 'px-2.5 py-1 rounded-md transition-all hover:text-gray-900 text-gray-500';
+                    }
+                }
+            });
+        }
+
+        function toggleHsQuestionCard(cardType) {
+            const questionStatsContainer = document.getElementById('hs-question-stats-container');
+            if (!questionStatsContainer) return;
+
+            const isOpen = questionStatsContainer.classList.contains('show');
+
+            const cardMap = {
+                'ai': { card: 'hs-ai-sessions-card', text: 'hs-ai-action-text', icon: 'hs-ai-action-icon' },
+                'homework': { card: 'hs-homework-card', text: 'hs-hw-action-text', icon: 'hs-hw-action-icon' },
+                'exams': { card: 'hs-exams-card', text: 'hs-exams-action-text', icon: 'hs-exams-action-icon' }
+            };
+
+            function resetAllCards() {
+                Object.keys(cardMap).forEach(key => {
+                    const item = cardMap[key];
+                    const elCard = document.getElementById(item.card);
+                    const elText = document.getElementById(item.text);
+                    const elIcon = document.getElementById(item.icon);
+                    if (elCard) elCard.classList.remove('ring-2', 'ring-blue-500/30', 'ring-orange-500/30', 'ring-purple-500/30');
+                    if (elText) elText.innerText = 'Xem chỉ số câu hỏi';
+                    if (elIcon) elIcon.style.transform = 'rotate(0deg)';
+                });
+            }
+
+            if (isOpen && currentHsQuestionMode === cardType) {
+                questionStatsContainer.classList.remove('show');
+                resetAllCards();
+            } else {
+                resetAllCards();
+                questionStatsContainer.classList.add('show');
+                switchHsQuestionMode(cardType);
+
+                const target = cardMap[cardType];
+                if (target) {
+                    const elCard = document.getElementById(target.card);
+                    const elText = document.getElementById(target.text);
+                    const elIcon = document.getElementById(target.icon);
+                    if (elCard) elCard.classList.add('ring-2', 'ring-blue-500/30');
+                    if (elText) elText.innerText = 'Ẩn chỉ số câu hỏi';
+                    if (elIcon) elIcon.style.transform = 'rotate(180deg)';
+                }
+
+                setTimeout(() => {
+                    questionStatsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 150);
+            }
+        }
 
         function updateStudentDashboard(timeRange) {
             const data = hsMockData[timeRange];
@@ -902,11 +1088,11 @@
             document.getElementById('hs-ai-sessions').innerText = data.aiSessions;
             document.getElementById('hs-completed-exams').innerText = data.examsCompleted;
             document.getElementById('hs-completed-lectures').innerText = data.lecturesCompleted;
-            document.getElementById('hs-correct-rate').innerText = data.correctRate;
             document.getElementById('hs-completed-homework').innerText = data.homeworkCompleted;
-            document.getElementById('hs-hint-rate').innerText = data.hintViewRate;
             document.getElementById('hs-total-time').innerText = data.totalHours;
-            document.getElementById('hs-avg-question-time').innerText = data.avgQuestionTime;
+
+            // Update mode question statistics
+            switchHsQuestionMode(currentHsQuestionMode);
 
             // 2. Update Donut Chart
             if (hsDonutChartInstance) {
@@ -957,84 +1143,111 @@
 
             const today = new Date();
             const data = [];
+            const targetStreak = 15; // Chuỗi 15 ngày học liên tiếp gần nhất tính đến hôm nay
 
             // Generate mock data for the last 30 days
             for (let i = 29; i >= 0; i--) {
                 const date = new Date(today);
                 date.setDate(today.getDate() - i);
 
-                // Random learning duration between 0 and 150 minutes
                 let value = 0;
-                if (Math.random() > 0.25) {
-                    value = Math.floor(Math.random() * 150) + 15;
+                if (i < targetStreak) {
+                    // 15 ngày liên tiếp gần nhất (từ hôm nay ngược về 14 ngày trước)
+                    value = Math.floor(Math.random() * 90) + 30; // 30 đến 120 phút
+                } else if (i === targetStreak) {
+                    // Ngày nghỉ ngắt chuỗi trước đó
+                    value = 0;
+                } else {
+                    // Các ngày cũ hơn
+                    value = Math.random() > 0.4 ? Math.floor(Math.random() * 80) + 20 : 0;
                 }
+
                 data.push({
                     date: date,
                     value: value
                 });
             }
 
-            // Render 30 cells containing liquid fill circles
-            data.forEach((day) => {
+            // Tính chuỗi streak thực tế liên tục từ ngày gần nhất (hôm nay) lùi về
+            let streakCount = 0;
+            for (let i = data.length - 1; i >= 0; i--) {
+                if (data[i].value > 0) {
+                    streakCount++;
+                } else {
+                    break;
+                }
+            }
+
+            // Cập nhật card Streak bên phải
+            const streakCountEl = document.getElementById('hs-streak-count');
+            const streakMsgEl = document.getElementById('hs-streak-msg');
+            if (streakCountEl) streakCountEl.innerText = streakCount;
+            if (streakMsgEl) {
+                const startDate = data[data.length - streakCount].date;
+                const startDateStr = `${startDate.getDate()}/${startDate.getMonth() + 1}`;
+                streakMsgEl.innerText = `Đã duy trì học ${streakCount} ngày liên tiếp (từ ${startDateStr} đến hôm nay)! 🔥`;
+            }
+
+            // Render 30 cells
+            data.forEach((day, idx) => {
                 let levelText = 'Không học';
                 let percentage = 0;
                 let colorHex = '';
                 let backColorHex = '';
                 let cellClass = '';
 
+                // Kiểm tra xem ngày này có thuộc Streak liên tục hiện tại không
+                const isStreakDay = idx >= (data.length - streakCount);
+
                 if (day.value === 0) {
                     levelText = 'Không học';
-                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-dashed border-gray-200 bg-gray-50/20 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-300 hover:bg-sky-50/10';
+                    cellClass = 'w-11 h-11 relative rounded-full bg-gray-100/80 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-gray-200/80';
                 } else if (day.value > 0 && day.value < 25) {
-                    // Low level: 15% - 30% fill
                     percentage = Math.max(15, Math.min(30, 15 + Math.round((day.value / 24) * 15)));
-                    colorHex = '#bae6fd'; // sky-200
-                    backColorHex = '#e0f2fe'; // sky-100
+                    colorHex = '#bae6fd';
+                    backColorHex = '#e0f2fe';
                     levelText = `Học ${day.value} phút (Dưới 25 phút)`;
-                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-sky-100 bg-gray-50/50 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-300 hover:shadow-sm overflow-hidden';
+                    cellClass = 'w-11 h-11 relative rounded-full bg-sky-50/40 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-sm overflow-hidden';
                 } else if (day.value >= 25 && day.value <= 45) {
-                    // Medium level: 35% - 55% fill
                     percentage = Math.max(35, Math.min(55, 35 + Math.round(((day.value - 25) / 20) * 20)));
-                    colorHex = '#7dd3fc'; // sky-300
-                    backColorHex = '#bae6fd'; // sky-200
+                    colorHex = '#7dd3fc';
+                    backColorHex = '#bae6fd';
                     levelText = `Học ${day.value} phút (25-45 phút)`;
-                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-sky-200 bg-gray-50/50 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-400 hover:shadow-sm overflow-hidden';
+                    cellClass = 'w-11 h-11 relative rounded-full bg-sky-50/40 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-sm overflow-hidden';
                 } else if (day.value > 45 && day.value <= 60) {
-                    // High level: 60% - 85% fill
                     percentage = Math.max(60, Math.min(85, 60 + Math.round(((day.value - 45) / 15) * 25)));
-                    colorHex = '#38bdf8'; // sky-400
-                    backColorHex = '#7dd3fc'; // sky-300
+                    colorHex = '#38bdf8';
+                    backColorHex = '#7dd3fc';
                     levelText = `Học ${day.value} phút (45-60 phút)`;
-                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-sky-300 bg-gray-50/50 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-500 hover:shadow-md overflow-hidden';
+                    cellClass = 'w-11 h-11 relative rounded-full bg-sky-50/40 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-md overflow-hidden';
                 } else if (day.value > 60) {
-                    // Very high level: 90% - 100% fill
                     percentage = Math.max(90, Math.min(100, 90 + Math.round((Math.min(day.value - 60, 60) / 60) * 10)));
-                    colorHex = '#0ea5e9'; // sky-500
-                    backColorHex = '#38bdf8'; // sky-400
+                    colorHex = '#0ea5e9';
+                    backColorHex = '#38bdf8';
                     levelText = `Học ${day.value} phút (Trên 60 phút)`;
-                    cellClass = 'w-11 h-11 relative rounded-full border-2 border-sky-400 bg-gray-50/50 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:border-sky-600 hover:shadow-lg overflow-hidden';
+                    cellClass = 'w-11 h-11 relative rounded-full bg-sky-50/40 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-lg overflow-hidden';
+                }
+
+                if (isStreakDay) {
+                    cellClass += ' shadow-sm';
                 }
 
                 const formattedDate = day.date.toLocaleDateString('vi-VN', {
                     day: 'numeric',
                     month: 'numeric'
                 });
-                const tooltipText = `Ngày ${formattedDate}: ${levelText}`;
+                const tooltipText = `Ngày ${formattedDate}: ${levelText}${isStreakDay ? ' 🔥 (Thuộc chuỗi Streak)' : ''}`;
 
-                // Create cell container (circle)
                 const cell = document.createElement('div');
                 cell.className = cellClass;
                 cell.setAttribute('title', tooltipText);
 
                 if (day.value > 0) {
-                    // Create liquid fill div
                     const liquid = document.createElement('div');
                     liquid.className = 'absolute bottom-0 left-0 w-full transition-all duration-1000 ease-out';
                     liquid.style.height = `${percentage}%`;
                     liquid.style.background = `linear-gradient(180deg, ${colorHex} 0%, ${backColorHex} 100%)`;
 
-                    // Wave shapes (Double Wave)
-                    // Back wave (semi-transparent, reverse animation)
                     const backWave = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                     backWave.setAttribute('class', 'absolute left-0 w-[200%] h-[10px] opacity-40 animate-wave-reverse');
                     backWave.setAttribute('style', 'top: -9px; pointer-events: none;');
@@ -1046,7 +1259,6 @@
                     backWavePath.setAttribute('fill', colorHex);
                     backWave.appendChild(backWavePath);
 
-                    // Front wave (opaque, normal animation)
                     const frontWave = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                     frontWave.setAttribute('class', 'absolute left-0 w-[200%] h-[10px] animate-wave');
                     frontWave.setAttribute('style', 'top: -9px; pointer-events: none;');
@@ -1063,10 +1275,18 @@
                     cell.appendChild(liquid);
                 }
 
-                // Create text label for date (day/month) centered
+                // If streak day, add a tiny flame badge in top right corner
+                if (isStreakDay) {
+                    const flameBadge = document.createElement('span');
+                    flameBadge.className = 'absolute -top-1 -right-1 text-[8px] leading-none z-20 select-none';
+                    flameBadge.innerText = '🔥';
+                    cell.appendChild(flameBadge);
+                }
+
                 const dateLabel = document.createElement('span');
-                dateLabel.className = `absolute inset-0 flex items-center justify-center text-[8.5px] font-extrabold tracking-tighter z-10 pointer-events-none select-none transition-colors duration-300 ${day.value > 0 ? 'text-sky-950/80' : 'text-gray-400/80'
-                    }`;
+                dateLabel.className = `absolute inset-0 flex items-center justify-center text-[8.5px] font-extrabold tracking-tighter z-10 pointer-events-none select-none transition-colors duration-300 ${
+                    day.value > 0 ? 'text-sky-950/80' : 'text-gray-400/80'
+                }`;
                 dateLabel.innerText = `${day.date.getDate()}/${day.date.getMonth() + 1}`;
                 cell.appendChild(dateLabel);
 
@@ -1308,33 +1528,14 @@
             const initialRange = document.getElementById('timeFilter').value;
             updateStudentDashboard(initialRange);
 
-            // Bắt sự kiện click để hiển thị/ẩn Chỉ số câu hỏi
+            // Bắt sự kiện click để hiển thị/ẩn Chỉ số câu hỏi (Học sinh)
             const aiSessionsCard = document.getElementById('hs-ai-sessions-card');
-            const questionStatsContainer = document.getElementById('hs-question-stats-container');
+            const homeworkCard = document.getElementById('hs-homework-card');
+            const examsCard = document.getElementById('hs-exams-card');
 
-            if (aiSessionsCard && questionStatsContainer) {
-                const actionText = document.getElementById('hs-ai-action-text');
-                const actionIcon = document.getElementById('hs-ai-action-icon');
-
-                aiSessionsCard.addEventListener('click', () => {
-                    const isOpen = questionStatsContainer.classList.contains('show');
-                    if (isOpen) {
-                        questionStatsContainer.classList.remove('show');
-                        aiSessionsCard.classList.remove('border-[#1677ff]', 'ring-2', 'ring-[#1677ff]/10');
-                        if (actionText) actionText.innerText = 'Xem chỉ số câu hỏi';
-                        if (actionIcon) actionIcon.style.transform = 'rotate(0deg)';
-                    } else {
-                        questionStatsContainer.classList.add('show');
-                        aiSessionsCard.classList.add('border-[#1677ff]', 'ring-2', 'ring-[#1677ff]/10');
-                        if (actionText) actionText.innerText = 'Ẩn chỉ số câu hỏi';
-                        if (actionIcon) actionIcon.style.transform = 'rotate(180deg)';
-                        // Cuộn mượt đến chỉ số câu hỏi
-                        setTimeout(() => {
-                            questionStatsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        }, 200);
-                    }
-                });
-            }
+            if (aiSessionsCard) aiSessionsCard.addEventListener('click', () => toggleHsQuestionCard('ai'));
+            if (homeworkCard) homeworkCard.addEventListener('click', () => toggleHsQuestionCard('homework'));
+            if (examsCard) examsCard.addEventListener('click', () => toggleHsQuestionCard('exams'));
         };
     </script>
 </body>
