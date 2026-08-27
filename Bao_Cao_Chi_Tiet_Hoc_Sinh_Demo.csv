@@ -1,0 +1,11 @@
+STT,Họ và tên,Tên đăng nhập,Lớp học,Trường học,Thời gian học tổng cộng,Streak (Chuỗi ngày học),Số phiên Tự học AI,Số câu hỏi Tự học AI,Thời gian TB/câu (AI),Tỉ lệ đúng lần đầu (AI),Tỉ lệ xem gợi ý (AI),Số phiếu bài tập hoàn thành,Số câu hỏi Phiếu bài tập,Thời gian TB/câu (PBT),Tỉ lệ trả lời đúng (PBT),Số bài giảng hoàn thành,Số đề thi hoàn thành,Số câu hỏi Đề thi,Thời gian TB/câu (Đề thi),Tỉ lệ trả lời đúng (Đề thi),TỔNG SỐ CÂU HỎI ĐÃ LÀM
+1,"Nguyễn Văn A","student_101","12A2","THPT Chuyên Bắc Ninh","14h 35m",15,85,137,"26s","72%","20%",48,630,"32s","82%",25,26,520,"50s","74%",1287
+2,"Trần Thị B","student_102","12A3","THPT Chuyên Bắc Ninh","18h 12m",12,94,156,"24s","76%","18%",52,780,"30s","85%",28,30,600,"48s","78%",1536
+3,"Lê Hoàng C","student_103","12A2","THPT Chuyên Bắc Ninh","11h 45m",8,70,120,"28s","70%","22%",38,570,"35s","79%",22,22,440,"52s","72%",1130
+4,"Phạm Minh D","student_104","12A3","THPT Chuyên Bắc Ninh","16h 20m",18,102,185,"22s","80%","15%",55,825,"28s","88%",30,32,640,"46s","82%",1650
+5,"Vũ Hồng E","student_105","12A2","THPT Chuyên Bắc Ninh","13h 10m",10,78,132,"27s","73%","19%",44,660,"33s","81%",24,24,480,"51s","75%",1272
+6,"Nguyễn Thị F","student_106","12A3","THPT Chuyên Bắc Ninh","15h 50m",14,88,148,"25s","75%","17%",50,750,"31s","84%",27,28,560,"49s","77%",1458
+7,"Hoàng Văn G","student_107","12A2","THPT Chuyên Bắc Ninh","10h 30m",6,62,108,"30s","68%","24%",35,525,"37s","77%",20,20,400,"55s","70%",1033
+8,"Đặng Minh H","student_108","12A3","THPT Chuyên Bắc Ninh","17h 40m",16,98,168,"23s","78%","16%",54,810,"29s","86%",29,31,620,"47s","80%",1598
+9,"Bùi Thị I","student_109","12A2","THPT Chuyên Bắc Ninh","12h 15m",9,74,126,"28s","71%","21%",42,630,"34s","80%",23,23,460,"52s","73%",1216
+10,"Đỗ Văn K","student_110","12A3","THPT Chuyên Bắc Ninh","19h 05m",20,110,200,"21s","82%","14%",58,870,"27s","90%",32,35,700,"45s","85%",1770
